@@ -1,0 +1,4 @@
+*.o
+*.swp
+libkeksbot.so
+keksbot
