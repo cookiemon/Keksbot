@@ -104,3 +104,8 @@ void Server::EventConnect(const std::string& evt, const std::string& origin, con
 void Server::EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args)
 {
 }
+
+bool Server::IsConnected(void)
+{
+	return irc_is_connected(session);
+}

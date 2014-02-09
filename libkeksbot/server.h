@@ -31,6 +31,8 @@ public:
 	void Connect();
 	void EventConnect(const std::string& evt, const std::string& origin, const ParamList& args);
 	void EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args);
+
+	bool IsConnected(void);
 };
 
 #endif
