@@ -3,6 +3,7 @@
 #include "logging.h"
 #include <map>
 #include <stdexcept>
+#include <string.h>
 #include <vector>
 #include <libircclient/libircclient.h>
 #include <libircclient/libirc_rfcnumeric.h>
@@ -67,6 +68,7 @@ Server::Server(const std::string& srv, unsigned short port,
 	username(username),
 	realname(realname)
 {
+	memset(&callbacks, 0, sizeof(callbacks));
 	callbacks.event_connect = &event_connect;
 	callbacks.event_numeric = &event_numeric;
 
@@ -81,19 +83,33 @@ Server::Server(const std::string& srv, unsigned short port,
 	InsertedIt inserted = serverSessionMap.insert(ServerSessionMapType::value_type(session, this));
 	if(!inserted.second)
 		Log(LOG_WARNING, "Session not unique while connecting to server: %s", srv.c_str());
-
-	irc_destroy_session(session);
 }
 
 Server::~Server(void)
 {
+	irc_destroy_session(session);
 	serverSessionMap.erase(session);
 }
 
 void Server::Connect(void)
 {
-	if(irc_connect(session, srv.c_str(), port, passwd.c_str(),
-			nick.c_str(), username.c_str(), realname.c_str()))
+	int error = irc_connect(session, srv.c_str(), port, passwd.c_str(),
+		nick.c_str(), username.c_str(), realname.c_str());
+	if(error != 0)
+		throw IrcException(irc_errno(session));
+}
+
+void Server::AddSelectDescriptors(fd_set& inSet, fd_set& outSet, int& maxFd)
+{
+	int error = irc_add_select_descriptors(session, &inSet, &outSet, &maxFd);
+	if(error != 0)
+		throw IrcException(irc_errno(session));
+}
+
+void Server::SelectDescriptors(fd_set& inSet, fd_set& outSet)
+{
+	int error = irc_process_select_descriptors(session, &inSet, &outSet);
+	if(error != 0)
 		throw IrcException(irc_errno(session));
 }
 
