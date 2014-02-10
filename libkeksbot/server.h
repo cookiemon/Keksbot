@@ -33,10 +33,12 @@ public:
 	void SelectDescriptors(fd_set& inSet, fd_set& outSet);
 	void EventConnect(const std::string& evt, const std::string& origin, const ParamList& args);
 	void EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args);
+	void EventMisc   (const std::string& rvt, const std::string& origin, const ParamList& args);
 
 	bool IsConnected(void);
 	void Join(const std::string& chan, const std::string& pw = "");
 	void SendMsg(const std::string& chan, const std::string& msg);
+	void SendAction(const std::string& chan, const std::string& msg);
 };
 
 #endif

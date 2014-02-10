@@ -37,6 +37,25 @@ void event_connect(irc_session_t* session,
 	it->second->EventConnect(event, origin, args);
 }
 
+void event_misc(irc_session_t* session,
+	const char* event,
+	const char* origin,
+	const char** params,
+	unsigned int count)
+{
+	ServerSessionMapType::iterator it = serverSessionMap.find(session);
+	if(it == serverSessionMap.end())
+	{
+		Log(LOG_ERR, "Received event \"%s\" for unregistered session", event);
+		return;
+	}
+
+	ParamList args;
+	TransformParams(params, count, args);
+
+	it->second->EventMisc(event, origin, args);
+}
+
 void event_numeric(irc_session_t* session,
 	unsigned int event,
 	const char* origin,
@@ -69,8 +88,27 @@ Server::Server(const std::string& srv, unsigned short port,
 	realname(realname)
 {
 	memset(&callbacks, 0, sizeof(callbacks));
-	callbacks.event_connect = &event_connect;
-	callbacks.event_numeric = &event_numeric;
+	callbacks.event_connect  = &event_connect;
+	callbacks.event_numeric  = &event_numeric;
+	callbacks.event_nick     = &event_misc;
+	callbacks.event_quit     = &event_misc;
+	callbacks.event_join     = &event_misc;
+	callbacks.event_part     = &event_misc;
+	callbacks.event_mode     = &event_misc;
+	callbacks.event_umode    = &event_misc;
+	callbacks.event_topic    = &event_misc;
+	callbacks.event_kick     = &event_misc;
+	callbacks.event_channel  = &event_misc;
+	callbacks.event_privmsg  = &event_misc;
+	callbacks.event_notice   = &event_misc;
+	callbacks.event_channel_notice = &event_misc;
+	callbacks.event_invite   = &event_misc;
+	callbacks.event_ctcp_req = &event_misc;
+	callbacks.event_ctcp_rep = &event_misc;
+	callbacks.event_ctcp_action = &event_misc;
+	callbacks.event_unknown  = &event_misc;
+	//callbacks.event_dcc_chat_req = &event_misc;
+	//callbacks.event_dcc_send_req = &event_misc;
 
 	session = irc_create_session(&callbacks);
 
@@ -123,6 +161,20 @@ void Server::EventNumeric(unsigned int       evt, const std::string& origin, con
 	Log(LOG_ERR, "Received IRC Error: [%u]", evt);
 }
 
+void Server::EventMisc   (const std::string& evt, const std::string& origin, const ParamList& args)
+{
+	std::string logmsg("Received misc event: ");
+	logmsg += evt;
+	logmsg += " origin: ";
+	logmsg += " args: ";
+	for(ParamList::const_iterator it = args.begin(); it != args.end(); ++it)
+	{
+		logmsg += (*it);
+		logmsg += " | ";
+	}
+	Log(LOG_DEBUG, "%s", logmsg.c_str());
+}
+
 bool Server::IsConnected(void)
 {
 	return irc_is_connected(session);
@@ -138,6 +190,13 @@ void Server::Join(const std::string& chan, const std::string& pw)
 void Server::SendMsg(const std::string& chan, const std::string& msg)
 {
 	int error = irc_cmd_msg(session, chan.c_str(), msg.c_str());
+	if(error != 0)
+		throw IrcException(irc_errno(session));
+}
+
+void Server::SendAction(const std::string& chan, const std::string& msg)
+{
+	int error = irc_cmd_me(session, chan.c_str(), msg.c_str());
 	if(error != 0)
 		throw IrcException(irc_errno(session));
 }
