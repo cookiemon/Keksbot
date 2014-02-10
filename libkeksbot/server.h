@@ -36,6 +36,7 @@ public:
 
 	bool IsConnected(void);
 	void Join(const std::string& chan, const std::string& pw = "");
+	void SendMsg(const std::string& chan, const std::string& msg);
 };
 
 #endif

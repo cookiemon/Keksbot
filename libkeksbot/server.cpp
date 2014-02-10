@@ -115,10 +115,12 @@ void Server::SelectDescriptors(fd_set& inSet, fd_set& outSet)
 
 void Server::EventConnect(const std::string& evt, const std::string& origin, const ParamList& args)
 {
+	Log(LOG_INFO, "Connected to server: %s", origin.c_str());
 }
 
 void Server::EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args)
 {
+	Log(LOG_ERR, "Received IRC Error: [%u]", evt);
 }
 
 bool Server::IsConnected(void)
@@ -129,6 +131,13 @@ bool Server::IsConnected(void)
 void Server::Join(const std::string& chan, const std::string& pw)
 {
 	int error = irc_cmd_join(session, chan.c_str(), pw.c_str());
+	if(error != 0)
+		throw IrcException(irc_errno(session));
+}
+
+void Server::SendMsg(const std::string& chan, const std::string& msg)
+{
+	int error = irc_cmd_msg(session, chan.c_str(), msg.c_str());
 	if(error != 0)
 		throw IrcException(irc_errno(session));
 }
