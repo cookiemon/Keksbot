@@ -35,6 +35,7 @@ public:
 	void EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args);
 
 	bool IsConnected(void);
+	void Join(const std::string& chan, const std::string& pw);
 };
 
 #endif

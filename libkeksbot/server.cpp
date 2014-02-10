@@ -125,3 +125,10 @@ bool Server::IsConnected(void)
 {
 	return irc_is_connected(session);
 }
+
+void Server::Join(const std::string& chan, const std::string& pw)
+{
+	int error = irc_cmd_join(session, chan.c_str(), pw.c_str());
+	if(error != 0)
+		throw IrcException(irc_errno(session));
+}
