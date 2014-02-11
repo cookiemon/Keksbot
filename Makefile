@@ -2,11 +2,11 @@ BOTWRAPPERSOURCEFILES=botwrapper/main.c
 BOTWRAPPERTARGET=keksbot
 BOTWRAPPEROBJECTS=$(BOTWRAPPERSOURCEFILES:.c=.o)
 
-LIBKEKSBOTSOURCEFILES=libkeksbot/main.cpp libkeksbot/server.cpp
+LIBKEKSBOTSOURCEFILES=libkeksbot/main.cpp libkeksbot/server.cpp libkeksbot/configs.cpp
 LIBKEKSBOTTARGET=libkeksbot.so
 LIBKEKSBOTOBJECTS=$(LIBKEKSBOTSOURCEFILES:.cpp=.o)
 
-CC=g++
+CC=gcc
 CFLAGS=-c -Wall -fPIC -g
 LDFLAGS=-ldl
 LDLIBFLAGS=-lircclient -shared
