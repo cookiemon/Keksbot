@@ -45,12 +45,32 @@ void EventManager::DoSelect(void)
 	while(true)
 	{
 		for(size_t i = 0; i < serverlist.size(); ++i)
-			serverlist[i]->AddSelectDescriptors(inSet, outSet, maxFd);
+		{
+			try
+			{
+				if(!serverlist[i]->IsConnected())
+					serverlist[i]->Connect();
+				serverlist[i]->AddSelectDescriptors(inSet, outSet, maxFd);
+			}
+			catch(IrcException& e)
+			{
+				Log(LOG_ERR, "Server failed to connect: [%d] %s", e.ErrorNumber(), e.what());
+			}
+		}
 
 		if(select(maxFd+1, &inSet, &outSet, NULL, &tv) < 0)
 			Log(LOG_ERR, "Select error: [%d] %s", errno, strerror(errno));
 	
 		for(size_t i = 0; i < serverlist.size(); ++i)
-			serverlist[i]->SelectDescriptors(inSet, outSet);
+		{
+			try
+			{
+				serverlist[i]->SelectDescriptors(inSet, outSet);
+			}
+			catch(IrcException& e)
+			{
+				Log(LOG_ERR, "Failed on select descriptor: [%d] %s", e.ErrorNumber(), e.what());
+			}
+		}
 	}
 }

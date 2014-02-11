@@ -11,6 +11,8 @@ typedef std::vector<std::string> ParamList;
 class Server
 {
 private:
+	typedef std::vector<std::string> ChannelListType;
+private:
 	irc_callbacks_t callbacks;
 	irc_session_t* session;
 
@@ -22,7 +24,7 @@ private:
 	std::string username;
 	std::string realname;
 	char prefix;
-	std::vector<std::string> channels;
+	ChannelListType channels;
 public:
 	Server(const std::string& name, const KeyValueMap& settings);
 

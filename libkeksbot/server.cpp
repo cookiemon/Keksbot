@@ -199,6 +199,8 @@ void Server::SelectDescriptors(fd_set& inSet, fd_set& outSet)
 void Server::EventConnect(const std::string& evt, const std::string& origin, const ParamList& args)
 {
 	Log(LOG_INFO, "Connected to server: %s", origin.c_str());
+	for(ChannelListType::iterator it = channels.begin(); it != channels.end(); ++it)
+		Join(*it);
 }
 
 void Server::EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args)
