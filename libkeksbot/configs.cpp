@@ -55,7 +55,7 @@ void Configs::Open(std::istream& input)
 		{
 			if(line[1] == '[' && line[line.size()-2] == ']')
 			{
-				subsection = line.substr(2, section.size() - 4);
+				subsection = line.substr(2, line.size() - 4);
 				settings[section].insert(SubsectionSettingsPair(subsection, defaults[section]));
 			}
 			else
@@ -97,11 +97,11 @@ void Configs::AddValue(const std::string& section,
 
 	if(subsection == "")
 	{
-		defaults[section].insert(KeyValuePair(key, value));
+		defaults[section].insert(KeyValuePair(key, val));
 	}
 	else
 	{
-		settings[section][subsection].insert(KeyValuePair(key, value));
+		settings[section][subsection].insert(KeyValuePair(key, val));
 	}
 }
 
