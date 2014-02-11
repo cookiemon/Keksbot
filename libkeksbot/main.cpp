@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "ircexception.h"
+#include "exceptions.h"
 #include "logging.h"
 #include "server.h"
 #include <errno.h>
@@ -7,13 +7,6 @@
 #include <string.h>
 #include <sys/time.h>
 #include <unistd.h>
-
-class RestartException : public std::exception
-{
-};
-class ExitException : public std::exception
-{
-};
 
 void parseCmdLine(Server& srv, std::string line)
 {
@@ -85,6 +78,11 @@ extern "C"
 		}
 		catch(ExitException& e)
 		{
+			return 0;
+		}
+		catch(std::exception& e)
+		{
+			Log(LOG_ERR, "Caught unknown exception: %s", e.what());
 			return 0;
 		}
 	}

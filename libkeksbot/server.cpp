@@ -1,5 +1,5 @@
 #include "server.h"
-#include "ircexception.h"
+#include "exceptions.h"
 #include "logging.h"
 #include <map>
 #include <stdexcept>
