@@ -247,3 +247,43 @@ void Server::SendAction(const std::string& chan, const std::string& msg)
 	if(error != 0)
 		throw IrcException(irc_errno(session));
 }
+
+const std::string& Server::GetName(void)
+{
+	return name;
+}
+
+const std::string& Server::GetLocation(void)
+{
+	return srv;
+}
+
+unsigned short Server::GetPort(void)
+{
+	return port;
+}
+
+const std::string& Server::GetNick(void)
+{
+	return nick;
+}
+
+const std::string& Server::GetUsername(void)
+{
+	return username;
+}
+
+const std::string& Server::GetRealname(void)
+{
+	return realname;
+}
+
+char Server::GetPrefix(void)
+{
+	return prefix;
+}
+
+const Server::ChannelListType& Server::GetChannels(void)
+{
+	return channels;
+}

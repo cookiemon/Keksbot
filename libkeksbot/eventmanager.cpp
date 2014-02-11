@@ -54,7 +54,8 @@ void EventManager::DoSelect(void)
 			}
 			catch(IrcException& e)
 			{
-				Log(LOG_ERR, "Server failed to connect: [%d] %s", e.ErrorNumber(), e.what());
+				Log(LOG_ERR, "Server \"%s\" failed to connect: [%d] %s",
+					serverlist[i]->GetName().c_str(), e.ErrorNumber(), e.what());
 			}
 		}
 
