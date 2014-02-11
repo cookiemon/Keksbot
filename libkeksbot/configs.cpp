@@ -46,20 +46,21 @@ void Configs::Open(std::istream& input)
 	std::string line;
 	std::string section;
 	std::string subsection;
+	Trim(line);
 	while(std::getline(input, line))
 	{
-		if(section[0] == ';' || section[0] == '#')
+		if(line.empty() || line[0] == ';' || line[0] == '#')
 			continue;
-		else if(section[0] == '[' && section[section.size()-1] == ']')
+		else if(line[0] == '[' && line[line.size()-1] == ']')
 		{
-			if(section[1] == '[' && section[section.size()-2] == ']')
+			if(line[1] == '[' && line[line.size()-2] == ']')
 			{
-				subsection = section.substr(2, section.size() - 4);
+				subsection = line.substr(2, section.size() - 4);
 				settings[section].insert(SubsectionSettingsPair(subsection, defaults[section]));
 			}
 			else
 			{
-				section = section.substr(1, section.size() - 2);
+				section = line.substr(1, line.size() - 2);
 				subsection = "";
 				defaults.insert(DefaultSettingsPair(section, KeyValueMap()));
 				settings.insert(SectionSettingsPair(section, SubsectionSettings()));
