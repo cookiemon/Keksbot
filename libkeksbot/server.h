@@ -1,6 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include "configs.h"
 #include <string>
 #include <vector>
 #include <libircclient/libircclient.h>
@@ -13,22 +14,21 @@ private:
 	irc_callbacks_t callbacks;
 	irc_session_t* session;
 
+	std::string name;
 	std::string srv;
 	unsigned short port;
 	std::string passwd;
 	std::string nick;
 	std::string username;
 	std::string realname;
+	char prefix;
+	std::vector<std::string> channels;
 public:
-	Server(const std::string& srv, unsigned short port,
-		const std::string& passwd,
-		const std::string& nick,
-		const std::string& username,
-		const std::string& realname);
+	Server(const std::string& name, const KeyValueMap& settings);
 
 	~Server(void);
 
-	void Connect();
+	void Connect(void);
 	void AddSelectDescriptors(fd_set& inSet, fd_set& outSet, int& maxFd);
 	void SelectDescriptors(fd_set& inSet, fd_set& outSet);
 	void EventConnect(const std::string& evt, const std::string& origin, const ParamList& args);
@@ -39,6 +39,13 @@ public:
 	void Join(const std::string& chan, const std::string& pw = "");
 	void SendMsg(const std::string& chan, const std::string& msg);
 	void SendAction(const std::string& chan, const std::string& msg);
+
+private:
+	void Init(void);
+	void AddSettingOrDefault(const KeyValueMap& settings,
+		std::string& attribute,
+		const std::string& key,
+		const std::string& deflt);
 };
 
 #endif

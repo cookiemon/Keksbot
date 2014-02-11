@@ -1,7 +1,9 @@
+#include <stdlib.h>
 #include "server.h"
 #include "exceptions.h"
 #include "logging.h"
 #include <map>
+#include <sstream>
 #include <stdexcept>
 #include <string.h>
 #include <vector>
@@ -75,17 +77,54 @@ void event_numeric(irc_session_t* session,
 	it->second->EventNumeric(event, origin, args);
 }
 
-Server::Server(const std::string& srv, unsigned short port,
-	const std::string& passwd,
-	const std::string& nick,
-	const std::string& username,
-	const std::string& realname)
-	: srv(srv),
-	port(port),
-	passwd(passwd),
-	nick(nick),
-	username(username),
-	realname(realname)
+Server::Server(const std::string& name, const KeyValueMap& settings)
+	: name(name)
+{
+	KeyValueMap::const_iterator end = settings.end();
+	KeyValueMap::const_iterator it = settings.find("location");
+	if(it == end)
+		throw ConfigException("Server location not found");
+	srv = it->second;
+
+	it = settings.find("port");
+	if(it != end)
+	{
+		char* end;
+		long readPort = strtol(it->second.c_str(), &end, 10);
+		if(end != it->second.c_str())
+			port = readPort;
+	}
+
+	AddSettingOrDefault(settings, nick,     "nick", "nobody");
+	AddSettingOrDefault(settings, username, "username", "toor");
+	AddSettingOrDefault(settings, realname, "realname", "nobody");
+	AddSettingOrDefault(settings, passwd,   "password", "");
+
+	it = settings.find("prefix");
+	if(it == end || it->second.empty())
+		prefix = '-';
+	else
+		prefix = it->second[0];
+
+	it = settings.find("channels");
+	if(it != end)
+	{
+		std::string chan;
+		std::istringstream sstr(it->second);
+		while(std::getline(sstr, chan, ','))
+			channels.push_back(chan);
+	}
+
+	Init();
+}
+
+Server::~Server(void)
+{
+	irc_destroy_session(session);
+	serverSessionMap.erase(session);
+}
+
+void Server::Init(void)
 {
 	memset(&callbacks, 0, sizeof(callbacks));
 	callbacks.event_connect  = &event_connect;
@@ -123,10 +162,16 @@ Server::Server(const std::string& srv, unsigned short port,
 		Log(LOG_WARNING, "Session not unique while connecting to server: %s", srv.c_str());
 }
 
-Server::~Server(void)
+void Server::AddSettingOrDefault(const KeyValueMap& settings,
+	std::string& attribute,
+	const std::string& key,
+	const std::string& deflt)
 {
-	irc_destroy_session(session);
-	serverSessionMap.erase(session);
+	KeyValueMap::const_iterator it = settings.find(key);
+	if(it == settings.end())
+		attribute = deflt;
+	else
+		attribute = it->second;
 }
 
 void Server::Connect(void)

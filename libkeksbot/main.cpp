@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "exceptions.h"
 #include "logging.h"
-#include "server.h"
+#include "eventmanager.h"
 #include <errno.h>
 #include <iostream>
 #include <string.h>
@@ -34,37 +34,9 @@ extern "C"
 	{
 		try
 		{
-			Server dummy("#irc.freenode.net", 6697, "",
-				"Keksbot", "Keksbot", "Keksbot");
-			dummy.Connect();
+			EventManager evtMan("keksbot.cfg");
 			while(true)
-			{
-				struct timeval tv;
-				tv.tv_usec = 250000;
-				fd_set inSet;
-				fd_set outSet;
-				int maxFd = 0;
-				FD_ZERO(&inSet);
-				FD_ZERO(&outSet);
-				FD_SET(STDIN_FILENO, &inSet);
-
-				dummy.AddSelectDescriptors(inSet, outSet, maxFd);
-				if(select(maxFd+1, &inSet, &outSet, NULL, &tv) < 0)
-				{
-					Log(LOG_ERR, "Select error: [%d] %s", errno, strerror(errno));
-				}
-				if(FD_ISSET(STDIN_FILENO, &inSet))
-				{
-					ssize_t numread;
-					char buf[256];
-					numread = read(STDIN_FILENO, buf, 256);
-					if(numread > 0)
-					{
-						parseCmdLine(dummy, buf);
-					}
-				}
-				dummy.SelectDescriptors(inSet, outSet);
-			}
+				evtMan.DoSelect();
 			return 1;
 		}
 		catch(IrcException& e)
