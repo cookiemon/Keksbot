@@ -8,17 +8,17 @@
 #include <stdarg.h>
 #include <syslog.h>
 
-inline void OpenLogging(const char* id)
+static inline void OpenLogging(const char* id)
 {
 	openlog(id, LOG_PERROR | LOG_PID, LOG_USER);
 }
 
-inline void CloseLogging()
+static inline void CloseLogging()
 {
 	closelog();
 }
 
-inline void Log(int prio, const char* msg, ...)
+static inline void Log(int prio, const char* msg, ...)
 {
 	va_list va;
 	va_start(va, msg);
