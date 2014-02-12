@@ -86,6 +86,7 @@ Server::Server(const std::string& name, const KeyValueMap& settings)
 		throw ConfigException("Server location not found");
 	srv = it->second;
 
+	port = srv[0] == '#' ? 6697 : 6667;
 	it = settings.find("port");
 	if(it != end)
 	{
