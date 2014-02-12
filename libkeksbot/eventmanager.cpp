@@ -42,36 +42,34 @@ void EventManager::DoSelect(void)
 	FD_ZERO(&inSet);
 	FD_ZERO(&outSet);
 
-	while(true)
+	for(size_t i = 0; i < serverlist.size(); ++i)
 	{
-		for(size_t i = 0; i < serverlist.size(); ++i)
+		try
 		{
-			try
-			{
-				if(!serverlist[i]->IsConnected())
-					serverlist[i]->Connect();
-				serverlist[i]->AddSelectDescriptors(inSet, outSet, maxFd);
-			}
-			catch(IrcException& e)
-			{
-				Log(LOG_ERR, "Server \"%s\" failed to connect: [%d] %s",
-					serverlist[i]->GetName().c_str(), e.ErrorNumber(), e.what());
-			}
+			if(!serverlist[i]->IsConnected())
+				serverlist[i]->Connect();
+			serverlist[i]->AddSelectDescriptors(inSet, outSet, maxFd);
 		}
-
-		if(select(maxFd+1, &inSet, &outSet, NULL, &tv) < 0)
-			Log(LOG_ERR, "Select error: [%d] %s", errno, strerror(errno));
-	
-		for(size_t i = 0; i < serverlist.size(); ++i)
+		catch(IrcException& e)
 		{
-			try
-			{
-				serverlist[i]->SelectDescriptors(inSet, outSet);
-			}
-			catch(IrcException& e)
-			{
-				Log(LOG_ERR, "Failed on select descriptor: [%d] %s", e.ErrorNumber(), e.what());
-			}
+			Log(LOG_ERR, "Server \"%s\" failed to connect: [%d] %s",
+				serverlist[i]->GetName().c_str(), e.ErrorNumber(), e.what());
+				Log(LOG_ERR, "Hostname: %s", serverlist[i]->GetLocation().c_str());
+		}
+	}
+
+	if(select(maxFd+1, &inSet, &outSet, NULL, &tv) < 0)
+		Log(LOG_ERR, "Select error: [%d] %s", errno, strerror(errno));
+
+	for(size_t i = 0; i < serverlist.size(); ++i)
+	{
+		try
+		{
+			serverlist[i]->SelectDescriptors(inSet, outSet);
+		}
+		catch(IrcException& e)
+		{
+			Log(LOG_ERR, "Failed on select descriptor: [%d] %s", e.ErrorNumber(), e.what());
 		}
 	}
 }
