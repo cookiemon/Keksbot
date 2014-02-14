@@ -45,9 +45,15 @@ void SimpleEvent::OnEvent(Server& srv,
 				                                                 loadedAnswers));
 				it = inserted.first;
 			}
-			answer.replace(nextVariable, variableEnd - nextVariable, GetRandomString(it->second)); 
+			answer.replace(nextVariable - 2,
+			               variableEnd - nextVariable + 3,
+						   GetRandomString(it->second)); 
 		}
 	}
+	if(params[0][0] == '#')
+		srv.SendMsg(params[0], answer);
+	else
+		srv.SendMsg(origin, answer);
 }
 
 bool SimpleEvent::DoesHandle(Server& srv,

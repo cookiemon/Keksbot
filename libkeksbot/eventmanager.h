@@ -7,11 +7,13 @@
 #include <string>
 #include <vector>
 
+typedef std::map<std::string, EventHandler*> AliasedMap;
+
 class EventManager
 {
 private:
 	std::vector<Server*> serverlist;
-	std::map<std::string, EventHandler*> aliasedEvents;
+	AliasedMap aliasedEvents;
 	std::vector<EventHandler*> miscEvents;
 public:
 	EventManager(const std::string& cfgfile);

@@ -1,6 +1,7 @@
 #include "eventmanager.h"
 #include "exceptions.h"
 #include "logging.h"
+#include "simpleevent.h"
 #include <errno.h>
 #include <string.h>
 
@@ -23,6 +24,49 @@ EventManager::EventManager(const std::string& cfgfile)
 		catch(ConfigException& e)
 		{
 			Log(LOG_ERR, "Config section server/%s malformed", it->first.c_str());
+		}
+	}
+
+	SectionSettings::const_iterator handlerSettings = cfgs.GetSettings().find("handler");
+	if(handlerSettings == cfgs.GetSettings().end())
+		Log(LOG_WARNING, "Could not find any handlers in config file");
+	else
+	{
+		for(SubsectionSettings::const_iterator it = handlerSettings->second.begin();
+		    it != handlerSettings->second.end();
+			++it)
+		{
+			try
+			{
+				KeyValueMap::const_iterator valIt = it->second.find("type");
+				if(valIt != it->second.end())
+				{
+					if(valIt->second == "simple")
+					{
+						valIt = it->second.find("alias");
+						if(valIt == it->second.end() || valIt->second.empty())
+							throw ConfigException("alias missing");
+						std::string alias = valIt->second;
+						valIt = it->second.find("reply");
+						if(valIt == it->second.end())
+							throw ConfigException("reply missing");
+						std::string reply = valIt->second;
+						EventHandler* newHandler = new SimpleEvent(NULL, reply);
+						valIt = it->second.find("description");
+						if(valIt != it->second.end())
+							newHandler->SetDescription(valIt->second);
+						aliasedEvents.insert(AliasedMap::value_type(alias, newHandler));
+					}
+					else
+						throw ConfigException("handler type not known");
+				}
+				else
+					throw(ConfigException("handler type missing"));
+			}
+			catch(ConfigException& e)
+			{
+				Log(LOG_ERR, "Config section handler/%s malformed", it->first.c_str());
+			}
 		}
 	}
 }

@@ -1,6 +1,7 @@
 #ifndef EVENTINTERFACE_H
 #define EVENTINTERFACE_H
 
+#include "configs.h"
 #include <string>
 #include <vector>
 
@@ -18,6 +19,8 @@ public:
 
 class EventHandler
 {
+private:
+	std::string description;
 public:
 	virtual ~EventHandler() { }
 	virtual void OnEvent(Server& srv,
@@ -28,6 +31,15 @@ public:
 	                        const std::string& event,
 	                        const std::string& origin,
 	                        const std::vector<std::string>& params) = 0;
+
+	const std::string& GetDescription()
+	{
+		return description;
+	}
+	void SetDescription(const std::string& newDesc)
+	{
+		description = newDesc;
+	}
 };
 
 #endif
