@@ -65,17 +65,6 @@ void SimpleEvent::OnEvent(Server& srv,
 		srv.SendMsg(origin, answer);
 }
 
-bool SimpleEvent::DoesHandle(Server& srv,
-                          const std::string& event,
-                          const std::string& origin,
-                          const std::vector<std::string>& params)
-{
-	if(filter != NULL)
-		return filter->DoesHandle(srv, event, origin, params);
-	else
-		return true;
-}
-
 void SimpleEvent::LoadAnswers(const std::string& name, std::vector<std::string>& out)
 {
 	std::ifstream file((name + ".txt").c_str());

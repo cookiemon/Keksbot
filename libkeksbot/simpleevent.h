@@ -17,10 +17,6 @@ public:
 	             const std::string& event,
 	             const std::string& origin,
 	             const std::vector<std::string>& params);
-	bool DoesHandle(Server& srv,
-	             const std::string& event,
-	             const std::string& origin,
-	             const std::vector<std::string>& params);
 
 private:
 	void LoadAnswers(const std::string& name, std::vector<std::string>& out);

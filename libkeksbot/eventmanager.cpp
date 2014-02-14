@@ -38,30 +38,21 @@ EventManager::EventManager(const std::string& cfgfile)
 		{
 			try
 			{
-				KeyValueMap::const_iterator valIt = it->second.find("type");
-				if(valIt != it->second.end())
+				EventHandler* newHandler = CreateEventHandler(*it, this);
+				switch(newHandler->GetType())
 				{
-					if(valIt->second == "simple")
-					{
-						valIt = it->second.find("alias");
-						if(valIt == it->second.end() || valIt->second.empty())
-							throw ConfigException("alias missing");
-						std::string alias = valIt->second;
-						valIt = it->second.find("reply");
-						if(valIt == it->second.end())
-							throw ConfigException("reply missing");
-						std::string reply = valIt->second;
-						EventHandler* newHandler = new SimpleEvent(NULL, reply);
-						valIt = it->second.find("description");
-						if(valIt != it->second.end())
-							newHandler->SetDescription(valIt->second);
-						aliasedEvents.insert(AliasedMap::value_type(alias, newHandler));
-					}
-					else
-						throw ConfigException("handler type not known");
+				case TYPE_SIMPLE:
+					aliasedEvents.insert(AliasedMap::value_type(newHandler->GetAlias(),
+					                                            newHandler));
+					break;
+				case TYPE_MISC:
+					miscEvents.push_back(newHandler);
+					break;
+				default:
+					delete newHandler;
+					Log(LOG_ERR, "handler with unknown handler type");
+					break;
 				}
-				else
-					throw(ConfigException("handler type missing"));
 			}
 			catch(ConfigException& e)
 			{
