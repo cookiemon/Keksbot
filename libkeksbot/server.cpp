@@ -179,7 +179,8 @@ void Server::AddSettingOrDefault(const KeyValueMap& settings,
 
 void Server::Connect(void)
 {
-	int error = irc_connect(session, srv.c_str(), port, passwd.c_str(),
+	const char* password = passwd.empty() ? NULL : passwd.c_str();
+	int error = irc_connect(session, srv.c_str(), port, password,
 		nick.c_str(), username.c_str(), realname.c_str());
 	if(error != 0)
 		throw IrcException(irc_errno(session));
@@ -300,5 +301,5 @@ void Server::LogIrcEvent(const std::string& evt, const std::string& origin, cons
 		logmsg += (*it);
 		logmsg += " | ";
 	}
-	Log(LOG_DEBUG, "%s", logmsg.c_str());
+	Log(LOG_DEBUG, "[%s] %s", GetName().c_str(), logmsg.c_str());
 }
