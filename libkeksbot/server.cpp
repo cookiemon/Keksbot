@@ -38,6 +38,9 @@ void event_connect(irc_session_t* session,
 	ParamList args;
 	TransformParams(params, count, args);
 
+	if(origin == NULL)
+		origin = "";
+
 	it->second->EventConnect(event, origin, args);
 }
 
@@ -55,6 +58,9 @@ void event_misc(irc_session_t* session,
 	}
 	ParamList args;
 	TransformParams(params, count, args);
+
+	if(origin == NULL)
+		origin = "";
 
 	it->second->EventMisc(event, origin, args);
 }
