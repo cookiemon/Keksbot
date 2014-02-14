@@ -1,10 +1,12 @@
 #include <stdlib.h>
 #include "server.h"
+#include "eventmanager.h"
 #include "exceptions.h"
 #include "logging.h"
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <stdio.h>
 #include <string.h>
 #include <vector>
 #include <libircclient/libircclient.h>
@@ -206,21 +208,18 @@ void Server::EventConnect(const std::string& evt, const std::string& origin, con
 
 void Server::EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args)
 {
-	Log(LOG_ERR, "Received IRC Error: [%u]", evt);
+	char evtString[20];
+	snprintf(evtString, sizeof(evtString), "%d", evt);
+	LogIrcEvent(evtString, origin, args);
+	if(manager != NULL)
+		manager->DistributeEvent(*this, evtString, origin, args);
 }
 
 void Server::EventMisc   (const std::string& evt, const std::string& origin, const ParamList& args)
 {
-	std::string logmsg("Received misc event: ");
-	logmsg += evt;
-	logmsg += " origin: ";
-	logmsg += " args: ";
-	for(ParamList::const_iterator it = args.begin(); it != args.end(); ++it)
-	{
-		logmsg += (*it);
-		logmsg += " | ";
-	}
-	Log(LOG_DEBUG, "%s", logmsg.c_str());
+	LogIrcEvent(evt, origin, args);
+	if(manager != NULL)
+		manager->DistributeEvent(*this, evt, origin, args);
 }
 
 bool Server::IsConnected(void)
@@ -287,4 +286,19 @@ char Server::GetPrefix(void)
 const Server::ChannelListType& Server::GetChannels(void)
 {
 	return channels;
+}
+
+
+void Server::LogIrcEvent(const std::string& evt, const std::string& origin, const ParamList& args)
+{
+	std::string logmsg("Received irc event: ");
+	logmsg += evt;
+	logmsg += " origin: ";
+	logmsg += " args: ";
+	for(ParamList::const_iterator it = args.begin(); it != args.end(); ++it)
+	{
+		logmsg += (*it);
+		logmsg += " | ";
+	}
+	Log(LOG_DEBUG, "%s", logmsg.c_str());
 }

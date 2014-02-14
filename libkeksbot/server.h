@@ -8,6 +8,8 @@
 
 typedef std::vector<std::string> ParamList;
 
+class EventManager;
+
 class Server
 {
 public:
@@ -25,6 +27,8 @@ private:
 	std::string realname;
 	char prefix;
 	ChannelListType channels;
+
+	EventManager* manager;
 public:
 	Server(const std::string& name, const KeyValueMap& settings);
 
@@ -51,12 +55,18 @@ public:
 	char GetPrefix(void);
 	const ChannelListType& GetChannels(void);
 
+	void SetManager(EventManager* newManager)
+	{
+		manager = newManager;
+	}
+
 private:
 	void Init(void);
 	void AddSettingOrDefault(const KeyValueMap& settings,
 		std::string& attribute,
 		const std::string& key,
 		const std::string& deflt);
+	void LogIrcEvent(const std::string& evt, const std::string& origin, const ParamList& params);
 };
 
 #endif

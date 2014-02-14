@@ -13,6 +13,11 @@ public:
 	EventManager(const std::string& cfgfile);
 	~EventManager(void);
 	void DoSelect(void);
+
+	void DistributeEvent(Server& source,
+	                     const std::string& event,
+						 const std::string& origin,
+						 const ParamList& params);
 };
 
 #endif

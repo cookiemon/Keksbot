@@ -16,7 +16,9 @@ EventManager::EventManager(const std::string& cfgfile)
 	{
 		try
 		{
-			serverlist.push_back(new Server(it->first, it->second));
+			Server* srv = new Server(it->first, it->second);
+			srv->SetManager(this);
+			serverlist.push_back(srv);
 		}
 		catch(ConfigException& e)
 		{
@@ -72,4 +74,11 @@ void EventManager::DoSelect(void)
 			Log(LOG_ERR, "Failed on select descriptor: [%d] %s", e.ErrorNumber(), e.what());
 		}
 	}
+}
+
+void EventManager::DistributeEvent(Server& source,
+                                   const std::string& event,
+                                   const std::string& origin,
+                                   const ParamList& params)
+{
 }
