@@ -53,7 +53,6 @@ void event_misc(irc_session_t* session,
 		Log(LOG_ERR, "Received event \"%s\" for unregistered session", event);
 		return;
 	}
-
 	ParamList args;
 	TransformParams(params, count, args);
 
@@ -295,6 +294,7 @@ void Server::LogIrcEvent(const std::string& evt, const std::string& origin, cons
 	std::string logmsg("Received irc event: ");
 	logmsg += evt;
 	logmsg += " origin: ";
+	logmsg += origin;
 	logmsg += " args: ";
 	for(ParamList::const_iterator it = args.begin(); it != args.end(); ++it)
 	{
