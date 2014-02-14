@@ -97,11 +97,11 @@ void Configs::AddValue(const std::string& section,
 
 	if(subsection == "")
 	{
-		defaults[section].insert(KeyValuePair(key, val));
+		defaults[section][key] = val;
 	}
 	else
 	{
-		settings[section][subsection].insert(KeyValuePair(key, val));
+		settings[section][subsection][key] = val;
 	}
 }
 
