@@ -81,4 +81,26 @@ void EventManager::DistributeEvent(Server& source,
                                    const std::string& origin,
                                    const ParamList& params)
 {
+	if(event == "PRIVMSG" || event == "CHANNEL")
+	{
+		const std::string& message = *params.rbegin();
+		if(message[0] == source.GetPrefix())
+		{
+			std::string keyword = message.substr(1, message.find(' '));
+			std::map<std::string, EventHandler*>::iterator it;
+			it = aliasedEvents.find(keyword);
+			if(it != aliasedEvents.end() && it->second->DoesHandle(source, event, origin, params))
+			{
+				it->second->OnEvent(source, event, origin, params);
+			}
+		}
+	}
+
+	for(std::vector<EventHandler*>::iterator it = miscEvents.begin();
+	    it != miscEvents.end();
+		++it)
+	{
+		if((*it)->DoesHandle(source, event, origin, params))
+			(*it)->OnEvent(source, event, origin, params);
+	}
 }
