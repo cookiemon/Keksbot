@@ -32,30 +32,36 @@ void SimpleEvent::OnEvent(Server& srv,
 	const std::string& msg = params[params.size() - 1];
 	choices.insert(AnswerMap::value_type("MSG", StringList(1, msg)));
 
-	size_t nextVariable = 0;
-	while((nextVariable = answer.find("${", nextVariable)) != std::string::npos)
+	bool foundReplacement;
+	do
 	{
-		nextVariable += 2;
-		size_t variableEnd = answer.find('}', nextVariable);
-		if(variableEnd != std::string::npos)
+		foundReplacement = false;
+		size_t nextVariable = 0;
+		while((nextVariable = answer.find("${", nextVariable)) != std::string::npos)
 		{
-			std::string variableName = answer.substr(nextVariable,
-			                                        variableEnd - nextVariable);
-			AnswerMap::iterator it = choices.find(variableName);
-			if(it == choices.end())
+			nextVariable += 2;
+			size_t variableEnd = answer.find('}', nextVariable);
+			if(variableEnd != std::string::npos)
 			{
-				StringList loadedAnswers;
-				LoadAnswers(variableName, loadedAnswers);
-				std::pair<AnswerMap::iterator, bool> inserted
-				                                = choices.insert(AnswerMap::value_type(variableName,
-				                                                 loadedAnswers));
-				it = inserted.first;
+				std::string variableName = answer.substr(nextVariable,
+				                                        variableEnd - nextVariable);
+				AnswerMap::iterator it = choices.find(variableName);
+				if(it == choices.end())
+				{
+					StringList loadedAnswers;
+					LoadAnswers(variableName, loadedAnswers);
+					std::pair<AnswerMap::iterator, bool> inserted
+					                        = choices.insert(AnswerMap::value_type(variableName,
+					                                         loadedAnswers));
+					it = inserted.first;
+				}
+				answer.replace(nextVariable - 2,
+				               variableEnd - nextVariable + 3,
+							   GetRandomString(it->second)); 
+				foundReplacement = true;
 			}
-			answer.replace(nextVariable - 2,
-			               variableEnd - nextVariable + 3,
-						   GetRandomString(it->second)); 
 		}
-	}
+	} while(foundReplacement);
 	srv.SendMsg(GetChannel(origin, params), answer);
 }
 
