@@ -131,7 +131,14 @@ void EventManager::DistributeEvent(Server& source,
 			it = aliasedEvents.find(keyword);
 			if(it != aliasedEvents.end() && it->second->DoesHandle(source, event, origin, params))
 			{
-				it->second->OnEvent(source, event, origin, params);
+				ParamList strippedParams(params.begin(), params.end());
+				std::string realMsg;
+				if(aliasLen != std::string::npos)
+					aliasLen = message.find_first_not_of(" \r\t\n", aliasLen + 1);
+				if(aliasLen != std::string::npos)
+					realMsg = message.substr(aliasLen);
+				strippedParams[strippedParams.size() - 1] = realMsg;
+				it->second->OnEvent(source, event, origin, strippedParams);
 			}
 		}
 	}
