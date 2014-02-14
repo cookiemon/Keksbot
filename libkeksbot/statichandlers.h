@@ -44,14 +44,7 @@ public:
 	void OnEvent(Server& srv,
 	             const std::string& evt,
 	             const std::string& origin,
-	             const ParamList& args)
-	{
-		if(manager == NULL)
-		{
-			Log(LOG_ERR, "Help handler has no associated manager");
-			return;
-		}
-	}
+	             const ParamList& args);
 };
 
 #endif

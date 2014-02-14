@@ -2,6 +2,7 @@
 #include "exceptions.h"
 #include "logging.h"
 #include "simpleevent.h"
+#include <algorithm>
 #include <errno.h>
 #include <string.h>
 
@@ -142,4 +143,29 @@ void EventManager::DistributeEvent(Server& source,
 		if((*it)->DoesHandle(source, event, origin, params))
 			(*it)->OnEvent(source, event, origin, params);
 	}
+}
+
+const std::vector<Server*>& EventManager::GetServers()
+{
+	return serverlist;
+}
+
+class SecondGetter
+{
+public:
+	EventHandler* operator()(AliasedMap::value_type& param)
+	{
+		return param.second;
+	}
+};
+
+std::vector<EventHandler*> EventManager::GetEvents()
+{
+	std::vector<EventHandler*> evtlist;
+	for(AliasedMap::iterator it = aliasedEvents.begin();
+	    it != aliasedEvents.end();
+	    ++it)
+		evtlist.push_back(it->second);
+	evtlist.insert(evtlist.end(), miscEvents.begin(), miscEvents.end());
+	return evtlist;
 }

@@ -24,6 +24,9 @@ public:
 	                     const std::string& event,
 						 const std::string& origin,
 						 const ParamList& params);
+	
+	const std::vector<Server*>& GetServers();
+	std::vector<EventHandler*> GetEvents();
 };
 
 #endif
