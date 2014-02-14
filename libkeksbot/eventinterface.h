@@ -15,6 +15,14 @@ enum EventType
 	TYPE_END
 };
 
+static inline std::string GetChannel(const std::string& origin, const std::vector<std::string>& args)
+{
+	if(args[0][0] != '#')
+		return origin;
+	else
+		return args[0];
+}
+
 class EventFilter
 {
 public:
@@ -29,6 +37,7 @@ class EventHandler
 {
 private:
 	EventType type;
+	bool shown;
 	std::string alias;
 	std::string description;
 	EventFilter* filter;
@@ -50,6 +59,14 @@ public:
 	virtual void SetType(EventType newType)
 	{
 		type = newType;
+	}
+	virtual bool GetShown()
+	{
+		return shown;
+	}
+	virtual void SetShown(bool newShown)
+	{
+		shown = newShown;
 	}
 	virtual const std::string& GetAlias()
 	{

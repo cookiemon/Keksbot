@@ -53,6 +53,13 @@ EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventMan
 	if(valIt != configs.second.end())
 		newHandler->SetDescription(valIt->second);
 
+	valIt = configs.second.find("show");
+	if(valIt != configs.second.end()
+	   && ( valIt->second == "0" || valIt->second == "no" || valIt->second == "false"))
+		newHandler->SetShown(false);
+	else
+		newHandler->SetShown(true);
+
 	return newHandler;
 }
 

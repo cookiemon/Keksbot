@@ -59,10 +59,7 @@ void SimpleEvent::OnEvent(Server& srv,
 						   GetRandomString(it->second)); 
 		}
 	}
-	if(params[0][0] == '#')
-		srv.SendMsg(params[0], answer);
-	else
-		srv.SendMsg(origin, answer);
+	srv.SendMsg(GetChannel(origin, params), answer);
 }
 
 void SimpleEvent::LoadAnswers(const std::string& name, std::vector<std::string>& out)
