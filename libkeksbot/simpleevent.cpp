@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 typedef std::map<std::string, std::vector<std::string> > AnswerMap;
+typedef std::vector<std::string> StringList;
 
 SimpleEvent::SimpleEvent(EventFilter* filter, const std::string& answer)
 	: filter(filter),
@@ -25,7 +26,15 @@ void SimpleEvent::OnEvent(Server& srv,
 {
 	std::string answer = answerString;
 	AnswerMap choices;
-	choices.insert(AnswerMap::value_type("USER", std::vector<std::string>(1, origin)));
+	choices.insert(AnswerMap::value_type("USER", StringList(1, origin)));
+	if(params.size() > 1)
+		choices.insert(AnswerMap::value_type("CHAN", StringList(1, params[0])));
+	const std::string& msg = params[params.size() - 1];
+	size_t msgStart = msg.find_first_of(" \t\n\r");
+	msgStart = msg.find_first_not_of(" \r\t\n", msgStart);
+	if(msgStart != std::string::npos)
+		choices.insert(AnswerMap::value_type("MSG", StringList(1, msg.substr(msgStart))));
+
 	size_t nextVariable = 0;
 	while((nextVariable = answer.find("${", nextVariable)) != std::string::npos)
 	{
@@ -38,7 +47,7 @@ void SimpleEvent::OnEvent(Server& srv,
 			AnswerMap::iterator it = choices.find(variableName);
 			if(it == choices.end())
 			{
-				std::vector<std::string> loadedAnswers;
+				StringList loadedAnswers;
 				LoadAnswers(variableName, loadedAnswers);
 				std::pair<AnswerMap::iterator, bool> inserted
 				                                = choices.insert(AnswerMap::value_type(variableName,

@@ -130,7 +130,11 @@ void EventManager::DistributeEvent(Server& source,
 		const std::string& message = *params.rbegin();
 		if(message[0] == source.GetPrefix())
 		{
-			std::string keyword = message.substr(1, message.find(' '));
+			size_t aliasLen = message.find_first_of(" \r\t\n");
+			if(aliasLen != std::string::npos)
+				aliasLen -= 1;
+
+			std::string keyword = message.substr(1, aliasLen);
 			std::map<std::string, EventHandler*>::iterator it;
 			it = aliasedEvents.find(keyword);
 			if(it != aliasedEvents.end() && it->second->DoesHandle(source, event, origin, params))
