@@ -4,6 +4,7 @@
 #include "eventmanager.h"
 #include <errno.h>
 #include <iostream>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
 #include <unistd.h>
@@ -32,6 +33,11 @@ extern "C"
 {
 	int Run(void)
 	{
+		struct timeval tv;
+		int err;
+		err = gettimeofday(&tv, NULL);
+		if(err == 0)
+			srand(tv.tv_sec ^ tv.tv_usec);
 		try
 		{
 			EventManager evtMan("keksbot.cfg");
