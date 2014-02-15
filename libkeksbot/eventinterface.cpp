@@ -63,7 +63,7 @@ EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventMan
 	return newHandler;
 }
 
-bool EventHandler::DoesHandle(Server& srv,
+bool EventHandler::DoesHandle(ServerInterface& srv,
                 const std::string& event,
                 const std::string& origin,
                 const ParamList& args)

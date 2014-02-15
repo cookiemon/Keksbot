@@ -3,7 +3,7 @@
 
 #include "eventinterface.h"
 
-class Server;
+class ServerInterface;
 
 class SimpleEvent : public EventHandler
 {
@@ -13,7 +13,7 @@ private:
 public:
 	SimpleEvent(EventFilter* filter, const std::string& answer);
 	~SimpleEvent();
-	void OnEvent(Server& srv,
+	void OnEvent(ServerInterface& srv,
 	             const std::string& event,
 	             const std::string& origin,
 	             const std::vector<std::string>& params);

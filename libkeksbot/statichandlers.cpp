@@ -5,7 +5,7 @@
 #include "logging.h"
 #include "server.h"
 
-void HelpHandler::OnEvent(Server& srv,
+void HelpHandler::OnEvent(ServerInterface& srv,
              const std::string& evt,
              const std::string& origin,
              const ParamList& args)

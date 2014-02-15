@@ -5,12 +5,12 @@
 #include "eventmanager.h"
 #include "exceptions.h"
 #include "logging.h"
-#include "server.h"
+#include "serverinterface.h"
 
 class RestartHandler : public EventHandler
 {
 public:
-	void OnEvent(Server& srv,
+	void OnEvent(ServerInterface& srv,
 	             const std::string& evt,
 	             const std::string& origin,
 	             const ParamList& args)
@@ -22,7 +22,7 @@ public:
 class ExitHandler : public EventHandler
 {
 public:
-	void OnEvent(Server& srv,
+	void OnEvent(ServerInterface& srv,
 	             const std::string& evt,
 	             const std::string& origin,
 	             const ParamList& args)
@@ -41,7 +41,7 @@ public:
 	{
 	}
 
-	void OnEvent(Server& srv,
+	void OnEvent(ServerInterface& srv,
 	             const std::string& evt,
 	             const std::string& origin,
 	             const ParamList& args);

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-class Server;
+class ServerInterface;
 
 
 enum EventType
@@ -27,7 +27,7 @@ class EventFilter
 {
 public:
 	virtual ~EventFilter() { }
-	virtual bool DoesHandle(Server& srv,
+	virtual bool DoesHandle(ServerInterface& srv,
 	                        const std::string& event,
         	                const std::string& origin,
 	                        const std::vector<std::string>& params) = 0;
@@ -43,11 +43,11 @@ private:
 	EventFilter* filter;
 public:
 	virtual ~EventHandler() { }
-	virtual void OnEvent(Server& srv,
+	virtual void OnEvent(ServerInterface& srv,
 	                     const std::string& event,
         	             const std::string& origin,
 	                     const std::vector<std::string>& params) = 0;
-	virtual bool DoesHandle(Server& srv,
+	virtual bool DoesHandle(ServerInterface& srv,
 	                        const std::string& event,
 	                        const std::string& origin,
 	                        const std::vector<std::string>& params);

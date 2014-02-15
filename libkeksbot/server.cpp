@@ -65,6 +65,30 @@ void event_misc(irc_session_t* session,
 	it->second->EventMisc(event, origin, args);
 }
 
+void event_nick(irc_session_t* session,
+	const char* event,
+	const char* origin,
+	const char** params,
+	unsigned int count)
+{
+	ServerSessionMapType::iterator it = serverSessionMap.find(session);
+	if(it == serverSessionMap.end())
+	{
+		Log(LOG_ERR, "Received event \"%s\" for unregistered session", event);
+		return;
+	}
+	ParamList args;
+	TransformParams(params, count, args);
+
+	if(origin == NULL)
+		origin = "";
+
+	if(it->second->GetNick() == origin && count > 0)
+		it->second->SetNick(*params);
+
+	it->second->EventMisc(event, origin, args);
+}
+
 void event_numeric(irc_session_t* session,
 	unsigned int event,
 	const char* origin,
@@ -137,7 +161,7 @@ void Server::Init(void)
 	memset(&callbacks, 0, sizeof(callbacks));
 	callbacks.event_connect  = &event_connect;
 	callbacks.event_numeric  = &event_numeric;
-	callbacks.event_nick     = &event_misc;
+	callbacks.event_nick     = &event_nick;
 	callbacks.event_quit     = &event_misc;
 	callbacks.event_join     = &event_misc;
 	callbacks.event_part     = &event_misc;
@@ -254,12 +278,12 @@ void Server::SendAction(const std::string& chan, const std::string& msg)
 		throw IrcException(irc_errno(session));
 }
 
-const std::string& Server::GetName(void)
+std::string Server::GetName(void)
 {
 	return name;
 }
 
-const std::string& Server::GetLocation(void)
+std::string Server::GetLocation(void)
 {
 	return srv;
 }
@@ -269,17 +293,22 @@ unsigned short Server::GetPort(void)
 	return port;
 }
 
-const std::string& Server::GetNick(void)
+std::string Server::GetNick(void)
 {
 	return nick;
 }
 
-const std::string& Server::GetUsername(void)
+void Server::SetNick(const std::string& newNick)
+{
+	nick = newNick;
+}
+
+std::string Server::GetUsername(void)
 {
 	return username;
 }
 
-const std::string& Server::GetRealname(void)
+std::string Server::GetRealname(void)
 {
 	return realname;
 }
@@ -288,12 +317,6 @@ char Server::GetPrefix(void)
 {
 	return prefix;
 }
-
-const Server::ChannelListType& Server::GetChannels(void)
-{
-	return channels;
-}
-
 
 void Server::LogIrcEvent(const std::string& evt, const std::string& origin, const ParamList& args)
 {

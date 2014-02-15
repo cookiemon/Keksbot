@@ -1,5 +1,5 @@
 #include "simpleevent.h"
-#include "server.h"
+#include "serverinterface.h"
 #include <fstream>
 #include <map>
 #include <stdlib.h>
@@ -19,7 +19,7 @@ SimpleEvent::~SimpleEvent()
 		delete filter;
 }
 
-void SimpleEvent::OnEvent(Server& srv,
+void SimpleEvent::OnEvent(ServerInterface& srv,
                           const std::string& event,
                           const std::string& origin,
                           const std::vector<std::string>& params)
@@ -31,6 +31,7 @@ void SimpleEvent::OnEvent(Server& srv,
 		choices.insert(AnswerMap::value_type("CHAN", StringList(1, params[0])));
 	const std::string& msg = params[params.size() - 1];
 	choices.insert(AnswerMap::value_type("MSG", StringList(1, msg)));
+	choices.insert(AnswerMap::value_type("NICK", StringList(1, srv.GetNick())));
 
 	bool foundReplacement;
 	do
