@@ -2,13 +2,13 @@ BOTWRAPPERSOURCEFILES=botwrapper/main.c
 BOTWRAPPERTARGET=keksbot
 BOTWRAPPEROBJECTS=$(BOTWRAPPERSOURCEFILES:.c=.o)
 
-LIBKEKSBOTSOURCEFILES=libkeksbot/main.cpp libkeksbot/server.cpp libkeksbot/configs.cpp libkeksbot/eventmanager.cpp libkeksbot/simpleevent.cpp libkeksbot/eventinterface.cpp libkeksbot/statichandlers.cpp
+LIBKEKSBOTSOURCEFILES=libkeksbot/main.cpp libkeksbot/server.cpp libkeksbot/configs.cpp libkeksbot/eventmanager.cpp libkeksbot/simpleevent.cpp libkeksbot/eventinterface.cpp libkeksbot/statichandlers.cpp libkeksbot/stattracker.cpp
 LIBKEKSBOTTARGET=libkeksbot.so
 LIBKEKSBOTOBJECTS=$(LIBKEKSBOTSOURCEFILES:.cpp=.o)
 
 CC=g++
 CFLAGS=-c -Wall -fPIC -g -std=c++98
-LDFLAGS=-ldl
+LDFLAGS=-ldl -lsqlite3
 LDLIBFLAGS=-lircclient -shared
 all: $(LIBKEKSBOTSOURCEFILES) $(LIBKEKSBOTTARGET) $(BOTWRAPPERSOURCEFILES) $(BOTWRAPPERTARGET)
 
