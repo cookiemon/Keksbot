@@ -26,7 +26,6 @@ EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventMan
 			std::string reply = valIt->second;
 			
 			newHandler = new SimpleEvent(NULL, reply);
-			newHandler->SetType(TYPE_SIMPLE);
 		}
 		else if(valIt->second == "static")
 		{
@@ -41,8 +40,6 @@ EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventMan
 				newHandler = new HelpHandler(man);
 			else
 				throw ConfigException("static handler type not known");
-
-			newHandler->SetType(TYPE_SIMPLE);
 		}
 		else
 			throw ConfigException("event handler type not known");

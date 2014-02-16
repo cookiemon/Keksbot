@@ -17,6 +17,11 @@ public:
 	{
 		throw RestartException();
 	}
+
+	EventType GetType()
+	{
+		return TYPE_SIMPLE;
+	}
 };
 
 class ExitHandler : public EventHandler
@@ -28,6 +33,11 @@ public:
 	             const ParamList& args)
 	{
 		throw ExitException();
+	}
+
+	EventType GetType()
+	{
+		return TYPE_SIMPLE;
 	}
 };
 
@@ -45,6 +55,11 @@ public:
 	             const std::string& evt,
 	             const std::string& origin,
 	             const ParamList& args);
+
+	EventType GetType()
+	{
+		return TYPE_SIMPLE;
+	}
 };
 
 #endif

@@ -17,6 +17,11 @@ public:
 	             const std::string& event,
 	             const std::string& origin,
 	             const std::vector<std::string>& params);
+	
+	EventType GetType()
+	{
+		return TYPE_SIMPLE;
+	}
 
 private:
 	void LoadAnswers(const std::string& name, std::vector<std::string>& out);

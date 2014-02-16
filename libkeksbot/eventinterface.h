@@ -33,6 +33,8 @@ public:
 	                        const std::vector<std::string>& params) = 0;
 };
 
+typedef std::vector<std::string> ParamList;
+
 class EventHandler
 {
 private:
@@ -52,14 +54,8 @@ public:
 	                        const std::string& origin,
 	                        const std::vector<std::string>& params);
 
-	virtual EventType GetType()
-	{
-		return type;
-	}
-	virtual void SetType(EventType newType)
-	{
-		type = newType;
-	}
+	virtual EventType GetType() = 0;
+
 	virtual bool GetShown()
 	{
 		return shown;
