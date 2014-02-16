@@ -4,6 +4,7 @@
 class ServerInterface
 {
 public:
+	virtual ~ServerInterface() { }
 	virtual bool IsConnected() = 0;
 	virtual void Join(const std::string& chan, const std::string& pw = "") = 0;
 	virtual void SendMsg(const std::string& chan, const std::string& msg) = 0;
