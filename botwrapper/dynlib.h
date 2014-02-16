@@ -5,10 +5,18 @@
 #pragma error "Not implemented"
 #else
 #include <dlfcn.h>
+#include "logging.h"
+#include <stdlib.h>
 typedef void* DynLibHandle;
 
 DynLibHandle OpenDynLib(const char* libName)
 {
+	void* dlHandle = dlopen(libName, RTLD_NOLOAD | RTLD_LAZY | RTLD_LOCAL);
+	if(dlHandle != NULL)
+	{
+		Log(LOG_ERR, "Library %s was already loaded", libName);
+		return dlHandle;
+	}
 	return dlopen(libName, RTLD_LAZY | RTLD_LOCAL);
 }
 
