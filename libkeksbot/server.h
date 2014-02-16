@@ -31,7 +31,7 @@ private:
 
 	EventManager* manager;
 public:
-	Server(const std::string& name, const KeyValueMap& settings);
+	Server(const std::string& name, const KeyValueMap& settings, EventManager* man);
 
 	~Server(void);
 
@@ -55,11 +55,6 @@ public:
 	std::string GetUsername(void);
 	std::string GetRealname(void);
 	char GetPrefix(void);
-
-	void SetManager(EventManager* newManager)
-	{
-		manager = newManager;
-	}
 
 private:
 	void Init(void);

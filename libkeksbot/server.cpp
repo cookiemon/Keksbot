@@ -3,6 +3,7 @@
 #include "eventmanager.h"
 #include "exceptions.h"
 #include "logging.h"
+#include <assert.h>
 #include <map>
 #include <sstream>
 #include <stdexcept>
@@ -108,9 +109,12 @@ void event_numeric(irc_session_t* session,
 	it->second->EventNumeric(event, origin, args);
 }
 
-Server::Server(const std::string& name, const KeyValueMap& settings)
-	: name(name)
+Server::Server(const std::string& name, const KeyValueMap& settings, EventManager* man)
+	: name(name),
+	manager(man)
 {
+	assert(manager != NULL);
+
 	KeyValueMap::const_iterator end = settings.end();
 	KeyValueMap::const_iterator it = settings.find("location");
 	if(it == end)

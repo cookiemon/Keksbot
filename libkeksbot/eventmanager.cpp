@@ -18,8 +18,7 @@ EventManager::EventManager(const std::string& cfgfile)
 	{
 		try
 		{
-			Server* srv = new Server(it->first, it->second);
-			srv->SetManager(this);
+			Server* srv = new Server(it->first, it->second, this);
 			serverlist.push_back(srv);
 		}
 		catch(ConfigException& e)
