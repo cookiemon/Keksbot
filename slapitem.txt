@@ -1,0 +1,272 @@
+12 pounds of ${adjective} bacon
+13 pounds of ${adjective} dust
+15 golf ball ${adjective} tees
+18 cans of ${adjective} Alpo
+200 yards of ${adjective} barbed wire
+200 yards of ${adjective} Cat 4 cable
+21,357 ${adjective} DVDs
+24 ${adjective} pancakes
+2 pair of ${adjective} water skis
+2 plastic coat hangers and a roll of ${adjective} nickles
+314 ${adjective} envelops with prepaid postage from Credit Card companies
+32 ${adjective} eheaded chickens
+33 ${adjective} CDs
+38 ${adjective} IDE cables
+38 ${adjective} pigs and their farmer Willifred
+3 ${adjective} boiled eggs
+3 ${adjective} coupons and 2 ${adjective} AAA batteries
+3 ${adjective} rose bushes
+3 dozen no bake cookies
+42 ${adjective} Pringles cans
+42 Oreo Cookies, 2 Watermelons, 4 machine guns, and twisty ties
+5 ${adjective} poker decks
+5 pounds of ${adjective} asphault
+738 ${adjective} buttons
+73 ${adjective} cranberries
+7 ${adjective} egg whites and a cup of flour
+7 ${adjective} potted plants
+8 ${adjective} dill pickles
+99 bottles of beer on the wall
+99 red ballons
+a 17 car pile up on the freeway
+a ${adjective} 1968 Corvette
+a ${adjective} $2 bill
+a ${adjective} 38" tire
+a ${adjective} 4U rackmount server
+a ${adjective} 52 inch plasma monitor
+a ${adjective} bag of dogfood
+a ${adjective} bathtub
+a ${adjective} beanstalk
+a ${adjective} bell tower
+a ${adjective} belt
+a ${adjective} boulder
+a ${adjective} box of 248 crayons that are half used
+a ${adjective} box of Kleenexes
+a ${adjective} bycicle helmet
+a ${adjective} campfire
+a ${adjective} Capria Sun pouch
+a ${adjective} ceiling fan blade
+a ${adjective} chess set
+a ${adjective} Chinese Crested Hairless dog
+a ${adjective} clown shoe
+a ${adjective} coconut monkey
+a ${adjective} copy of WeeChat
+a ${adjective} cow pie
+a ${adjective} crowbar
+a ${adjective} Cuban cigar
+a ${adjective} dot matrix printer
+a ${adjective} fax machine
+a ${adjective} first aid kit
+a ${adjective} Five Star binder
+a ${adjective} fourier transformed function
+a ${adjective} Furby
+a ${adjective} fur coat
+a ${adjective} gerbil dressed as Domo-kun
+a ${adjective} glass of water
+a ${adjective} glass window
+a ${adjective} golf club
+a ${adjective} gopher
+a ${adjective} gopher trap
+a ${adjective} hockey stick
+a ${adjective} keyboard
+a ${adjective} kitchen sink
+a ${adjective} kitchen towel
+a ${adjective} kitchen utensil
+a ${adjective} leg lamp
+a ${adjective} Lego head, one of those cool ones with the sunglasses and stubble
+a ${adjective} light bulb
+a ${adjective} Linksys 16-Port Workgroup Switch
+a ${adjective} mechanical pencil (0.5mm lead)
+a ${adjective} Mickey Mouse Clock
+a ${adjective} mouse
+a ${adjective} NERF bow and arrow
+a ${adjective} New Kids on the Block tape
+a ${adjective} newspaper from 1947
+a ${adjective} nosehair plucker
+a ${adjective} pair of headphones
+a ${adjective} paper bag filled with Cheetos
+a ${adjective} partial solar eclipse
+a ${adjective} Patriot Missile
+a ${adjective} Pepsi cap
+a ${adjective} PEZ dispenser filled with Tic-Tacs
+a ${adjective} piano
+a ${adjective} picknick table
+a ${adjective} pimple
+a ${adjective} ping pong table
+a ${adjective} pink beaver
+a ${adjective} plastic fly
+a ${adjective} plastic hanger, tube kind, not the ones that come with items from a store
+a ${adjective} plutonium rod
+a ${adjective} pole
+a ${adjective} POS graphics card
+a ${adjective} refrigerator
+a ${adjective} ROKR cellphone
+a ${adjective} roll of pennies
+a ${adjective} salad
+a ${adjective} Salad Shooter(tm)
+a ${adjective} sea slug
+a ${adjective} shampoo bottle
+a ${adjective} Sharpie, Ultra Fine Point
+a ${adjective} sheet of drywall
+a ${adjective} shoe
+a ${adjective} shoebox
+a ${adjective} shot glass
+a ${adjective} shotgun
+a ${adjective} shot put ball
+a ${adjective} shrimp, a ${adjective} starfish, and a ${adjective} pigmy
+a ${adjective} size 13 bowling shoe
+a ${adjective} slice of pizza
+a ${adjective} slinkey
+a ${adjective} smoke alarm
+a ${adjective} smoke detector
+a ${adjective} smoothbore depleted uranium sniper shell
+a ${adjective} sock
+a ${adjective} spatula
+a ${adjective} spider's egg sack
+a ${adjective} spider's web
+a ${adjective} stapler
+a ${adjective} stick
+a ${adjective} Swingline 790 stapler
+a ${adjective} table leg
+a ${adjective} techno DJ
+a ${adjective} tennis racquet
+a ${adjective} Tickle Me Elmo
+a ${adjective} toilet
+a ${adjective} toilet seat
+a ${adjective} toilet seat cover
+a ${adjective} toothpick
+a ${adjective} .torrent of Darkwing Duck
+a ${adjective} trap door spider
+a ${adjective} trout
+a ${adjective} trumpet
+a ${adjective} trumpet mouthpiece
+a ${adjective} tube of m&m's minis
+a ${adjective} tv show
+a ${adjective} Universal Power Supply backup battery
+a ${adjective} USB cable
+a ${adjective} watch
+a ${adjective} watch that has been dipped in gasoline
+a ${adjective} Windows ME User Guide
+a ${adjective} yacht
+a ${adjective} ZIP disk
+a bottle of ${adjective} Welch's Sparkling White Grape Juice Cocktail (non-alcoholic)
+a can of ${adjective} Pig Brains with Gravy
+a can of ${adjective} tomato sauce
+a cold
+${adjective} air
+${adjective} ants
+${adjective} bamboo stilts
+${adjective} bellybutton lint
+${adjective} bubbles
+${adjective} bubble wrap that has been painted blue
+${adjective} carpet remnants
+${adjective} cheese that a mouse didn't eat
+${adjective} chewing gum
+${adjective} chicken legs
+${adjective} chocolate
+${adjective} corn husks
+${adjective} crayons
+${adjective} CSI Season 1 DVD Set
+${adjective} curly fries
+${adjective} dental floss
+${adjective} dice
+${adjective} dihydrogen monoxide
+${adjective} dust
+${adjective} earwax
+${adjective} electrolytes
+${adjective} emoticons
+${adjective} french vanilla icecream
+${adjective} kosher salt
+${adjective} lice
+${adjective} lint
+${adjective} mayonnaise
+${adjective} n-dimensional Banach spaces
+${adjective} oyster crackers
+${adjective} peach fuzz
+${adjective} peanut butter
+${adjective} peanut butter and syrup
+${adjective} perscription medicine
+${adjective} pigs feet
+${adjective} plains, trains, and automobiles
+${adjective} soy milk
+${adjective} stuff
+${adjective} termites
+${adjective} toenail clippings
+${adjective} tofu casserole
+${adjective} Twix
+${adjective} water
+a Fig Newton
+a gallon of ${adjective} milk
+a large smelly trout
+America's Next Top Model
+an ${adjective} ABIT motherboard
+an ${adjective} ant
+an ${adjective} anteater
+an ${adjective} Apple ][
+an ${adjective} can of wasp spray
+an ${adjective} EIDE cable
+an ${adjective} ice skate
+an ${adjective} LCD screen
+an ${adjective} Oak 2x4
+an ${adjective} orthonormal basis
+an ${adjective} oven mit
+a pair of ${adjective} scissors
+a pile of ${adjective} AOL CDs
+Ashton Kutcher
+a spider plant
+a stack of ${adjective} MS-DOS 6.0 installation disks
+Cardcaptor Sakura
+Charles Manson's ${adjective} hair clippings
+Danny DeVito
+David Hasselhoff
+Deep Space 9
+Dr. Phill
+e^(i*pi)
+Emperor Palpatine
+Ernest Hemingway
+flakes of ${adjective} skin
+four ${adjective} tennis racquets tied together to form a ${adjective} pyramid
+George, the bellboy from Manhattan
+Gigli (Special Edition DVD)
+Hobart, Tasmania
+Howard Dean
+Indoril
+James Brown
+Jeeves
+Jewel
+Keanu Reeves
+Kitbot
+lots and lots of ${adjective} penguins
+miscellaneous body fluids
+mizspeld werds
+Montel
+Nebraska
+Nemo
+nine ${adjective} hockey pucks
+nothing in particular
+Nunavut
+OBJECTION
+official KIT merchandise
+"One Fish Two Fish Red Fish Blue Fish"
+one of those squishy rubbery things that spring keyboard keys back up
+RITZ bits
+Rosie O'Donnell
+some 6 year old's two front teath
+some ${adjective} halfop
+Sony's ${adjective} DRM Software
+Sparkling Cider
+Swiss Miss powdered Hot Chocolate with little marshmallows
+the ${adjective} 1932 World's Fair
+the ${adjective} 2006 US Federal Tax Code
+the ${adjective} interwebs
+the ${adjective} letter "L"
+the ${adjective} letter "W"
+the ${adjective} passenger mirror of a 1972 Mercedes-Benz 280SEL
+the ${adjective} remains of Humpty Dumpty after all the King's Men couldn't put him back together
+the ${adjective} summer sky
+The Artist Formerly known as The Artist Formerly known as Prince
+the State of Maryland
+three ${adjective} muffins and two slices of ${adjective} toast
+three ${adjective} sporks
+three grains of ${adjective} sand
+two ${adjective} pitchforks

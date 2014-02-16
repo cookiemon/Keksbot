@@ -1,0 +1,37 @@
+/me slaps ${MSG} around a bit with ${slapitem}
+/me slaps ${MSG} around a bit with ${slapitem}
+/me slaps ${MSG} around a bit with ${slapitem}
+/me slaps ${MSG} around a bit with ${slapitem}
+/me slaps ${MSG} around a bit with ${slapitem}
+/me gives ${MSG} a clout round the head with ${slapitem}
+/me gives ${MSG} a clout round the head with ${slapitem}
+/me gives ${MSG} a clout round the head with ${slapitem}
+/me gives ${MSG} a clout round the head with ${slapitem}
+/me gives ${MSG} a clout round the head with ${slapitem}
+/me slaps ${MSG} with ${slapitem}
+/me slaps ${MSG} with ${slapitem}
+/me slaps ${MSG} with ${slapitem}
+/me slaps ${MSG} with ${slapitem}
+/me slaps ${MSG} with ${slapitem}
+/me slaps ${MSG} with ${slapitem}
+/me slaps ${MSG} a few times with ${slapitem}
+/me slaps ${MSG} a few times with ${slapitem}
+/me slaps ${MSG} a few times with ${slapitem}
+/me slaps ${MSG} a few times with ${slapitem}
+/me slaps ${MSG} a few times with ${slapitem}
+/me would slap ${MSG}, but is not being violent now
+/me gives ${MSG} a hearty slap with ${slapitem}
+/me gives ${MSG} a hearty slap with ${slapitem}
+/me gives ${MSG} a hearty slap with ${slapitem}
+/me gives ${MSG} a hearty slap with ${slapitem}
+/me gives ${MSG} a hearty slap with ${slapitem}
+/me dusts off ${slapitem} and slaps ${MSG} with it
+/me dusts off ${slapitem} and slaps ${MSG} with it
+/me dusts off ${slapitem} and slaps ${MSG} with it
+/me dusts off ${slapitem} and slaps ${MSG} with it
+/me dusts off ${slapitem} and slaps ${MSG} with it
+/me penetrates ${MSG} with ${slapitem}
+/me penetrates ${MSG} with ${slapitem}
+/me penetrates ${MSG} with ${slapitem}
+/me penetrates ${MSG} with ${slapitem}
+/me penetrates ${MSG} with ${slapitem}

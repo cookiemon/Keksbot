@@ -63,7 +63,12 @@ void SimpleEvent::OnEvent(ServerInterface& srv,
 			}
 		}
 	} while(foundReplacement);
-	srv.SendMsg(GetChannel(origin, params), answer);
+	
+	std::string chan = GetChannel(origin, params);
+	if(answer.substr(0, 4) == "/me ")
+		srv.SendAction(chan, answer.substr(4));
+	else
+		srv.SendMsg(chan, answer);
 }
 
 void SimpleEvent::LoadAnswers(const std::string& name, std::vector<std::string>& out)
