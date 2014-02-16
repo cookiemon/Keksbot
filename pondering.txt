@@ -63,11 +63,10 @@ Yes, but why does the chicken cross the road, huh, if not for love? I do not kno
 Wuh, I think so, ${USER}, but I prefer Space Jelly.
 Yes ${USER}, but if our knees bent the other way, how would we ride a bicycle?
 Wuh, I think so, ${USER}, but how will we get three pink flamingos into one pair of Capri pants?
-<b>Snowball</b>: Oh ${USER}, I certainly hope so.
+Oh ${USER}, I certainly hope so.
 I think so, ${USER}, but Tuesday Weld isn't a complete sentence.
 I think so, ${USER}, but why would anyone want to see Snow White and the Seven Samurai?
-<b>Pinky</b>: I think so, ${USER}, but then my name would be Thumby.
-<b>${USER}</b>: In a perfect world, your name would be Dummy!
+I think so, ${USER}, but then my name would be Thumby.
 I think so, ${USER}, but I find scratching just makes it worse.
 I think so, ${USER}, but shouldn't the bat boy be wearing a cape?
 I think so, ${USER}, but why would anyone want a depressed tongue?
@@ -86,13 +85,11 @@ Yeah, but I thought Madonna already had a steady bloke!
 I think so, ${USER}, but what would goats be doing in red leather turbans?
 I think so, ${USER}... but how would we ever determine Sandra Bullock's shoe size?
 Yes, ${USER}, I think so. But how do we get Twiggy to pose with an electric goose?
-<b>Pinky</b>: I think so, ${USER}. But if I put on two tutu's, would I really be wearing a four-by-four?
-<b>${USER}</b>: Why do I even bother asking?
-<b>Pinky</b>: I dunno, ${USER}. Maybe it's all part of some huge, cosmic plot formula!
+I think so, ${USER}. But if I put on two tutu's, would I really be wearing a four-by-four?
+I dunno, ${USER}. Maybe it's all part of some huge, cosmic plot formula!
 I think so, ${USER}, but wouldn't mustard make it sting?
 I think so, ${USER}, but can you use the word 'asphalt' in polite society?
-Pinky: I think so, ${USER}! *(Sprays his breath)*
-<b>${USER}</b>: Er... then again, let's not let our enthusiasm overwhelm us!
+I think so, ${USER}! *(Sprays his breath)*
 I think so, Mr. ${USER}, but if the sun'll come out tomorrow, what's it doing right now?
 I think so, ${USER}, but aren't we out of shaving cream?
 Oh yes, ${USER}! Remind me to tape all our phone calls!
@@ -122,7 +119,7 @@ I think so, ${USER}ius. But what if a sudden wind were to blow up my toga?
 I think so, ${USER}. But Trojans won’t arrive on the scene for another 300 years.
 I think so, ${USER}... but where would a yak put PVC tubing?
 Whuh... I think so, ${USER}, but... but if Charlton Heston doesn't eat Soylent Green, what will he eat?
-Why, yes, Pinky! Yes, I am! But where would you get a chicken, 20 yards of spandex and smelling salts at this hour?
+Why, yes, ${USER}! Yes, I am! But where would you get a chicken, 20 yards of spandex and smelling salts at this hour?
 I think so, ${USER}, but Ben Vereen never answered our proposition.
 I think so, ${USER}, but wouldn't an itsy-bitsy, teeny-weenie, yellow polka-dot one-piece be better suited for my figure?
 I think so, ${USER}, but won't it go straight to my hips?!
@@ -131,7 +128,7 @@ Whuu... I think so, ${USER}Pan! But if running shoes had little feet, wouldn't t
 I think so, ${USER}. But what if the Earl of Essex doesn't like burlap pantaloons?
 I think so, ${USER}, but should we use dishwashing liquid or cooking oil?
 I think so, ${USER}! We'll dress up like biker dudes and infiltrate the "Hades Ladies." Then we'll convince them to hold a meeting inside the corn palace. Narf! The resulting carbon-monoxide buildup will allow you to complete your energy-making device and shortly after, you will rule the world!
-Pinky: *(holding one of the pointy pieces from Sorry! and the bottle of Slick 'n Slide)* I think so, Br... ${USER}: *[shuts Pinky's mouth]* No, on second thought, don’t tell me... I don't think they allow that in a book with the Comics Code.
+${NICK}: *(holding one of the pointy pieces from Sorry! and the bottle of Slick 'n Slide)* I think so, Br... ${USER}: *[shuts ${NICK}'s mouth]* No, on second thought, don’t tell me... I don't think they allow that in a book with the Comics Code.
 I think so, ${USER}, but would Danish flies work just as well?
 We think so, ${USER}! But dressing like twins is so tacky.
 I think so, ${USER}, but practicing docking procedures with a goat at zero G's—it's never been done!
@@ -142,13 +139,12 @@ Wuhhh... I think so, ${USER}, but if a ham can operate a radio, why can't a pig 
 I think so, ${USER}, you'd think [Lyndon Johnson would] have left room for baby-kissing, wouldn't you?
 I think so, ${USER}! But won't Mr. Hoover notice a missing evening gown?
 I think so, ${USER}! But what's the use of having a heart-shaped tattoo if it's going to be covered by hair?
-*[Snowball has used his Visual Transmogrifier to make himself look like ${USER} and has encased an iron mask on ${USER}'s head, claiming him to be his (${USER}'s) visiting cousin, Clement.]*
 I think so, ${USER}, but couldn't the constant use of a henna rinse lead to premature baldness?
 I think so, ${USER}. Just make sure we don't swallow each other's bubbles!
 I think so, ${USER}! But ruby-studded stockings would be mighty uncomfortable wouldn't they?
 I think so, ${USER}, but if I have my portrait drawn, will we have time to make it to the lifeboats?
-I think so, ${USER}! But is Chippendale's ready for 'The Full Pinky?'
-There's a 99.7% probability that I am, Snowball!
+I think so, ${USER}! But is Chippendale's ready for 'The Full ${NICK}?'
+There's a 99.7% probability that I am, ${USER}!
 I think so, ${USER}! But do I have what it take to be the 'Lord of the Dance'?
 I think so, ${USER}! How much deeper would the ocean be if there weren't sponges down there?
 Oh, I think so, ${USER}! But doing a clog dance in actual clogs will give me awful blisters.
@@ -160,7 +156,7 @@ Narf! I think so, ${USER}, but what if the Telechubbies don't fight fair?
 I think so, ${USER}. But even if we found a tuxedo to fit a blowfish, who would marry it?
 Um, no, Cranky Mouseykin, not even in the story you made up.
 I think so, but where is a fish?
-${USER}: "You pondering what I'm pondering?" I asked Pinky on the sly. "Well, I think so, ${USER}," he muttered. "But my feet taste better buttered." Then I grimaced and I shuddered at his typical reply.
+${USER}: "You pondering what I'm pondering?" I asked ${NICK} on the sly. "Well, I think so, ${USER}," he muttered. "But my feet taste better buttered." Then I grimaced and I shuddered at his typical reply.
 I think so, ${USER}. But if Pinocchio were carved out of bacon it wouldn't be the same story, would it?
 Um, I think so, ${USER}, but wasn't Dicky Ducky released on his own recognaissance?
 I think so, ${USER}, but Pepper Ann makes me sneeze.
@@ -168,7 +164,7 @@ I think so, ${USER}. But suppose we do the hokey pokey and turn ourselves around
 *(sung)* I think so, ${USER}, but just how will we get the weasel to hold still?
 I think so, ${USER}, but how are we going to get the bacon flavoring into the pencils?
 I think so, ${USER}, but instant karma's always so lumpy.
-Pinky: Well, I think so, ${USER}, but... no, it's too stupid. ${USER}: We shall disguise ourselves as a cow! Pinky: Narf, ${USER}! That was it *exactly*!
+${NICK}: Well, I think so, ${USER}, but... no, it's too stupid. ${USER}: We shall disguise ourselves as a cow! ${NICK}: Narf, ${USER}! That was it *exactly*!
 I think so, ${USER}, but she'd never leave Mickey.
 Uh, I think so ${USER}2, but a show about two talking lab mice? It'll never get on the air.
 Whoof, oh, I'd have to say the odds of that are terribly slim, ${USER}.
