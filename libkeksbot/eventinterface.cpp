@@ -3,6 +3,7 @@
 #include "simpleevent.h"
 #include "statichandlers.h"
 #include "stattracker.h"
+#include "stats.h"
 #include <assert.h>
 
 EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventManager* man)
@@ -41,6 +42,8 @@ EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventMan
 				newHandler = new HelpHandler(man);
 			else if(valIt->second == "stattracker")
 				newHandler = new StatTracker(configs.second);
+			else if(valIt->second == "stats")
+				newHandler = new Stats(configs.second);
 			else
 				throw ConfigException("static handler type not known");
 		}
