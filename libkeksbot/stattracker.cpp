@@ -80,8 +80,10 @@ StatTracker::StatTracker(const KeyValueMap& params)
 
 StatTracker::~StatTracker()
 {
-	if(db != NULL)
-		sqlite3_close(db);
+	sqlite3_finalize(getNickStmt);
+	sqlite3_finalize(insertStatsStmt);
+	sqlite3_finalize(updateStatsStmt);
+	sqlite3_close(db);
 }
 
 void StatTracker::OnEvent(ServerInterface& srv,
