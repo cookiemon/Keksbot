@@ -64,6 +64,12 @@ EventManager::EventManager(const std::string& cfgfile)
 
 EventManager::~EventManager(void)
 {
+	for(AliasedMap::iterator it = aliasedEvents.begin(); it != aliasedEvents.end(); ++ it)
+		delete it->second;
+	aliasedEvents.clear();
+	for(size_t i = 0; i < miscEvents.size(); ++i)
+		delete miscEvents[i];
+	miscEvents.clear();
 	for(size_t i = 0; i < serverlist.size(); ++i)
 		delete serverlist[i];
 	serverlist.clear();
