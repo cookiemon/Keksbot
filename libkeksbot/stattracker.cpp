@@ -8,11 +8,11 @@ const char* CREATE_STAT_TABLE_SQL = "CREATE TABLE IF NOT EXISTS stats"
 									"(nick TEXT NOT NULL, "
 									"server TEXT NOT NULL, "
 									"channel TEXT NOT NULL, "
+									"timestamp INTEGER, "
 									"charcount INTEGER, "
 									"wordcount INTEGER, "
 									"linecount INTEGER, "
-									"lastseen INTEGER, "
-									"PRIMARY KEY(nick, server, channel));";
+									"PRIMARY KEY(nick, server, channel, timestamp));";
 const char* CREATE_ALIAS_TABLE_SQL = "CREATE TABLE IF NOT EXISTS alias"
 									"( alias TEXT NOT NULL, "
 									"server TEXT NOT NULL, "
@@ -23,17 +23,16 @@ const char* GET_NICK_SQL = "SELECT nick FROM alias "
 							"WHERE alias = ?1 AND "
 							"server = ?2;";
 const char* INSERT_STATS_SQL = "INSERT INTO stats "
-							"(nick, server, channel, charcount, wordcount, linecount, lastseen) "
+							"(nick, server, channel, charcount, wordcount, linecount, timestamp) "
 							"VALUES "
 							"(?1, ?2, ?3, ?4, ?5, ?6, ?7);";
-const char* UPDATE_STATS_SQL = "UPDATE stats SET "
-								"charcount = charcount + ?4, "
-								"wordcount = wordcount + ?5, "
-								"linecount = linecount + ?6, "
-								"lastseen = ?7 "
-								"WHERE nick = ?1 AND "
-								"server = ?2 AND "
-								"channel = ?3;";
+const char* UPDATE_STATS_SQL = "UPDATE stats "
+							"SET "
+							"charcount = charcount + ?4, "
+							"wordcount = charcount + ?5, "
+							"linecount = charcount + ?6 "
+							"WHERE "
+							"nick = ?1 AND server = ?2 AND channel = ?3 AND timestamp = ?7;";
 
 StatTracker::StatTracker(const KeyValueMap& params)
 	: db(NULL),
@@ -112,30 +111,21 @@ void StatTracker::OnEvent(ServerInterface& srv,
 							origin, srv.GetName(), params.size() > 1 ? params[0] : "",
 							charcount, wordcount, linecount, lastseen);
 	if(res != 0)
-	{
 		LogDBError(LOG_ERR, "Could not bind variables to input statement");
-		res = SQLITE_ERROR;
-	}
 	else
-	{
-		res = sqlite3_step(insertStatsStmt);
-		sqlite3_reset(insertStatsStmt);
-	}
+		res = ExecuteStatement(insertStatsStmt);
+
 	if(res != SQLITE_DONE)
 	{
 		res = BindVariables(updateStatsStmt,
-							origin, srv.GetName(), params.size() > 1 ? params[0] : "",
-							charcount, wordcount, linecount, lastseen);
+					origin, srv.GetName(), params.size() > 1 ? params[0] : "",
+					charcount, wordcount, linecount, lastseen);
 		if(res != 0)
-		{
 			LogDBError(LOG_ERR, "Could not bind variables to update statement");
-		}
 		else
-		{
-			res = sqlite3_step(updateStatsStmt);
-			sqlite3_reset(updateStatsStmt);
-		}
+			res = ExecuteStatement(updateStatsStmt);
 	}
+
 	if(res != SQLITE_DONE)
 		LogDBError(LOG_ERR, "Could neither insert nor update stats table");
 }
@@ -143,6 +133,15 @@ void StatTracker::OnEvent(ServerInterface& srv,
 void StatTracker::LogDBError(int type, const std::string& msg)
 {
 	Log(type, "%s: %s", msg.c_str(), sqlite3_errmsg(db));
+}
+
+int StatTracker::ExecuteStatement(sqlite3_stmt* stmt)
+{
+	int res = SQLITE_BUSY;
+	while(res == SQLITE_BUSY)
+		res = sqlite3_step(stmt);
+	sqlite3_reset(stmt);
+	return res;
 }
 
 int StatTracker::BindVariables(sqlite3_stmt* stmt,
@@ -161,6 +160,5 @@ int StatTracker::BindVariables(sqlite3_stmt* stmt,
 	res |= sqlite3_bind_int(stmt, 4, charcount);
 	res |= sqlite3_bind_int(stmt, 5, wordcount);
 	res |= sqlite3_bind_int(stmt, 6, linecount);
-	res |= sqlite3_bind_int64(stmt, 7, lastseen); 
 	return res;
 }

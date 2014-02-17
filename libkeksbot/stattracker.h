@@ -33,6 +33,7 @@ private:
 					const std::string& nick, const std::string& server, const std::string& channel,
 					int charcount, int wordcount, int linecount,
 					time_t lastseen);
+	int ExecuteStatement(sqlite3_stmt* stmt);
 };
 
 #endif
