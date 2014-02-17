@@ -153,7 +153,7 @@ int StatTracker::BindVariables(sqlite3_stmt* stmt,
 	int charcount,
 	int wordcount,
 	int linecount,
-	time_t lastseen)
+	time_t timestamp)
 {
 	int res = 0;
 	res |= sqlite3_bind_text(stmt, 1, nick.c_str(), -1, SQLITE_TRANSIENT);
@@ -162,6 +162,7 @@ int StatTracker::BindVariables(sqlite3_stmt* stmt,
 	res |= sqlite3_bind_int(stmt, 4, charcount);
 	res |= sqlite3_bind_int(stmt, 5, wordcount);
 	res |= sqlite3_bind_int(stmt, 6, linecount);
+	res |= sqlite3_bind_int64(stmt, 7, timestamp);
 	return res;
 }
 
