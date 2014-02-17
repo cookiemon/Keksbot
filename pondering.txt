@@ -97,7 +97,7 @@ Um, I think so, ${USER}, but I hear Hillary is the jealous type.
 I think so, ${USER}, but Madonna's stock is sinking.
 I think so, ${USER}. But does 'Chunk o' Cheesy's' deliver packing material?
 I think so, ${USER}wulf, but if we're Danish, where's the cream cheese? Narf!
-I think so, Bwain, but I don't think newspaper will fit in my underoos.
+I think so, ${USER}, but I don't think newspaper will fit in my underoos.
 Uh, I think so, ${USER}--but after eating newspaper all day, do I really need the extra fiber?
 I think so, ${USER}! But isn't a dreadlock hair extension awfully expensive?
 I think so, ${USER}. But will anyone other than Eskimos buy blubber-flavored chewing gum?
