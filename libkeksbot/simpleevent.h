@@ -8,11 +8,9 @@ class ServerInterface;
 class SimpleEvent : public EventHandler
 {
 private:
-	EventFilter* filter;
 	const std::string answerString;
 public:
-	SimpleEvent(EventFilter* filter, const std::string& answer);
-	~SimpleEvent();
+	SimpleEvent(const std::string& answer);
 	void OnEvent(ServerInterface& srv,
 	             const std::string& event,
 	             const std::string& origin,

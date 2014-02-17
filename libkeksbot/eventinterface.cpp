@@ -26,7 +26,7 @@ EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventMan
 				throw ConfigException("reply missing");
 			std::string reply = valIt->second;
 			
-			newHandler = new SimpleEvent(NULL, reply);
+			newHandler = new SimpleEvent(reply);
 		}
 		else if(valIt->second == "static")
 		{
@@ -68,8 +68,5 @@ bool EventHandler::DoesHandle(ServerInterface& srv,
                 const std::string& origin,
                 const ParamList& args)
 {
-	if(filter != NULL)
-		return filter->DoesHandle(srv, event, origin, args);
-	else
-		return true;
+	return true;
 }

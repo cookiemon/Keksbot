@@ -7,16 +7,9 @@
 typedef std::map<std::string, std::vector<std::string> > AnswerMap;
 typedef std::vector<std::string> StringList;
 
-SimpleEvent::SimpleEvent(EventFilter* filter, const std::string& answer)
-	: filter(filter),
-	answerString(answer)
+SimpleEvent::SimpleEvent(const std::string& answer)
+	: answerString(answer)
 {
-}
-
-SimpleEvent::~SimpleEvent()
-{
-	if(filter != NULL)
-		delete filter;
 }
 
 void SimpleEvent::OnEvent(ServerInterface& srv,

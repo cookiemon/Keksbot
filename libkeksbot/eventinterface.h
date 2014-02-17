@@ -23,16 +23,6 @@ static inline std::string GetChannel(const std::string& origin, const std::vecto
 		return args[0];
 }
 
-class EventFilter
-{
-public:
-	virtual ~EventFilter() { }
-	virtual bool DoesHandle(ServerInterface& srv,
-	                        const std::string& event,
-        	                const std::string& origin,
-	                        const std::vector<std::string>& params) = 0;
-};
-
 typedef std::vector<std::string> ParamList;
 
 class EventHandler
@@ -42,8 +32,11 @@ private:
 	bool shown;
 	std::string alias;
 	std::string description;
-	EventFilter* filter;
 public:
+	EventHandler()
+		: type(TYPE_END), shown(true)
+	{
+	}
 	virtual ~EventHandler() { }
 	virtual void OnEvent(ServerInterface& srv,
 	                     const std::string& event,
