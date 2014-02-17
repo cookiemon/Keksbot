@@ -170,5 +170,5 @@ bool StatTracker::DoesHandle(ServerInterface& server,
 	const std::string& origin,
 	const ParamList& params)
 {
-	return event == "PRIVMSG" || event == "ACTION";
+	return event == "CHANNEL" || event == "ACTION";
 }
