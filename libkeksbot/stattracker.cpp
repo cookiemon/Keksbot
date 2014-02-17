@@ -162,3 +162,11 @@ int StatTracker::BindVariables(sqlite3_stmt* stmt,
 	res |= sqlite3_bind_int(stmt, 6, linecount);
 	return res;
 }
+
+bool StatTracker::DoesHandle(ServerInterface& server,
+	const std::string& event,
+	const std::string& origin,
+	const ParamList& params)
+{
+	return event == "PRIVMSG" || event == "ACTION";
+}

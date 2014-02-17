@@ -21,6 +21,10 @@ public:
 		const std::string& event,
 		const std::string& origin,
 		const ParamList& params);
+	bool DoesHandle(ServerInterface& srv,
+		const std::string& event,
+		const std::string& origin,
+		const ParamList& params);
 
 	EventType GetType()
 	{
