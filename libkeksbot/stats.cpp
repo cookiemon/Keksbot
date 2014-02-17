@@ -13,7 +13,7 @@ const char* GET_STATS_2 = ") FROM stats WHERE server = ?1 AND channel = ?2 ";
 const char* GET_STATS_3 = "AND strftime('%s', 'now', ";
 const char* GET_STATS_4 = ") < timestamp ";
 const char* GET_STATS_5 = "GROUP BY nick ORDER BY SUM(";
-const char* GET_STATS_6 = ") LIMIT 10;";
+const char* GET_STATS_6 = ") DESC LIMIT 10;";
 const char* GET_STATS_DAY = "'start of day'";
 const char* GET_STATS_WEEK = "'weekday 0', '-7 days'";
 const char* GET_STATS_MONTH = "'start of month'";
