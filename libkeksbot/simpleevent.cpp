@@ -17,11 +17,13 @@ void SimpleEvent::OnEvent(ServerInterface& srv,
                           const std::string& origin,
                           const std::vector<std::string>& params)
 {
+	if(params.size() < 2)
+		return;
+
 	std::string answer = answerString;
 	AnswerMap choices;
 	choices.insert(AnswerMap::value_type("USER", StringList(1, origin)));
-	if(params.size() > 1)
-		choices.insert(AnswerMap::value_type("CHAN", StringList(1, params[0])));
+	choices.insert(AnswerMap::value_type("CHAN", StringList(1, params[0])));
 	const std::string& msg = params[params.size() - 1];
 	choices.insert(AnswerMap::value_type("MSG", StringList(1, msg)));
 	choices.insert(AnswerMap::value_type("NICK", StringList(1, srv.GetNick())));
@@ -57,11 +59,10 @@ void SimpleEvent::OnEvent(ServerInterface& srv,
 		}
 	} while(foundReplacement);
 	
-	std::string chan = GetChannel(origin, params);
 	if(answer.substr(0, 4) == "/me ")
-		srv.SendAction(chan, answer.substr(4));
+		srv.SendAction(params[0], answer.substr(4));
 	else
-		srv.SendMsg(chan, answer);
+		srv.SendMsg(params[0], answer);
 }
 
 void SimpleEvent::LoadAnswers(const std::string& name, std::vector<std::string>& out)

@@ -15,14 +15,6 @@ enum EventType
 	TYPE_END
 };
 
-static inline std::string GetChannel(const std::string& origin, const std::vector<std::string>& args)
-{
-	if(args[0][0] != '#')
-		return origin;
-	else
-		return args[0];
-}
-
 typedef std::vector<std::string> ParamList;
 
 class EventHandler

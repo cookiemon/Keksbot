@@ -10,6 +10,8 @@ void HelpHandler::OnEvent(ServerInterface& srv,
              const std::string& origin,
              const ParamList& args)
 {
+	if(args.size() < 2)
+		return;
 	if(manager == NULL)
 	{
 		Log(LOG_ERR, "Help handler has no associated manager");
@@ -35,5 +37,5 @@ void HelpHandler::OnEvent(ServerInterface& srv,
 			if((*it)->GetShown())
 				reply += " " + (*it)->GetAlias();
 	}
-	srv.SendMsg(GetChannel(origin, args), reply);
+	srv.SendMsg(args[0], reply);
 }

@@ -120,8 +120,14 @@ void EventManager::DoSelect(void)
 void EventManager::DistributeEvent(Server& source,
                                    const std::string& event,
                                    const std::string& origin,
-                                   const ParamList& params)
+                                   const ParamList& badParams)
 {
+	ParamList params = badParams;
+	if(event == "PRIVMSG")
+		params[0] = origin;
+	else if(event == "ACTION" && params.size() > 1)
+		if(!params[0].empty() && params[0][0] != '#')
+			params[0] = origin;
 	if(event == "PRIVMSG" || event == "CHANNEL")
 	{
 		const std::string& message = *params.rbegin();
