@@ -169,7 +169,8 @@ void Stats::SendStats(ServerInterface& server,
 	else
 		reply << "Digitaler in wallet: ";
 	if(curVals.size() != 0)
-		reply << curVals[0].first << "(" << curVals[0].second << ")";
+		reply << curVals[0].first
+			<< "(" << curVals[0].second / (type == COUNTTYPE_BEER?100000:1) << ")";
 	for(size_t i = 1; i < curVals.size(); ++i)
 		reply << ", " << curVals[i].first
 			<< "(" << curVals[i].second / (type == COUNTTYPE_BEER?100000:1) << ")";
