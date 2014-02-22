@@ -1,0 +1,17 @@
+application
+browser
+cloud
+computer
+database
+design
+engine
+framework
+layer
+network
+optimizer
+polling
+protocol
+service
+singleton
+solution
+storage
