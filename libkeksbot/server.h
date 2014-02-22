@@ -15,6 +15,7 @@ class Server : public ServerInterface
 {
 public:
 	typedef std::vector<std::string> ChannelListType;
+	typedef std::vector<std::string> NickListType;
 private:
 	irc_callbacks_t callbacks;
 	irc_session_t* session;
@@ -28,6 +29,7 @@ private:
 	std::string realname;
 	char prefix;
 	ChannelListType channels;
+	NickListType ignored;
 
 	EventManager* manager;
 public:

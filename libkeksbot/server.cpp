@@ -3,6 +3,7 @@
 #include "eventmanager.h"
 #include "exceptions.h"
 #include "logging.h"
+#include <algorithm>
 #include <assert.h>
 #include <map>
 #include <sstream>
@@ -151,6 +152,15 @@ Server::Server(const std::string& name, const KeyValueMap& settings, EventManage
 			channels.push_back(chan);
 	}
 
+	it = settings.find("ignore");
+	if(it != end)
+	{
+		std::string nick;
+		std::istringstream sstr(it->second);
+		while(std::getline(sstr, nick, ','))
+			ignored.push_back(nick);
+	}
+
 	Init();
 }
 
@@ -242,6 +252,8 @@ void Server::EventConnect(const std::string& evt, const std::string& origin, con
 
 void Server::EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args)
 {
+	if(std::find(ignored.begin(), ignored.end(), origin) != ignored.end())
+		return;
 	char evtString[20];
 	snprintf(evtString, sizeof(evtString), "%d", evt);
 	LogIrcEvent(evtString, origin, args);
@@ -251,6 +263,8 @@ void Server::EventNumeric(unsigned int       evt, const std::string& origin, con
 
 void Server::EventMisc   (const std::string& evt, const std::string& origin, const ParamList& args)
 {
+	if(std::find(ignored.begin(), ignored.end(), origin) != ignored.end())
+		return;
 	LogIrcEvent(evt, origin, args);
 	if(manager != NULL)
 		manager->DistributeEvent(*this, evt, origin, args);
