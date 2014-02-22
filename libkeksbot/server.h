@@ -57,6 +57,7 @@ public:
 	std::string GetUsername(void);
 	std::string GetRealname(void);
 	char GetPrefix(void);
+	const NickListType& GetIgnored();
 
 private:
 	void Init(void);

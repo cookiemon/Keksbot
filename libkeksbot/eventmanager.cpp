@@ -128,28 +128,33 @@ void EventManager::DistributeEvent(Server& source,
 	else if(event == "ACTION" && params.size() > 1)
 		if(!params[0].empty() && params[0][0] != '#')
 			params[0] = origin;
-	if(event == "PRIVMSG" || event == "CHANNEL")
+	if(std::find(source.GetIgnored().begin(), source.GetIgnored().end(), origin)
+		!= source.GetIgnored().end())
 	{
-		const std::string& message = *params.rbegin();
-		if(message[0] == source.GetPrefix())
+		if(event == "PRIVMSG" || event == "CHANNEL")
 		{
-			size_t aliasLen = message.find_first_of(" \r\t\n");
-			if(aliasLen != std::string::npos)
-				aliasLen -= 1;
-
-			std::string keyword = message.substr(1, aliasLen);
-			std::map<std::string, EventHandler*>::iterator it;
-			it = aliasedEvents.find(keyword);
-			if(it != aliasedEvents.end() && it->second->DoesHandle(source, event, origin, params))
+			const std::string& message = *params.rbegin();
+			if(message[0] == source.GetPrefix())
 			{
-				ParamList strippedParams(params.begin(), params.end());
-				std::string realMsg;
+				size_t aliasLen = message.find_first_of(" \r\t\n");
 				if(aliasLen != std::string::npos)
-					aliasLen = message.find_first_not_of(" \r\t\n", aliasLen + 1);
-				if(aliasLen != std::string::npos)
-					realMsg = message.substr(aliasLen);
-				strippedParams[strippedParams.size() - 1] = realMsg;
-				it->second->OnEvent(source, event, origin, strippedParams);
+					aliasLen -= 1;
+
+				std::string keyword = message.substr(1, aliasLen);
+				std::map<std::string, EventHandler*>::iterator it;
+				it = aliasedEvents.find(keyword);
+				if(it != aliasedEvents.end()
+					&& it->second->DoesHandle(source, event, origin, params))
+				{
+					ParamList strippedParams(params.begin(), params.end());
+					std::string realMsg;
+					if(aliasLen != std::string::npos)
+						aliasLen = message.find_first_not_of(" \r\t\n", aliasLen + 1);
+					if(aliasLen != std::string::npos)
+						realMsg = message.substr(aliasLen);
+					strippedParams[strippedParams.size() - 1] = realMsg;
+					it->second->OnEvent(source, event, origin, strippedParams);
+				}
 			}
 		}
 	}
