@@ -55,8 +55,10 @@ void Stats::OnEvent(ServerInterface& server,
 	CountType type = COUNTTYPE_CHAR;
 	if(message.find("word") != std::string::npos)
 		type = COUNTTYPE_WORD;
-	else if(message.find("line")!= std::string::npos)
+	else if(message.find("line") != std::string::npos)
 		type = COUNTTYPE_LINE;
+	else if(message.find("digitaler") != std::string::npos)
+		type = COUNTTYPE_BEER;
 
 	SendStats(server, channel, period, type);
 }
@@ -73,7 +75,9 @@ std::string Stats::CreateStatement(TimePeriod period, CountType type)
 		columnname = "linecount";
 		break;
 	case COUNTTYPE_CHAR:
+	case COUNTTYPE_BEER:
 		break;
+	default:
 	case COUNTTYPE_END:
 		Log(LOG_ERR, "Argument error in Stats::CreateStatement");
 	}
@@ -160,11 +164,15 @@ void Stats::SendStats(ServerInterface& server,
 	std::vector<std::pair<std::string, int64_t> > curVals;
 	LoadValues(server.GetName(), channel, period, type, curVals);
 	std::stringstream reply;
-	reply << "Top 10 Spammers: ";
+	if(type != COUNTTYPE_BEER)
+		reply << "Top 10 Spammers: ";
+	else
+		reply << "Digitaler in wallet: ";
 	if(curVals.size() != 0)
 		reply << curVals[0].first << "(" << curVals[0].second << ")";
 	for(size_t i = 1; i < curVals.size(); ++i)
-		reply << ", " << curVals[i].first << "(" << curVals[i].second << ")";
+		reply << ", " << curVals[i].first
+			<< "(" << curVals[i].second / (type == COUNTTYPE_BEER?100000:1) << ")";
 	server.SendMsg(channel, reply.str());
 }
 
