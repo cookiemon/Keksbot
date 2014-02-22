@@ -16,7 +16,7 @@ EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventMan
 		throw ConfigException("alias missing");
 	std::string alias = valIt->second;
 
-	EventHandler* newHandler;
+	EventHandler* newHandler = NULL;
 
 	valIt = configs.second.find("type");
 	if(valIt != configs.second.end())
@@ -53,6 +53,8 @@ EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventMan
 		else
 			throw ConfigException("event handler type not known");
 	}
+	else
+		throw ConfigException("No variable named type in config section");
 
 	newHandler->SetAlias(alias);
 	valIt = configs.second.find("description");
