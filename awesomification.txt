@@ -20,7 +20,7 @@ generic
 hardware
 high-performance
 hosting
-hybervisor
+hypervisor
 immersion
 injection-aware
 intuitive
@@ -40,3 +40,7 @@ shader
 web-2.0
 web-3.0
 wrapper-based
+synergetic
+hyper-performant
+community-driven
+interactive
