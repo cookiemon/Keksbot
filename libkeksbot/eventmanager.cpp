@@ -91,13 +91,21 @@ void EventManager::DoSelect(void)
 		{
 			if(!serverlist[i]->IsConnected())
 				serverlist[i]->Connect();
-			serverlist[i]->AddSelectDescriptors(inSet, outSet, maxFd);
 		}
 		catch(IrcException& e)
 		{
 			Log(LOG_ERR, "Server \"%s\" failed to connect: [%d] %s",
 				serverlist[i]->GetName().c_str(), e.ErrorNumber(), e.what());
-				Log(LOG_ERR, "Hostname: %s", serverlist[i]->GetLocation().c_str());
+		}
+
+		try
+		{
+			serverlist[i]->AddSelectDescriptors(inSet, outSet, maxFd);
+		}
+		catch(IrcException& e)
+		{
+			Log(LOG_ERR, "Server \"%s\" failed to register select descriptors: [%d] %s",
+				serverlist[i]->GetName().c_str(), e.ErrorNumber(), e.what());
 		}
 	}
 
