@@ -4,15 +4,13 @@
 #include "serverinterface.h"
 #include <sstream>
 
-const char* GET_STATS_SQL = "SELECT nick, SUM(char) FROM stats "
-							"WHERE server = ?1 AND channel = ?2 "
-							"GROUP BY nick "
-							"ORDER BY SUM(char) DESC;";
-const char* GET_STATS_1 = "SELECT nick, SUM(";
-const char* GET_STATS_2 = ") FROM stats WHERE server = ?1 AND channel = ?2 ";
+const char* GET_STATS_1 = "SELECT COALESCE(aliases.nick, stats.nick), SUM(";
+const char* GET_STATS_2 = ") FROM stats LEFT JOIN aliases "
+						" ON aliases.alias = stats.nick AND aliases.server = stats.server "
+						" WHERE stats.server = ?1 AND channel = ?2 ";
 const char* GET_STATS_3 = "AND strftime('%s', 'now', ";
 const char* GET_STATS_4 = ") < timestamp ";
-const char* GET_STATS_5 = "GROUP BY nick ORDER BY SUM(";
+const char* GET_STATS_5 = " GROUP BY COALESCE( aliases.nick, stats.nick) ORDER BY SUM(";
 const char* GET_STATS_6 = ") DESC LIMIT 10;";
 const char* GET_STATS_DAY = "'start of day'";
 const char* GET_STATS_WEEK = "'weekday 0', '-7 days'";
