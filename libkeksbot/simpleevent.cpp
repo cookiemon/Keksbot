@@ -75,8 +75,19 @@ void SimpleEvent::LoadAnswers(const std::string& name, std::vector<std::string>&
 		out.push_back("${" + name + "}");
 }
 
-const std::string& SimpleEvent::GetRandomString(const std::vector<std::string>& list)
+std::string SimpleEvent::GetRandomString(std::vector<std::string>& list)
 {
-	int randNr = rand() % list.size();
-	return list[randNr];
+	if(list.size() > 1)
+	{
+		int randNr = rand() % list.size();
+		std::vector<std::string>::iterator it = list.begin();
+		std::advance(it, randNr);
+		std::string retVal = *it;
+		list.erase(it);
+		return retVal;
+	}
+	else
+	{
+		return list[0];
+	}
 }

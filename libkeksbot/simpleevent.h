@@ -23,7 +23,7 @@ public:
 
 private:
 	void LoadAnswers(const std::string& name, std::vector<std::string>& out);
-	const std::string& GetRandomString(const std::vector<std::string>& list);
+	std::string GetRandomString(std::vector<std::string>& list);
 };
 
 #endif
