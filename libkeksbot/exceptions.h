@@ -1,7 +1,7 @@
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
-#include <exception>
+#include <stdexcept>
 #include <libircclient/libircclient.h>
 
 class RestartException : public std::exception
@@ -31,7 +31,7 @@ public:
 	{
 	}
 
-	int ErrorNumber() const
+	int ErrorNumber() const throw()
 	{
 		return errNum;
 	}
@@ -42,17 +42,12 @@ public:
 	}
 };
 
-class ConfigException : public std::exception
+class ConfigException : public std::runtime_error
 {
-private:
-	const char* msg;
 public:
-	ConfigException(const char* msg) : msg(msg)
+	ConfigException(const std::string& msg)
+		: std::runtime_error(msg)
 	{
-	}
-	const char* what() const throw()
-	{
-		return msg;
 	}
 };
 
