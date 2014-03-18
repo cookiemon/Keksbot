@@ -9,16 +9,18 @@
 EventManager::EventManager(const std::string& cfgfile)
 {
 	Configs cfgs(cfgfile);
-	SectionSettings::const_iterator serverSettings = cfgs.GetSettings().find("server");
-	if(serverSettings == cfgs.GetSettings().end())
+
+	const Configs& serverSection = cfgs.GetSubsection("server");
+	SubsectionMap::const_iterator it = serverSection.FirstSubsection();
+	if(it == serverSection.EndSubsection())
 		throw ConfigException("Could not find any servers.");
-	for(SubsectionSettings::const_iterator it = serverSettings->second.begin();
-		it != serverSettings->second.end();
+	for(;
+		it != serverSection.EndSubsection();
 		++it)
 	{
 		try
 		{
-			Server* srv = new Server(it->first, it->second, this);
+			Server* srv = new Server(it->second, this);
 			serverlist.push_back(srv);
 		}
 		catch(ConfigException& e)
@@ -27,18 +29,19 @@ EventManager::EventManager(const std::string& cfgfile)
 		}
 	}
 
-	SectionSettings::const_iterator handlerSettings = cfgs.GetSettings().find("handler");
-	if(handlerSettings == cfgs.GetSettings().end())
+	const Configs& handlerSection = cfgs.GetSubsection("handler");
+	it = handlerSection.FirstSubsection();
+	if(it == handlerSection.EndSubsection())
 		Log(LOG_WARNING, "Could not find any handlers in config file");
 	else
 	{
-		for(SubsectionSettings::const_iterator it = handlerSettings->second.begin();
-		    it != handlerSettings->second.end();
+		for(;
+		    it != handlerSection.EndSubsection();
 			++it)
 		{
 			try
 			{
-				EventHandler* newHandler = CreateEventHandler(*it, this);
+				EventHandler* newHandler = CreateEventHandler(it->second, this);
 				switch(newHandler->GetType())
 				{
 				case TYPE_SIMPLE:

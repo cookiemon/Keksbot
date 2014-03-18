@@ -15,7 +15,7 @@ private:
 	sqlite3_stmt* insertStatsStmt;
 	sqlite3_stmt* updateStatsStmt;
 public:
-	StatTracker(const KeyValueMap& params);
+	StatTracker(const Configs& params);
 	~StatTracker();
 	void OnEvent(ServerInterface& srv,
 		const std::string& event,

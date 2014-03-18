@@ -34,16 +34,15 @@ const char* UPDATE_STATS_SQL = "UPDATE stats "
 							"WHERE "
 							"nick = ?1 AND server = ?2 AND channel = ?3 AND timestamp = ?7;";
 
-StatTracker::StatTracker(const KeyValueMap& params)
+StatTracker::StatTracker(const Configs& params)
 	: db(NULL),
 	getNickStmt(NULL),
 	insertStatsStmt(NULL),
 	updateStatsStmt(NULL)
 {
-	KeyValueMap::const_iterator it = params.find("dbfile");
-	if(it == params.end() || it->second.empty())
-		throw ConfigException("No db file specified");
-	int res = sqlite3_open(it->second.c_str(), &db);
+	std::string dbfile;
+	params.GetValue("dbfile", dbfile);
+	int res = sqlite3_open(dbfile.c_str(), &db);
 	if(res != 0)
 	{
 		if(db != NULL)

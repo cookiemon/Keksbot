@@ -4,16 +4,10 @@
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <fstream>
+#include <iostream>
 #include <string>
-
-typedef std::map<std::string, std::string> KeyValueMap;
-typedef KeyValueMap::value_type KeyValuePair;
-typedef std::map<std::string, KeyValueMap> SubsectionSettings;
-typedef SubsectionSettings::value_type SubsectionSettingsPair;
-typedef std::map<std::string, KeyValueMap> DefaultSettings;
-typedef DefaultSettings::value_type DefaultSettingsPair;
-typedef std::map<std::string, SubsectionSettings> SectionSettings;
-typedef SectionSettings::value_type SectionSettingsPair;
+#include "exceptions.h"
 
 template<typename T>
 class Converter
@@ -21,13 +15,11 @@ class Converter
 private:
 	bool success;
 public:
-	T Convert(const std::string& val)
+	void Convert(const std::string& val, T& out)
 	{
 		std::istringstream sstr(val);
-		T converted;
-		sstr >> converted;
+		sstr >> out;
 		success = !sstr.fail();
-		return converted;
 	}
 	bool WasSuccessful()
 	{
@@ -40,26 +32,25 @@ class Converter<bool>
 private:
 	bool success;
 public:
-	bool Convert(const std::string& val)
+	void Convert(const std::string& val, bool& out)
 	{
 		if(val == "yes" || val == "1" || val == "y" || val == "true")
 		{
 			success = true;
-			return true;
+			out = true;
 		}
 		else if(val == "no" || val == "0" || val == "n" || val == "false")
 		{
 			success = true;
-			return false;
+			out = false;
 		}
 		else
 		{
 			success = false;
-			return false;
 		}
 	}
 
-	bool WasSuccessful()
+	bool WasSuccessful() const
 	{
 		return success;
 	}
@@ -76,22 +67,110 @@ T ConvertOrDefault(const std::string& val, const T& defaultVal)
 		return defaultVal;
 }
 
+class Configs;
+
+typedef std::map<std::string, std::string> ValueMap;
+typedef std::map<std::string, Configs> SubsectionMap;
+
 class Configs
 {
 private:
-	DefaultSettings defaults;
-	SectionSettings settings;
-public:
-	Configs(const std::string& filename);
-	Configs(std::istream& input);
+	const Configs* const parent;
+	std::string name;
+	ValueMap values;
+	SubsectionMap subsections;
 
-	const SectionSettings& GetSettings();
+public:
+	Configs(const std::string& filename)
+		: parent(NULL)
+	{
+		std::ifstream file(filename.c_str());
+		Open(file);
+	}
+
+	Configs(const std::string& id, std::istream& input)
+		: parent(NULL)
+	{
+		Open(input);
+	}
+
+	const std::string& GetName() const
+	{
+		return name;
+	}
+
+	template<typename T>
+	void GetValue(const std::string& key, T& value) const
+	{
+		ValueMap::const_iterator it = values.find(key);
+		if(it == values.end())
+			throw ConfigException(("Could not get value " + key).c_str());
+
+		Converter<T> conv;
+		conv.Convert(it->second, value);
+		if(!conv.WasSuccessful())
+			throw ConfigException(("Could not convert string " +
+				key + "=" + value).c_str());
+	}
+
+	template<typename T>
+	void GetValueOrDefault(const std::string& key,
+		T& value,
+		const T& def = T()) const
+	{
+		ValueMap::const_iterator it = values.find(key);
+		if(it != values.end())
+		{
+			Converter<T> conv;
+			conv.Convert(it->second, value);
+			if(!conv.WasSuccessful())
+				value = def;
+		}
+		else
+		{
+			if(parent == NULL)
+				value = def;
+			else
+				return parent->GetValueOrDefault(key, value, def);
+		}
+	}
+
+	const Configs& GetSubsection(const std::string& key) const
+	{
+		SubsectionMap::const_iterator it = subsections.find(key);
+		if(it == subsections.end())
+			throw ConfigException(("No config sections " + key + " found").c_str());
+		return it->second;
+	}
+
+	SubsectionMap::const_iterator FirstSubsection() const
+	{
+		return subsections.begin();
+	}
+
+	SubsectionMap::const_iterator EndSubsection() const
+	{
+		return subsections.end();
+	}
 
 private:
+	Configs(const Configs* parent, const std::string& name)
+		: parent(parent), name(name)
+	{
+	}
+
 	void Open(std::istream& input);
-	void AddValue(const std::string& section,
-		const std::string& subsection,
-		const std::string& value);
+
+	void AddValue(const std::string& key, const std::string& Value)
+	{
+		values.insert(ValueMap::value_type(key, Value));
+	}
+	Configs& CreateSubsection(const std::string& key)
+	{
+		std::pair<SubsectionMap::iterator, bool> res;
+		res=subsections.insert(SubsectionMap::value_type(key, Configs(this, key)));
+		return res.first->second;
+	}
 };
 
 #endif

@@ -31,7 +31,7 @@ class Stats : public EventHandler
 private:
 	std::string dbfile;
 public:
-	Stats(const KeyValueMap& settings);
+	Stats(const Configs& settings);
 	~Stats();
 
 	void OnEvent(ServerInterface& server,

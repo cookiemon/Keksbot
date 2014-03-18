@@ -33,7 +33,7 @@ private:
 
 	EventManager* manager;
 public:
-	Server(const std::string& name, const KeyValueMap& settings, EventManager* man);
+	Server(const Configs& settings, EventManager* man);
 
 	~Server(void);
 
@@ -61,10 +61,6 @@ public:
 
 private:
 	void Init(void);
-	void AddSettingOrDefault(const KeyValueMap& settings,
-		std::string& attribute,
-		const std::string& key,
-		const std::string& deflt);
 	void LogIrcEvent(const std::string& evt, const std::string& origin, const ParamList& params);
 };
 

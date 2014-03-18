@@ -20,13 +20,12 @@ typedef std::vector<std::string> ParamList;
 class EventHandler
 {
 private:
-	EventType type;
 	bool shown;
 	std::string alias;
 	std::string description;
 public:
 	EventHandler()
-		: type(TYPE_END), shown(true)
+		: shown(true)
 	{
 	}
 	virtual ~EventHandler() { }
@@ -69,6 +68,6 @@ public:
 
 class EventManager;
 
-EventHandler* CreateEventHandler(const SubsectionSettingsPair& config, EventManager* man);
+EventHandler* CreateEventHandler(const Configs& config, EventManager* man);
 
 #endif

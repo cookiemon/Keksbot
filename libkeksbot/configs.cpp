@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <fstream>
 #include <functional>
+#include <stack>
 
 struct IsSpaceFunctor
 {
@@ -30,83 +31,51 @@ void Trim(std::string& str)
 	TrimLeft(str);
 }
 
-Configs::Configs(const std::string& filename)
-{
-	std::ifstream file(filename.c_str());
-	Open(file);
-}
-
-Configs::Configs(std::istream& input)
-{
-	Open(input);
-}
-
 void Configs::Open(std::istream& input)
 {
+	std::stack<Configs*> stck;
+	stck.push(this);
 	std::string line;
-	std::string section;
-	std::string subsection;
-	Trim(line);
 	while(std::getline(input, line))
 	{
-		if(line.empty() || line[0] == ';' || line[0] == '#')
+		Trim(line);
+		if(line.empty() || line[0] == '#' || line[0] == ';')
 			continue;
-		else if(line[0] == '[' && line[line.size()-1] == ']')
+		else if(line[0] == '[')
 		{
-			if(line[1] == '[' && line[line.size()-2] == ']')
-			{
-				subsection = line.substr(2, line.size() - 4);
-				settings[section].insert(SubsectionSettingsPair(subsection, defaults[section]));
-			}
-			else
-			{
-				section = line.substr(1, line.size() - 2);
-				subsection = "";
-				defaults.insert(DefaultSettingsPair(section, KeyValueMap()));
-				settings.insert(SectionSettingsPair(section, SubsectionSettings()));
-			}
+			size_t lvl = line.find_first_not_of("[");
+			size_t strEnd = line.find_last_not_of("]");
+			if(lvl == std::string::npos
+				|| strEnd == std::string::npos
+				|| strEnd < lvl)
+				throw ConfigException("Invalid subsection head: " + line);
+			if(lvl > stck.size())
+				throw ConfigException("Nesting in config file is broken");
+			
+			while(lvl < stck.size())
+				stck.pop();
+			std::string key(&line[lvl], &line[strEnd+1]);
+			Configs& newConf = stck.top()->CreateSubsection(key);
+			stck.push(&newConf);
 		}
 		else
 		{
-			AddValue(section, subsection, line);
+			size_t separator = line.find('=');
+			if(separator == std::string::npos)
+				throw ConfigException("Invalid line in config: " + line);
+
+			std::string key = line.substr(0, separator);
+			std::string value = line.substr(separator + 1);
+			Trim(key);
+			Trim(value);
+			if(*(value.begin()) == '"'
+				&& *(value.rbegin()) == '"'
+				&& value.size() > 1)
+			{
+				value = value.substr(1, value.size() - 2);
+			}
+			stck.top()->AddValue(key, value);
 		}
 	}
-}
-
-void Configs::AddValue(const std::string& section,
-	const std::string& subsection,
-	const std::string& value)
-{
-	size_t pos = value.find('=');
-	if(pos == std::string::npos)
-	{
-		Log(LOG_ERR, "Config line contains no '=': %s", value.c_str());
-		return;
-	}
-
-	std::string key = value.substr(0, pos);
-	Trim(key);
-	std::string val = value.substr(pos + 1);
-	Trim(val);
-	if(val[0] == '"')
-	{
-		size_t end = val.rfind('"');
-		if(end != 0)
-			val = val.substr(1, end - 1);
-	}
-
-	if(subsection == "")
-	{
-		defaults[section][key] = val;
-	}
-	else
-	{
-		settings[section][subsection][key] = val;
-	}
-}
-
-const SectionSettings& Configs::GetSettings()
-{
-	return settings;
 }
 

@@ -109,53 +109,40 @@ void event_numeric(irc_session_t* session,
 	it->second->EventNumeric(event, origin, args);
 }
 
-Server::Server(const std::string& name, const KeyValueMap& settings, EventManager* man)
-	: name(name),
+Server::Server(const Configs& settings, EventManager* man)
+	: name(settings.GetName()),
 	manager(man)
 {
 	assert(manager != NULL);
 
-	KeyValueMap::const_iterator end = settings.end();
-	KeyValueMap::const_iterator it = settings.find("location");
-	if(it == end)
-		throw ConfigException("Server location not found");
-	srv = it->second;
+	settings.GetValue("location", srv);
 
 	port = srv[0] == '#' ? 6697 : 6667;
-	it = settings.find("port");
-	if(it != end)
-	{
-		char* end;
-		long readPort = strtol(it->second.c_str(), &end, 10);
-		if(end != it->second.c_str())
-			port = readPort;
-	}
+	settings.GetValueOrDefault("port", port, port);
 
-	AddSettingOrDefault(settings, nick,     "nick", "nobody");
-	AddSettingOrDefault(settings, username, "username", "toor");
-	AddSettingOrDefault(settings, realname, "realname", "nobody");
-	AddSettingOrDefault(settings, passwd,   "password", "");
+	settings.GetValueOrDefault("nick", nick, std::string("nobody"));
+	settings.GetValueOrDefault("username", username, std::string("toor"));
+	settings.GetValueOrDefault("realname", realname, std::string("nobody"));
+	settings.GetValueOrDefault("password", passwd, std::string());
+	
+	settings.GetValueOrDefault("prefix", prefix, '-');
 
-	it = settings.find("prefix");
-	if(it == end || it->second.empty())
-		prefix = '-';
-	else
-		prefix = it->second[0];
-
-	it = settings.find("channels");
-	if(it != end)
+	std::string chanLine;
+	settings.GetValueOrDefault("channels", chanLine, std::string());
+	if(!chanLine.empty())
 	{
 		std::string chan;
-		std::istringstream sstr(it->second);
+		std::istringstream sstr(chanLine);
 		while(std::getline(sstr, chan, ','))
 			channels.push_back(chan);
 	}
 
-	it = settings.find("ignore");
-	if(it != end)
+	std::string ignoreLine;
+	settings.GetValueOrDefault("ignore", ignoreLine, std::string());
+	if(!ignoreLine.empty())
 	{
 		std::string nick;
-		std::istringstream sstr(it->second);
+		std::istringstream sstr(ignoreLine);
 		while(std::getline(sstr, nick, ','))
 			ignored.push_back(nick);
 	}
@@ -205,18 +192,6 @@ void Server::Init(void)
 	InsertedIt inserted = serverSessionMap.insert(ServerSessionMapType::value_type(session, this));
 	if(!inserted.second)
 		Log(LOG_WARNING, "Session not unique while connecting to server: %s", srv.c_str());
-}
-
-void Server::AddSettingOrDefault(const KeyValueMap& settings,
-	std::string& attribute,
-	const std::string& key,
-	const std::string& deflt)
-{
-	KeyValueMap::const_iterator it = settings.find(key);
-	if(it == settings.end())
-		attribute = deflt;
-	else
-		attribute = it->second;
 }
 
 void Server::Connect(void)

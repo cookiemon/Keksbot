@@ -5,68 +5,58 @@
 #include "stattracker.h"
 #include "stats.h"
 #include "classifiedhandler.h"
+#include "httpserver.h"
 #include <assert.h>
 
-EventHandler* CreateEventHandler(const SubsectionSettingsPair& configs, EventManager* man)
+EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 {
 	assert(man != NULL);
 
-	KeyValueMap::const_iterator valIt = configs.second.find("alias");
-	if(valIt == configs.second.end() || valIt->second.empty())
-		throw ConfigException("alias missing");
-	std::string alias = valIt->second;
+	std::string alias;
+	configs.GetValue("alias", alias);
+
+	std::string type;
+	configs.GetValue("type", type);
 
 	EventHandler* newHandler = NULL;
-
-	valIt = configs.second.find("type");
-	if(valIt != configs.second.end())
+	if(type == "simple")
 	{
-		if(valIt->second == "simple")
-		{
-			valIt = configs.second.find("reply");
-			if(valIt == configs.second.end() || valIt->second.empty())
-				throw ConfigException("reply missing");
-			std::string reply = valIt->second;
-			
-			newHandler = new SimpleEvent(reply);
-		}
-		else if(valIt->second == "static")
-		{
-			valIt = configs.second.find("handler");
-			if(valIt == configs.second.end() || valIt->second.empty())
-				throw ConfigException("static handler type missint");
-			if(valIt->second == "restart")
-				newHandler = new RestartHandler();
-			else if(valIt->second == "exit")
-				newHandler = new ExitHandler();
-			else if(valIt->second == "help")
-				newHandler = new HelpHandler(man);
-			else if(valIt->second == "stattracker")
-				newHandler = new StatTracker(configs.second);
-			else if(valIt->second == "stats")
-				newHandler = new Stats(configs.second);
-			else if(valIt->second == "classified")
-				newHandler = new ClassifiedHandler();
-			else
-				throw ConfigException("static handler type not known");
-		}
+		std::string reply;
+		configs.GetValue("reply", reply);
+		newHandler = new SimpleEvent(reply);
+	}
+	else if(type == "static")
+	{
+		std::string handler;
+		configs.GetValue("handler", handler);
+		if(handler == "restart")
+			newHandler = new RestartHandler();
+		else if(handler == "exit")
+			newHandler = new ExitHandler();
+		else if(handler == "help")
+			newHandler = new HelpHandler(man);
+		else if(handler == "stattracker")
+			newHandler = new StatTracker(configs);
+		else if(handler == "stats")
+			newHandler = new Stats(configs);
+		else if(handler == "classified")
+			newHandler = new ClassifiedHandler();
+		else if(handler == "http")
+			newHandler = new HttpServer(man, configs);
 		else
-			throw ConfigException("event handler type not known");
+			throw ConfigException("static handler type not known");
 	}
 	else
-		throw ConfigException("No variable named type in config section");
+		throw ConfigException("event handler type not known");
 
 	newHandler->SetAlias(alias);
-	valIt = configs.second.find("description");
-	if(valIt != configs.second.end())
-		newHandler->SetDescription(valIt->second);
+	std::string desc;
+	configs.GetValueOrDefault("description", desc);
+	newHandler->SetDescription(desc);
 
-	valIt = configs.second.find("show");
-	if(valIt != configs.second.end()
-	   && ( valIt->second == "0" || valIt->second == "no" || valIt->second == "false"))
-		newHandler->SetShown(false);
-	else
-		newHandler->SetShown(true);
+	bool show;
+	configs.GetValueOrDefault("show", show, true);
+	newHandler->SetShown(show);
 
 	return newHandler;
 }

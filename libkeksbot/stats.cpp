@@ -17,15 +17,9 @@ const char* GET_STATS_WEEK = "'weekday 0', '-7 days'";
 const char* GET_STATS_MONTH = "'start of month'";
 const char* GET_STATS_YEAR = "'start of year'";
 
-Stats::Stats(const KeyValueMap& settings)
+Stats::Stats(const Configs& settings)
 {
-	KeyValueMap::const_iterator it = settings.find("dbfile");
-	if(it == settings.end() || it->second.empty())
-	{
-		Log(LOG_ERR, "No db file given");
-		throw ConfigException("No db file given");
-	}
-	dbfile = it->second;
+	settings.GetValue("dbfile", dbfile);
 }
 
 Stats::~Stats()
