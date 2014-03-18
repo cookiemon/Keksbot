@@ -134,7 +134,7 @@ Server::Server(const Configs& settings, EventManager* man)
 		std::string chan;
 		std::istringstream sstr(chanLine);
 		while(std::getline(sstr, chan, ','))
-			channels.push_back(chan);
+			channels.insert(ChannelListType::value_type(chan, Channel()));
 	}
 
 	std::string ignoreLine;
@@ -144,7 +144,7 @@ Server::Server(const Configs& settings, EventManager* man)
 		std::string nick;
 		std::istringstream sstr(ignoreLine);
 		while(std::getline(sstr, nick, ','))
-			ignored.push_back(nick);
+			ignored.insert(User(nick));
 	}
 
 	Init();
@@ -161,7 +161,7 @@ void Server::Init(void)
 	memset(&callbacks, 0, sizeof(callbacks));
 	callbacks.event_connect  = &event_connect;
 	callbacks.event_numeric  = &event_numeric;
-	callbacks.event_nick     = &event_nick;
+	callbacks.event_nick     = &event_misc;
 	callbacks.event_quit     = &event_misc;
 	callbacks.event_join     = &event_misc;
 	callbacks.event_part     = &event_misc;
@@ -221,7 +221,7 @@ void Server::EventConnect(const std::string& evt, const std::string& origin, con
 {
 	Log(LOG_INFO, "Connected to server: %s", origin.c_str());
 	for(ChannelListType::iterator it = channels.begin(); it != channels.end(); ++it)
-		Join(*it);
+		Join(it->first);
 }
 
 void Server::EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args)
@@ -236,6 +236,12 @@ void Server::EventNumeric(unsigned int       evt, const std::string& origin, con
 void Server::EventMisc   (const std::string& evt, const std::string& origin, const ParamList& args)
 {
 	LogIrcEvent(evt, origin, args);
+
+	if(evt == "join" && args.size() > 0)
+	{
+		channels[args[0]].users.insert(User(origin));
+	}
+
 	if(manager != NULL)
 		manager->DistributeEvent(*this, evt, origin, args);
 }
@@ -306,7 +312,7 @@ char Server::GetPrefix(void)
 	return prefix;
 }
 
-const Server::NickListType& Server::GetIgnored(void)
+const UserListType& Server::GetIgnored(void)
 {
 	return ignored;
 }

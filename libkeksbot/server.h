@@ -1,6 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include "channel.h"
 #include "configs.h"
 #include "serverinterface.h"
 #include <string>
@@ -13,9 +14,6 @@ class EventManager;
 
 class Server : public ServerInterface
 {
-public:
-	typedef std::vector<std::string> ChannelListType;
-	typedef std::vector<std::string> NickListType;
 private:
 	irc_callbacks_t callbacks;
 	irc_session_t* session;
@@ -29,7 +27,7 @@ private:
 	std::string realname;
 	char prefix;
 	ChannelListType channels;
-	NickListType ignored;
+	UserListType ignored;
 
 	EventManager* manager;
 public:
@@ -57,7 +55,7 @@ public:
 	std::string GetUsername(void);
 	std::string GetRealname(void);
 	char GetPrefix(void);
-	const NickListType& GetIgnored();
+	const UserListType& GetIgnored();
 
 private:
 	void Init(void);

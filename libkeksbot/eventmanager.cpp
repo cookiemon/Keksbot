@@ -139,7 +139,7 @@ void EventManager::DistributeEvent(Server& source,
 	else if(event == "ACTION" && params.size() > 1)
 		if(!params[0].empty() && params[0][0] != '#')
 			params[0] = origin;
-	if(std::find(source.GetIgnored().begin(), source.GetIgnored().end(), origin)
+	if(std::find(source.GetIgnored().begin(), source.GetIgnored().end(), User(origin))
 		== source.GetIgnored().end())
 	{
 		if(event == "PRIVMSG" || event == "CHANNEL")
