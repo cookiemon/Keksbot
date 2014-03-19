@@ -6,6 +6,7 @@
 #include "stats.h"
 #include "classifiedhandler.h"
 #include "httpserver.h"
+#include "udsserver.h"
 #include <assert.h>
 
 EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
@@ -41,6 +42,12 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 			newHandler = new Stats(configs);
 		else if(handler == "classified")
 			newHandler = new ClassifiedHandler();
+		else if(handler == "uds")
+		{
+			UdsServer* hand = new UdsServer(man, configs);
+			man->AddNetworklistener(hand);
+			newHandler = hand;
+		}
 		else
 			throw ConfigException("static handler type not known");
 	}

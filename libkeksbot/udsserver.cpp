@@ -1,0 +1,116 @@
+#include "udsserver.h"
+#include "configs.h"
+#include "exceptions.h"
+#include "syslog.h"
+#include <algorithm>
+#include <errno.h>
+#include <unistd.h>
+
+UdsServer::UdsServer(EventManager* man, const Configs& settings)
+	: man(man)
+{
+	if(man == NULL)
+		throw IllegalArgumentException("EventManager* may not be null (UdsServer::UdsServer)");
+
+	std::string boundServer;
+	settings.GetValue("server", boundServer);
+
+	std::string address;
+	settings.GetValue("location", address);
+	if(address.size() > UNIX_PATH_MAX - 1)
+		throw ConfigException("Location for UdsServer too long");
+
+	srvSock = socket(AF_UNIX, SOCK_STREAM | SOCK_NONBLOCK, 0);
+	if(srvSock == -1)
+		throw SystemException(errno);
+
+	addr.sun_family = AF_UNIX;
+	strncpy(addr.sun_path, address.c_str(), UNIX_PATH_MAX);
+	addr.sun_path[UNIX_PATH_MAX - 1] = '\0';
+	int res = bind(srvSock,
+		reinterpret_cast<struct sockaddr*>(&addr),
+		sizeof(sockaddr_un));
+	if(res == -1)
+	{
+		int err = errno;
+		unlink(addr.sun_path);
+		throw SystemException(err);
+	}
+	res = listen(srvSock, 50);
+	if(res == -1)
+	{
+		int err = errno;
+		unlink(addr.sun_path);
+		throw SystemException(err);
+	}
+}
+
+UdsServer::~UdsServer()
+{
+	for(std::vector<int>::const_iterator it = clients.begin();
+		it != clients.end();
+		++it)
+		close(*it);
+	close(srvSock);
+	unlink(addr.sun_path);
+}
+
+void UdsServer::AddSelectDescriptors(fd_set& inFD, fd_set& outFD, int& maxFD)
+{
+	FD_SET(srvSock, &inFD);
+	maxFD = std::max(srvSock, maxFD);
+	for(std::vector<int>::const_iterator it = clients.begin();
+		it != clients.end();
+		++it)
+	{
+		FD_SET(*it, &inFD);
+		maxFD = std::max(*it, maxFD);
+	}
+}
+
+void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
+{
+	int res = 0;
+	while((res = accept(srvSock, NULL, NULL)) != -1)
+		clients.push_back(res);
+	if(errno != EWOULDBLOCK)
+		throw SystemException(errno);
+	
+	int err = 0;
+	for(std::vector<int>::iterator it = clients.begin();
+		it != clients.end();
+		++it)
+	{
+		char buf[1024];
+		ssize_t numRead = recv(*it, buf, 1024, MSG_DONTWAIT);
+		buf[numRead] = '\0';
+		if(numRead > 0)
+		{
+			printf("%s", buf);
+		}
+		else
+		{
+			if(errno != EWOULDBLOCK && errno != EAGAIN)
+			{
+				std::vector<int>::iterator back = clients.end();
+				--back;
+				std::swap(*it, *back);
+				clients.pop_back();
+				--it;
+			}
+		}
+	}
+}
+
+EventType UdsServer::GetType()
+{
+	return TYPE_MISC;
+}
+
+void UdsServer::OnEvent(ServerInterface& srv,
+	const std::string& event,
+	const std::string& origin,
+	const std::vector<std::string>& params)
+{
+}
+
