@@ -1,6 +1,7 @@
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
+#include <string.h>
 #include <stdexcept>
 #include <libircclient/libircclient.h>
 
@@ -39,6 +40,26 @@ public:
 	const char* what() const throw()
 	{
 		return irc_strerror(errNum);
+	}
+};
+
+class SystemException : public std::exception
+{
+private:
+	const int errNum;
+public:
+	SystemException(int errNum) : errNum(errNum)
+	{
+	}
+
+	int ErrorNumber() const throw()
+	{
+		return errNum;
+	}
+
+	const char* what() const throw()
+	{
+		return strerror(errNum);
 	}
 };
 
