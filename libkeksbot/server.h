@@ -3,6 +3,7 @@
 
 #include "channel.h"
 #include "configs.h"
+#include "selectinginterface.h"
 #include "serverinterface.h"
 #include <string>
 #include <vector>
@@ -12,7 +13,7 @@ typedef std::vector<std::string> ParamList;
 
 class EventManager;
 
-class Server : public ServerInterface
+class Server : public ServerInterface, public SelectingInterface
 {
 private:
 	irc_callbacks_t callbacks;

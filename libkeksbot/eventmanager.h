@@ -1,11 +1,13 @@
 #ifndef EVENTMANAGER_H
 #define EVENTMANAGER_H
 
-#include "server.h"
 #include "eventinterface.h"
 #include <map>
 #include <string>
 #include <vector>
+
+class Server;
+class SelectingInterface;
 
 typedef std::map<std::string, EventHandler*> AliasedMap;
 
@@ -15,6 +17,8 @@ private:
 	std::vector<Server*> serverlist;
 	AliasedMap aliasedEvents;
 	std::vector<EventHandler*> miscEvents;
+
+	std::vector<SelectingInterface*> networklisteners;
 public:
 	EventManager(const std::string& cfgfile);
 	~EventManager(void);
@@ -27,6 +31,9 @@ public:
 	
 	const std::vector<Server*>& GetServers();
 	std::vector<EventHandler*> GetEvents();
+
+	void AddNetworklistener(SelectingInterface* listener);
+	void DelNetworklistener(SelectingInterface* listener);
 };
 
 #endif

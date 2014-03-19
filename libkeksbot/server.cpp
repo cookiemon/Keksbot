@@ -205,6 +205,18 @@ void Server::Connect(void)
 
 void Server::AddSelectDescriptors(fd_set& inSet, fd_set& outSet, int& maxFd)
 {
+	if(!IsConnected())
+	{
+		try
+		{
+			Connect();
+		}
+		catch(IrcException& e)
+		{
+			Log(LOG_ERR, "Server \"%s\" failed to connect: [%d] %s",
+				GetName().c_str(), e.ErrorNumber(), e.what());
+		}
+	}
 	int error = irc_add_select_descriptors(session, &inSet, &outSet, &maxFd);
 	if(error != 0)
 		throw IrcException(irc_errno(session));

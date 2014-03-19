@@ -1,6 +1,7 @@
 #include "eventmanager.h"
 #include "exceptions.h"
 #include "logging.h"
+#include "server.h"
 #include "simpleevent.h"
 #include <algorithm>
 #include <errno.h>
@@ -22,6 +23,7 @@ EventManager::EventManager(const std::string& cfgfile)
 		{
 			Server* srv = new Server(it->second, this);
 			serverlist.push_back(srv);
+			AddNetworklistener(srv);
 		}
 		catch(ConfigException& e)
 		{
@@ -88,42 +90,32 @@ void EventManager::DoSelect(void)
 	FD_ZERO(&inSet);
 	FD_ZERO(&outSet);
 
-	for(size_t i = 0; i < serverlist.size(); ++i)
+	for(size_t i = 0; i < networklisteners.size(); ++i)
 	{
 		try
 		{
-			if(!serverlist[i]->IsConnected())
-				serverlist[i]->Connect();
+			networklisteners[i]->AddSelectDescriptors(inSet, outSet, maxFd);
 		}
 		catch(IrcException& e)
 		{
-			Log(LOG_ERR, "Server \"%s\" failed to connect: [%d] %s",
-				serverlist[i]->GetName().c_str(), e.ErrorNumber(), e.what());
-		}
-
-		try
-		{
-			serverlist[i]->AddSelectDescriptors(inSet, outSet, maxFd);
-		}
-		catch(IrcException& e)
-		{
-			Log(LOG_ERR, "Server \"%s\" failed to register select descriptors: [%d] %s",
-				serverlist[i]->GetName().c_str(), e.ErrorNumber(), e.what());
+			Log(LOG_ERR, "Server failed to register select descriptors: [%d] %s",
+				e.ErrorNumber(), e.what());
 		}
 	}
 
 	if(select(maxFd+1, &inSet, &outSet, NULL, &tv) < 0)
 		Log(LOG_ERR, "Select error: [%d] %s", errno, strerror(errno));
 
-	for(size_t i = 0; i < serverlist.size(); ++i)
+	for(size_t i = 0; i < networklisteners.size(); ++i)
 	{
 		try
 		{
-			serverlist[i]->SelectDescriptors(inSet, outSet);
+			networklisteners[i]->SelectDescriptors(inSet, outSet);
 		}
 		catch(IrcException& e)
 		{
-			Log(LOG_ERR, "Failed on select descriptor: [%d] %s", e.ErrorNumber(), e.what());
+			Log(LOG_ERR, "Failed on select descriptor: [%d] %s",
+				e.ErrorNumber(), e.what());
 		}
 	}
 }
@@ -202,4 +194,19 @@ std::vector<EventHandler*> EventManager::GetEvents()
 		evtlist.push_back(it->second);
 	evtlist.insert(evtlist.end(), miscEvents.begin(), miscEvents.end());
 	return evtlist;
+}
+
+void EventManager::AddNetworklistener(SelectingInterface* listener)
+{
+	networklisteners.push_back(listener);
+}
+
+void EventManager::DelNetworklistener(SelectingInterface* listener)
+{
+	std::vector<SelectingInterface*>::iterator it = std::find(networklisteners.begin(), networklisteners.end(), listener);
+	if(it == networklisteners.end())
+		throw IllegalArgumentException("Deleted network listener was not in interface");
+
+	std::swap(*it, *(networklisteners.end() - 1));
+	networklisteners.pop_back();
 }
