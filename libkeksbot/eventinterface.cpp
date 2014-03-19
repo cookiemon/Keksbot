@@ -41,8 +41,6 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 			newHandler = new Stats(configs);
 		else if(handler == "classified")
 			newHandler = new ClassifiedHandler();
-		else if(handler == "http")
-			newHandler = new HttpServer(man, configs);
 		else
 			throw ConfigException("static handler type not known");
 	}
