@@ -51,4 +51,13 @@ public:
 	}
 };
 
+class IllegalArgumentException : public std::runtime_error
+{
+public:
+	IllegalArgumentException(const std::string& msg)
+		: std::runtime_error(msg)
+	{
+	}
+};
+
 #endif
