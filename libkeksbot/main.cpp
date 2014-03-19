@@ -2,6 +2,7 @@
 #include "exceptions.h"
 #include "logging.h"
 #include "eventmanager.h"
+#include "server.h"
 #include <errno.h>
 #include <iostream>
 #include <stdlib.h>
