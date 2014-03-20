@@ -2,6 +2,7 @@
 #include "configs.h"
 #include "eventmanager.h"
 #include "exceptions.h"
+#include "serverinterface.h"
 #include "stringhelpers.h"
 #include "syslog.h"
 #include <algorithm>
@@ -90,6 +91,7 @@ void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
 		if(numRead > 0)
 		{
 			printf("%s", buf);
+			ParseMessage(buf);
 		}
 		else
 		{
@@ -102,6 +104,19 @@ void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
 				--it;
 			}
 		}
+	}
+}
+
+void UdsServer::ParseMessage(std::string msg)
+{
+	Trim(msg);
+
+	std::string cmd = CutFirstWord(msg);
+
+	if(cmd == "send")
+	{
+		std::string target = CutFirstWord(msg);
+		srv->SendMsg(target, msg);
 	}
 }
 

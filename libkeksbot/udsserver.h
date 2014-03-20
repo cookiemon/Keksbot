@@ -35,6 +35,9 @@ public:
 				const std::string& event,
 				const std::string& origin,
 				const std::vector<std::string>& params);
+
+private:
+	void ParseMessage(std::string msg);
 };
 
 #endif
