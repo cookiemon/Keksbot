@@ -5,7 +5,6 @@
 #include "stattracker.h"
 #include "stats.h"
 #include "classifiedhandler.h"
-#include "httpserver.h"
 #include "udsserver.h"
 #include <assert.h>
 
