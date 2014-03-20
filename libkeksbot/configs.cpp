@@ -1,35 +1,11 @@
 #include "logging.h"
 #include "configs.h"
+#include "stringhelpers.h"
 #include <algorithm>
 #include <ctype.h>
 #include <fstream>
 #include <functional>
 #include <stack>
-
-struct IsSpaceFunctor
-{
-	bool operator()(char stuff) const { return isspace(stuff); }
-	typedef char argument_type;
-};
-
-void TrimLeft(std::string& str)
-{
-	str.erase(str.begin(), std::find_if(str.begin(), str.end(), std::not1(IsSpaceFunctor())));
-}
-
-void TrimRight(std::string& str)
-{
-	std::string::reverse_iterator pos = std::find_if(str.rbegin(), str.rend(),
-	                                                 std::not1(IsSpaceFunctor()));
-	if(pos != str.rend() && pos != str.rbegin())
-		str.erase(pos.base() + 1);
-}
-
-void Trim(std::string& str)
-{
-	TrimRight(str);
-	TrimLeft(str);
-}
 
 void Configs::Open(std::istream& input)
 {

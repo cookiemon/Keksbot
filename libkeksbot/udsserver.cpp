@@ -2,6 +2,7 @@
 #include "configs.h"
 #include "eventmanager.h"
 #include "exceptions.h"
+#include "stringhelpers.h"
 #include "syslog.h"
 #include <algorithm>
 #include <errno.h>
