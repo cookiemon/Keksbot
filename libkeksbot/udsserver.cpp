@@ -1,5 +1,6 @@
 #include "udsserver.h"
 #include "configs.h"
+#include "eventmanager.h"
 #include "exceptions.h"
 #include "syslog.h"
 #include <algorithm>
@@ -14,6 +15,7 @@ UdsServer::UdsServer(EventManager* man, const Configs& settings)
 
 	std::string boundServer;
 	settings.GetValue("server", boundServer);
+	srv = man->GetServer(boundServer);
 
 	std::string address;
 	settings.GetValue("location", address);

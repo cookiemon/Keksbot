@@ -210,3 +210,15 @@ void EventManager::DelNetworklistener(SelectingInterface* listener)
 	std::swap(*it, *(networklisteners.end() - 1));
 	networklisteners.pop_back();
 }
+
+ServerInterface* EventManager::GetServer(const std::string& name)
+{
+	for(std::vector<Server*>::iterator it = serverlist.begin();
+		it != serverlist.end();
+		++it)
+	{
+		if((*it)->GetName() == name)
+			return *it;
+	}
+	throw IllegalArgumentException("Server " + name + " not found");
+}

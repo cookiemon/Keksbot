@@ -34,6 +34,8 @@ public:
 
 	void AddNetworklistener(SelectingInterface* listener);
 	void DelNetworklistener(SelectingInterface* listener);
+
+	ServerInterface* GetServer(const std::string& name);
 };
 
 #endif
