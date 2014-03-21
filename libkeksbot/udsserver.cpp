@@ -90,7 +90,7 @@ void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
 		if(numRead > 0)
 		{
 			printf("%s", buf);
-			ParseMessage(buf);
+			ParseMessage(*it, buf);
 		}
 		else
 		{
@@ -106,7 +106,7 @@ void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
 	}
 }
 
-void UdsServer::ParseMessage(std::string msg)
+void UdsServer::ParseMessage(int fd, std::string msg)
 {
 	Trim(msg);
 
@@ -117,6 +117,44 @@ void UdsServer::ParseMessage(std::string msg)
 		std::string target = CutFirstWord(msg);
 		srv->SendMsg(target, msg);
 	}
+	else if(cmd == "get")
+	{
+		std::string what = CutFirstWord(msg);
+		if(what == "userlist")
+		{
+			const UserListType& usrList = srv->GetChannel(msg).users;
+			std::string reply = "[";
+			reply.reserve(128);
+
+			UserListType::const_iterator it = usrList.begin();
+			if(it != usrList.end())
+			{
+				reply += "\"" + it->nick + "\"";
+				++it;
+			}
+
+			for(;
+				it != usrList.end();
+				++it)
+				reply += ", \"" + it->nick + "\"";
+			reply += "]";
+
+			SendReply(fd, reply);
+
+		}
+		else if(what == "usercount")
+		{
+			msg = "#" + msg;
+			srv->GetChannel(msg);
+		}
+	}
+}
+
+void UdsServer::SendReply(int fd, const std::string& reply)
+{
+	size_t num = write(fd, reply.c_str(), reply.size());
+	if(num < reply.size())
+		throw SystemException(errno);
 }
 
 EventType UdsServer::GetType()

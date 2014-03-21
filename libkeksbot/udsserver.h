@@ -37,7 +37,8 @@ public:
 				const std::vector<std::string>& params);
 
 private:
-	void ParseMessage(std::string msg);
+	void ParseMessage(int fd, std::string msg);
+	void SendReply(int fd, const std::string& msg);
 };
 
 #endif

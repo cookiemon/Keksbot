@@ -1,6 +1,8 @@
 #ifndef SERVERINTERFACE_H
 #define SERVERINTERFACE_H
 
+#include "channel.h"
+#include "user.h"
 #include <string>
 
 class ServerInterface
@@ -18,6 +20,8 @@ public:
 	virtual std::string GetUsername() = 0;
 	virtual std::string GetRealname() = 0;
 	virtual char GetPrefix() = 0;
+
+	virtual const Channel& GetChannel(const std::string& chan) = 0;
 };
 
 #endif

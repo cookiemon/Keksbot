@@ -58,6 +58,8 @@ public:
 	char GetPrefix(void);
 	const UserListType& GetIgnored();
 
+	const Channel& GetChannel(const std::string& chan);
+
 private:
 	void Init(void);
 	void LogIrcEvent(const std::string& evt, const std::string& origin, const ParamList& params);

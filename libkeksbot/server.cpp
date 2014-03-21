@@ -3,6 +3,7 @@
 #include "eventmanager.h"
 #include "exceptions.h"
 #include "logging.h"
+#include "stringhelpers.h"
 #include <assert.h>
 #include <map>
 #include <sstream>
@@ -240,6 +241,26 @@ void Server::EventNumeric(unsigned int       evt, const std::string& origin, con
 {
 	char evtString[20];
 	snprintf(evtString, sizeof(evtString), "%d", evt);
+
+	switch(evt)
+	{
+		case LIBIRC_RFC_RPL_NAMREPLY:
+			if(args.size() < 4)
+			{
+				Log(LOG_ERR, "Libirc gave less than 4 parameters in RPL_NAMREPLY");
+				break;
+			}
+			std::string nameList = args[3];
+			std::string nick = CutFirstWord(nameList);
+			Channel& chan = channels[args[2]];
+			while(!nick.empty())
+			{
+				chan.users.insert(User(nick));
+				nick = CutFirstWord(nameList);
+			}
+			return;
+	}
+
 	LogIrcEvent(evtString, origin, args);
 	if(manager != NULL)
 		manager->DistributeEvent(*this, evtString, origin, args);
@@ -327,6 +348,14 @@ char Server::GetPrefix(void)
 const UserListType& Server::GetIgnored(void)
 {
 	return ignored;
+}
+
+const Channel& Server::GetChannel(const std::string& chan)
+{
+	ChannelListType::iterator it = channels.find(chan);
+	if(it == channels.end())
+		throw IllegalArgumentException("Channel " + chan + " not found");
+	return it->second;
 }
 
 void Server::LogIrcEvent(const std::string& evt, const std::string& origin, const ParamList& args)
