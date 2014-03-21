@@ -1,6 +1,8 @@
 #ifndef SERVERINTERFACE_H
 #define SERVERINTERFACE_H
 
+#include <string>
+
 class ServerInterface
 {
 public:
