@@ -134,7 +134,7 @@ int main(void)
 		UdsClient cl = UdsClient("/home/genion/Keksbot/keksbot.sock");
 		const char* method = getenv("REQUEST_METHOD");
 		if(method == NULL)
-			continue;
+			method = "GET";
 
 		std::vector<std::string> args = getUrl();
 
