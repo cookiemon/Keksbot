@@ -47,6 +47,17 @@ public:
 		if(num < msg.size())
 			throw std::runtime_error("Could not send data!");
 	}
+
+	std::string Read(void)
+	{
+		std::string str;
+		char buf[512];
+		ssize_t num;
+		while((num = read(fd, buf, 512)))
+			str += std::string(buf, buf + num);
+
+		return str;
+	}
 };
 
 #endif

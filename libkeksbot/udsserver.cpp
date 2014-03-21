@@ -91,6 +91,7 @@ void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
 		{
 			printf("%s", buf);
 			ParseMessage(*it, buf);
+			close(*it);
 		}
 		else
 		{

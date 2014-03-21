@@ -31,6 +31,7 @@ int dehex(const char* hex, int digits)
 		unhexed <<= 4;
 		unhexed |= nextDig;
 	}
+	return unhexed;
 }
 
 bool urldecode(char* str, char** end)
@@ -156,7 +157,15 @@ int main(void)
 
 			cl.Send("send " + args[1] + " " + text);
 		}
-		printf("Content-type: text/html\r\n");
+		else if(args[0] == std::string("channel") && args.size() > 2)
+		{
+			if(args[2] == "users")
+			{
+				cl.Send(std::string("get userlist #") + args[1]);
+				std::string str = cl.Read();
+				printf("%s", str.c_str());
+			}
+		}
 	}
 
 	return 0;
