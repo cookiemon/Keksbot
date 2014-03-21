@@ -144,8 +144,11 @@ void UdsServer::ParseMessage(int fd, std::string msg)
 		}
 		else if(what == "usercount")
 		{
-			msg = "#" + msg;
-			srv->GetChannel(msg);
+			const Channel& chan = srv->GetChannel(msg);
+			size_t num = chan.users.size();
+			std::stringstream sstr;
+			sstr << num;
+			SendReply(fd, sstr.str());
 		}
 	}
 }
