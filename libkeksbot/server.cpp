@@ -274,6 +274,18 @@ void Server::EventMisc   (const std::string& evt, const std::string& origin, con
 	{
 		channels[args[0]].users.insert(User(origin));
 	}
+	else if(evt == "nick" && args.size() > 0)
+	{
+		for(ChannelListType::iterator it = channels.begin();
+			it != channels.end();
+			++it)
+		{
+			User usr(origin);
+			User newUsr(args[0]);
+			if(it->second.users.erase(usr) > 0)
+				it->second.users.insert(newUsr);
+		}
+	}
 
 	if(manager != NULL)
 		manager->DistributeEvent(*this, evt, origin, args);
