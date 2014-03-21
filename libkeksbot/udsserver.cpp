@@ -80,7 +80,6 @@ void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
 	if(errno != EWOULDBLOCK)
 		throw SystemException(errno);
 	
-	int err = 0;
 	for(std::vector<int>::iterator it = clients.begin();
 		it != clients.end();
 		++it)
