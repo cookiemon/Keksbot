@@ -75,27 +75,30 @@ void UdsServer::AddSelectDescriptors(fd_set& inFD, fd_set& outFD, int& maxFD)
 void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
 {
 	int res = 0;
-	while((res = accept(srvSock, NULL, NULL)) != -1)
-		clients.push_back(res);
-	if(errno != EWOULDBLOCK)
-		throw SystemException(errno);
+	if(FD_ISSET(srvSock, &inFD))
+	{
+		while((res = accept(srvSock, NULL, NULL)) != -1)
+			clients.push_back(res);
+		if(errno != EWOULDBLOCK)
+			throw SystemException(errno);
+	}
 	
 	for(std::vector<int>::iterator it = clients.begin();
 		it != clients.end();
 		++it)
 	{
-		char buf[1024];
-		ssize_t numRead = recv(*it, buf, 1024, MSG_DONTWAIT);
-		buf[numRead] = '\0';
-		if(numRead > 0)
+		if(FD_ISSET(*it, &inFD))
 		{
-			printf("%s", buf);
-			ParseMessage(*it, buf);
-			close(*it);
-		}
-		else
-		{
-			if(errno != EWOULDBLOCK && errno != EAGAIN)
+			char buf[1024];
+			ssize_t numRead = recv(*it, buf, 1024, MSG_DONTWAIT);
+			buf[numRead] = '\0';
+			if(numRead > 0)
+			{
+				printf("%s", buf);
+				ParseMessage(*it, buf);
+				close(*it);
+			}
+			else
 			{
 				std::vector<int>::iterator back = clients.end();
 				--back;
