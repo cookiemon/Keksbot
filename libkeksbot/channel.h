@@ -3,6 +3,7 @@
 
 #include <map>
 #include <set>
+#include <string>
 #include "user.h"
 
 class Channel;
@@ -13,6 +14,7 @@ typedef std::set<User, UserLessCompare> UserListType;
 struct Channel
 {
 	UserListType users;
+	std::string topic;
 };
 
 #endif

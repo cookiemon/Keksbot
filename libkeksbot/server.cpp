@@ -245,6 +245,7 @@ void Server::EventNumeric(unsigned int       evt, const std::string& origin, con
 	switch(evt)
 	{
 		case LIBIRC_RFC_RPL_NAMREPLY:
+		{
 			if(args.size() < 4)
 			{
 				Log(LOG_ERR, "Libirc gave less than 4 parameters in RPL_NAMREPLY");
@@ -259,6 +260,16 @@ void Server::EventNumeric(unsigned int       evt, const std::string& origin, con
 				nick = CutFirstWord(nameList);
 			}
 			return;
+		}
+		case LIBIRC_RFC_RPL_NOTOPIC:
+		case LIBIRC_RFC_RPL_TOPIC:
+			if(args.size() < 3)
+			{
+				Log(LOG_ERR, "Libirc gave less than 3 parameters in RPL_NOTOPIC");
+				break;
+			}
+			channels[args[1]].topic = args[2];
+			break;
 	}
 
 	LogIrcEvent(evtString, origin, args);
@@ -270,11 +281,20 @@ void Server::EventMisc   (const std::string& evt, const std::string& origin, con
 {
 	LogIrcEvent(evt, origin, args);
 
-	if(evt == "join" && args.size() > 0)
+	if(evt == "JOIN" && args.size() > 0)
 	{
 		channels[args[0]].users.insert(User(origin));
+		if(origin == GetNick())
+			irc_cmd_topic(session, args[0].c_str(), NULL);
 	}
-	else if(evt == "nick" && args.size() > 0)
+	else if(evt == "TOPIC" && args.size() > 0)
+	{
+		std::string topic;
+		if(args.size() > 1)
+			topic = args[1];
+		channels[args[0]].topic = topic;
+	}
+	else if(evt == "NICK" && args.size() > 0)
 	{
 		for(ChannelListType::iterator it = channels.begin();
 			it != channels.end();

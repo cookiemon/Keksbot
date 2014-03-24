@@ -151,6 +151,14 @@ void UdsServer::ParseMessage(int fd, std::string msg)
 			sstr << num;
 			SendReply(fd, sstr.str());
 		}
+		else if(what == "topic")
+		{
+			const Channel& chan = srv->GetChannel(msg);
+			SendReply(fd, chan.topic);
+		}
+		else if(what == "lastmessage")
+		{
+		}
 	}
 }
 
