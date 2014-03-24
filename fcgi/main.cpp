@@ -127,6 +127,34 @@ std::vector<std::string> getUrl()
 	return retVal;
 }
 
+std::string ParseCmd(const std::string& method,
+	const std::vector<std::string> args)
+{
+	if(method == std::string("POST") && args[2] == std::string("messages"))
+	{
+		std::map<std::string, std::string> params = getPost();
+		std::string text = params["text"];
+		if(text.empty())
+			return "";
+
+		return "send " + args[1] + " " + text;
+	}
+	else if(args[0] == std::string("channel") && args.size() > 2)
+	{
+		if(args[2] == "users")
+			return "get userlist " + args[1];
+		else if(args[2] == "count")
+			return "get usercount " + args[1];
+		else if(args[2] == "topic")
+			return "get topic " + args[1];
+		else if(args.size() > 3 && args[2] == "messages" && args[3] == "last")
+			return "get lastmessage " + args[1];
+		else
+			return "";
+	}
+	return "";
+}
+
 int main(void)
 {
 	while(FCGI_Accept() >= 0)
@@ -138,32 +166,33 @@ int main(void)
 
 		std::vector<std::string> args = getUrl();
 
+		bool sync = true;
 		if(args[0] == "async")
+		{
 			args.erase(args.begin());
+			sync = false;
+		}
 		if(args.size() < 3)
 			continue;
 
-		if(method == std::string("POST") && args[2] == std::string("messages"))
+		if(args.size() > 1 && args[0] == "channel")
+			args[1] = "#" + args[1];
+
+		std::string cmd = ParseCmd(method, args);
+		if(cmd.empty())
 		{
-			if(args[0] == "channel")
-				args[1] = "#" + args[1];
-			else if(args[0] != "user")
-				continue;
-
-			std::map<std::string, std::string> params = getPost();
-			std::string text = params["text"];
-			if(text.empty())
-				continue;
-
-			cl.Send("send " + args[1] + " " + text);
+			printf("Status: 404\r\n");
+			continue;
 		}
-		else if(args[0] == std::string("channel") && args.size() > 2)
+
+		cl.Send(cmd);
+		if(sync)
 		{
-			if(args[2] == "users")
+			std::string reply = cl.Read();
+			if(!reply.empty())
 			{
-				cl.Send(std::string("get userlist #") + args[1]);
-				std::string str = cl.Read();
-				printf("%s", str.c_str());
+				printf("Content-type: text/plain\r\n\r\n");
+				printf("%s\r\n", reply.c_str());
 			}
 		}
 	}
