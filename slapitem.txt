@@ -137,6 +137,7 @@ a ${adjective} toilet seat
 a ${adjective} toilet seat cover
 a ${adjective} toothpick
 a ${adjective} .torrent of Darkwing Duck
+a ${adjective} .torrent of hq hardcore pr0n
 a ${adjective} trap door spider
 a ${adjective} trout
 a ${adjective} trumpet
@@ -154,7 +155,6 @@ a bottle of ${adjective} Welch's Sparkling White Grape Juice Cocktail (non-alcoh
 a can of ${adjective} Pig Brains with Gravy
 a can of ${adjective} tomato sauce
 a cold
-a knallrotem Gummiboot
 ${adjective} air
 ${adjective} ants
 ${adjective} bamboo stilts
@@ -190,6 +190,7 @@ ${adjective} peanut butter and syrup
 ${adjective} perscription medicine
 ${adjective} pigs feet
 ${adjective} plains, trains, and automobiles
+${adjective} porn
 ${adjective} soy milk
 ${adjective} stuff
 ${adjective} termites
@@ -199,6 +200,7 @@ ${adjective} Twix
 ${adjective} water
 a Fig Newton
 a gallon of ${adjective} milk
+a knallrotem Gummiboot
 a large smelly trout
 America's Next Top Model
 an ${adjective} ABIT motherboard
