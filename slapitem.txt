@@ -254,7 +254,7 @@ official KIT merchandise
 one of those squishy rubbery things that spring keyboard keys back up
 RITZ bits
 Rosie O'Donnell
-some 6 year old's two front teath
+some 6 year old's two front teeth
 some ${adjective} halfop
 Sony's ${adjective} DRM Software
 Sparkling Cider
@@ -273,3 +273,52 @@ three ${adjective} muffins and two slices of ${adjective} toast
 three ${adjective} sporks
 three grains of ${adjective} sand
 two ${adjective} pitchforks
+more cowbell
+a ${adjective} barrel roll
+a ${adjective} Hadouken
+a ${adjective} Sonic Boom
+Arnold Schwarzenegger
+27 ${adjective} kettles
+11 pink elephants
+a ${adjective} wrench
+Scientology
+Christianity
+a lit cigar
+The Answer to the Great Question, of Life, the Universe and Everything
+the ${adjective} meatbag.
+a NullPointerException
+1.21 GIGAWATTS
+several tons of ${adjective} soylent green.
+a ${adjective} model of a Fiat Punto
+a ${adjective} fortune cookie
+Sherlock Holmes
+Moriarty
+a ${adjective} capsule of halcion
+Garrus Vakarian
+George Takei
+a 1kOhm resitor.
+a ${adjective} TI Voyage 200
+the Stirnlappenbasilisk
+Carl Sagan
+Nicholas Cage
+Sigmund Freud
+a Kuscheltier-Schlonz
+a ${adjective} functional programming language
+that weird song Elvis performed
+Michael Knight
+a book by Leon Trotsky
+an invalid unicode codepoint
+a hexahedron
+the ${adjective} literary works of Aldous Huxley
+the ${adjective} leftovers of yesterday
+Pythagoras' theorem
+Walter F. Tichy
+Communism
+Capitalism
+a ${adjective} cyanide capsule
+a ${adjective} unix program
+a machine for pigs
+various pop songs
+Terminus-Bot
+tremendous effort
+his Achilles' heel
