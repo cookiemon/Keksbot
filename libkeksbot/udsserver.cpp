@@ -2,9 +2,9 @@
 #include "configs.h"
 #include "eventmanager.h"
 #include "exceptions.h"
+#include "logging.h"
 #include "serverinterface.h"
 #include "stringhelpers.h"
-#include "syslog.h"
 #include <algorithm>
 #include <errno.h>
 #include <unistd.h>
@@ -112,6 +112,8 @@ void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
 
 void UdsServer::ParseMessage(int fd, std::string msg)
 {
+	Log(LOG_DEBUG, "Received UDS Message: %s", msg.c_str());
+
 	Trim(msg);
 
 	std::string cmd = CutFirstWord(msg);
