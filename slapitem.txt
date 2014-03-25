@@ -296,7 +296,7 @@ Moriarty
 a ${adjective} capsule of halcion
 Garrus Vakarian
 George Takei
-a 1kOhm resitor.
+a 1kOhm resistor.
 a ${adjective} TI Voyage 200
 the Stirnlappenbasilisk
 Carl Sagan
