@@ -23,43 +23,44 @@ public:
 	}
 };
 
-class IrcException : public std::exception
+class NumericErrorException : public std::exception
 {
 private:
 	const int errNum;
 public:
-	IrcException(int errNum) : errNum(errNum)
+	NumericErrorException(int errNum) : errNum(errNum)
 	{
 	}
 
 	int ErrorNumber() const throw()
 	{
 		return errNum;
-	}
-
-	const char* what() const throw()
-	{
-		return irc_strerror(errNum);
 	}
 };
 
-class SystemException : public std::exception
+class IrcException : public NumericErrorException
 {
-private:
-	const int errNum;
 public:
-	SystemException(int errNum) : errNum(errNum)
+	IrcException(int errNum) : NumericErrorException(errNum)
 	{
-	}
-
-	int ErrorNumber() const throw()
-	{
-		return errNum;
 	}
 
 	const char* what() const throw()
 	{
-		return strerror(errNum);
+		return irc_strerror(ErrorNumber());
+	}
+};
+
+class SystemException : public NumericErrorException
+{
+public:
+	SystemException(int errNum) : NumericErrorException(errNum)
+	{
+	}
+
+	const char* what() const throw()
+	{
+		return strerror(ErrorNumber());
 	}
 };
 

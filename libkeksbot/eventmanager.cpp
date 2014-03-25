@@ -96,10 +96,15 @@ void EventManager::DoSelect(void)
 		{
 			networklisteners[i]->AddSelectDescriptors(inSet, outSet, maxFd);
 		}
-		catch(IrcException& e)
+		catch(NumericErrorException& e)
 		{
 			Log(LOG_ERR, "Server failed to register select descriptors: [%d] %s",
 				e.ErrorNumber(), e.what());
+		}
+		catch(std::exception& e)
+		{
+			Log(LOG_ERR, "Server failed to register select descriptors: %s",
+				e.what());
 		}
 	}
 
@@ -112,10 +117,15 @@ void EventManager::DoSelect(void)
 		{
 			networklisteners[i]->SelectDescriptors(inSet, outSet);
 		}
-		catch(IrcException& e)
+		catch(NumericErrorException& e)
 		{
 			Log(LOG_ERR, "Failed on select descriptor: [%d] %s",
 				e.ErrorNumber(), e.what());
+		}
+		catch(std::exception& e)
+		{
+			Log(LOG_ERR, "Failed on select descriptor: %s",
+				e.what());
 		}
 	}
 }
