@@ -1,3 +1,5 @@
+11 pink elephants
+1.21 GIGAWATTS
 12 pounds of ${adjective} bacon
 13 pounds of ${adjective} dust
 15 golf ball ${adjective} tees
@@ -7,6 +9,7 @@
 21,357 ${adjective} DVDs
 24 ${adjective} pancakes
 273 ${adjective} items
+27 ${adjective} kettles
 2 pair of ${adjective} water skis
 2 plastic coat hangers and a roll of ${adjective} nickles
 314 ${adjective} envelops with prepaid postage from Credit Card companies
@@ -30,12 +33,14 @@
 99 bottles of beer on the wall
 99 red ballons
 a 17 car pile up on the freeway
+a 1kOhm resistor.
 a ${adjective} 1968 Corvette
 a ${adjective} $2 bill
 a ${adjective} 38" tire
 a ${adjective} 4U rackmount server
 a ${adjective} 52 inch plasma monitor
 a ${adjective} bag of dogfood
+a ${adjective} barrel roll
 a ${adjective} bathtub
 a ${adjective} beanstalk
 a ${adjective} bell tower
@@ -46,6 +51,7 @@ a ${adjective} box of Kleenexes
 a ${adjective} bycicle helmet
 a ${adjective} campfire
 a ${adjective} Capria Sun pouch
+a ${adjective} capsule of halcion
 a ${adjective} ceiling fan blade
 a ${adjective} chess set
 a ${adjective} Chinese Crested Hairless dog
@@ -55,11 +61,14 @@ a ${adjective} copy of WeeChat
 a ${adjective} cow pie
 a ${adjective} crowbar
 a ${adjective} Cuban cigar
+a ${adjective} cyanide capsule
 a ${adjective} dot matrix printer
 a ${adjective} fax machine
 a ${adjective} first aid kit
 a ${adjective} Five Star binder
+a ${adjective} fortune cookie
 a ${adjective} fourier transformed function
+a ${adjective} functional programming language
 a ${adjective} Furby
 a ${adjective} fur coat
 a ${adjective} gerbil dressed as Domo-kun
@@ -68,6 +77,7 @@ a ${adjective} glass window
 a ${adjective} golf club
 a ${adjective} gopher
 a ${adjective} gopher trap
+a ${adjective} Hadouken
 a ${adjective} hockey stick
 a ${adjective} keyboard
 a ${adjective} kitchen sink
@@ -79,6 +89,7 @@ a ${adjective} light bulb
 a ${adjective} Linksys 16-Port Workgroup Switch
 a ${adjective} mechanical pencil (0.5mm lead)
 a ${adjective} Mickey Mouse Clock
+a ${adjective} model of a Fiat Punto
 a ${adjective} mouse
 a ${adjective} NERF bow and arrow
 a ${adjective} New Kids on the Block tape
@@ -122,6 +133,7 @@ a ${adjective} smoke alarm
 a ${adjective} smoke detector
 a ${adjective} smoothbore depleted uranium sniper shell
 a ${adjective} sock
+a ${adjective} Sonic Boom
 a ${adjective} spatula
 a ${adjective} spider's egg sack
 a ${adjective} spider's web
@@ -132,6 +144,7 @@ a ${adjective} table leg
 a ${adjective} techno DJ
 a ${adjective} tennis racquet
 a ${adjective} Tickle Me Elmo
+a ${adjective} TI Voyage 200
 a ${adjective} toilet
 a ${adjective} toilet seat
 a ${adjective} toilet seat cover
@@ -145,12 +158,15 @@ a ${adjective} trumpet mouthpiece
 a ${adjective} tube of m&m's minis
 a ${adjective} tv show
 a ${adjective} Universal Power Supply backup battery
+a ${adjective} unix program
 a ${adjective} USB cable
 a ${adjective} watch
 a ${adjective} watch that has been dipped in gasoline
 a ${adjective} Windows ME User Guide
+a ${adjective} wrench
 a ${adjective} yacht
 a ${adjective} ZIP disk
+a book by Leon Trotsky
 a bottle of ${adjective} Welch's Sparkling White Grape Juice Cocktail (non-alcoholic)
 a can of ${adjective} Pig Brains with Gravy
 a can of ${adjective} tomato sauce
@@ -200,8 +216,12 @@ ${adjective} Twix
 ${adjective} water
 a Fig Newton
 a gallon of ${adjective} milk
+a hexahedron
 a knallrotem Gummiboot
+a Kuscheltier-Schlonz
 a large smelly trout
+a lit cigar
+a machine for pigs
 America's Next Top Model
 an ${adjective} ABIT motherboard
 an ${adjective} ant
@@ -214,13 +234,20 @@ an ${adjective} LCD screen
 an ${adjective} Oak 2x4
 an ${adjective} orthonormal basis
 an ${adjective} oven mit
+an invalid unicode codepoint
+a NullPointerException
 a pair of ${adjective} scissors
 a pile of ${adjective} AOL CDs
+Arnold Schwarzenegger
 Ashton Kutcher
 a spider plant
 a stack of ${adjective} MS-DOS 6.0 installation disks
+Capitalism
 Cardcaptor Sakura
+Carl Sagan
 Charles Manson's ${adjective} hair clippings
+Christianity
+Communism
 Danny DeVito
 David Hasselhoff
 Deep Space 9
@@ -230,9 +257,12 @@ Emperor Palpatine
 Ernest Hemingway
 flakes of ${adjective} skin
 four ${adjective} tennis racquets tied together to form a ${adjective} pyramid
+Garrus Vakarian
+George Takei
 George, the bellboy from Manhattan
 Germany's Next Topmodel
 Gigli (Special Edition DVD)
+his Achilles' heel
 Hobart, Tasmania
 Howard Dean
 Indoril
@@ -242,11 +272,15 @@ Jewel
 Keanu Reeves
 Kitbot
 lots and lots of ${adjective} penguins
+Michael Knight
 miscellaneous body fluids
 mizspeld werds
 Montel
+more cowbell
+Moriarty
 Nebraska
 Nemo
+Nicholas Cage
 nine ${adjective} hockey pucks
 nothing in particular
 Nunavut
@@ -254,73 +288,39 @@ OBJECTION
 official KIT merchandise
 "One Fish Two Fish Red Fish Blue Fish"
 one of those squishy rubbery things that spring keyboard keys back up
+Pythagoras' theorem
 RITZ bits
 Rosie O'Donnell
+Scientology
+several tons of ${adjective} soylent green.
+Sherlock Holmes
+Sigmund Freud
 some 6 year old's two front teeth
 some ${adjective} halfop
 Sony's ${adjective} DRM Software
 Sparkling Cider
 Swiss Miss powdered Hot Chocolate with little marshmallows
+Terminus-Bot
+that weird song Elvis performed
 the ${adjective} 1932 World's Fair
 the ${adjective} 2006 US Federal Tax Code
 the ${adjective} interwebs
+the ${adjective} leftovers of yesterday
 the ${adjective} letter "L"
 the ${adjective} letter "W"
+the ${adjective} literary works of Aldous Huxley
+the ${adjective} meatbag.
 the ${adjective} passenger mirror of a 1972 Mercedes-Benz 280SEL
 the ${adjective} remains of Humpty Dumpty after all the King's Men couldn't put him back together
 the ${adjective} summer sky
+The Answer to the Great Question, of Life, the Universe and Everything
 The Artist Formerly known as The Artist Formerly known as Prince
 the State of Maryland
+the Stirnlappenbasilisk
 three ${adjective} muffins and two slices of ${adjective} toast
 three ${adjective} sporks
 three grains of ${adjective} sand
-two ${adjective} pitchforks
-more cowbell
-a ${adjective} barrel roll
-a ${adjective} Hadouken
-a ${adjective} Sonic Boom
-Arnold Schwarzenegger
-27 ${adjective} kettles
-11 pink elephants
-a ${adjective} wrench
-Scientology
-Christianity
-a lit cigar
-The Answer to the Great Question, of Life, the Universe and Everything
-the ${adjective} meatbag.
-a NullPointerException
-1.21 GIGAWATTS
-several tons of ${adjective} soylent green.
-a ${adjective} model of a Fiat Punto
-a ${adjective} fortune cookie
-Sherlock Holmes
-Moriarty
-a ${adjective} capsule of halcion
-Garrus Vakarian
-George Takei
-a 1kOhm resistor.
-a ${adjective} TI Voyage 200
-the Stirnlappenbasilisk
-Carl Sagan
-Nicholas Cage
-Sigmund Freud
-a Kuscheltier-Schlonz
-a ${adjective} functional programming language
-that weird song Elvis performed
-Michael Knight
-a book by Leon Trotsky
-an invalid unicode codepoint
-a hexahedron
-the ${adjective} literary works of Aldous Huxley
-the ${adjective} leftovers of yesterday
-Pythagoras' theorem
-Walter F. Tichy
-Communism
-Capitalism
-a ${adjective} cyanide capsule
-a ${adjective} unix program
-a machine for pigs
-various pop songs
-Terminus-Bot
 tremendous effort
-his Achilles' heel
+two ${adjective} pitchforks
+various pop songs
+Walter F. Tichy
