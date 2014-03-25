@@ -46,5 +46,18 @@ inline std::string CutFirstWord(std::string& toCut)
 	return wrd;
 }
 
+inline std::string EscapeString(std::string str,
+	const std::string& chars,
+	const std::string& escapeChar)
+{
+	size_t it = 0;
+	while((it = str.find_first_of(chars, it)) != std::string::npos)
+	{
+		str.insert(it, escapeChar);
+		it += escapeChar.size() + 1;
+	}
+	return str;
+}
+
 
 #endif
