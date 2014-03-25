@@ -135,15 +135,7 @@ std::string ParseCmd(const std::string& method,
 
 	if(method == std::string("POST"))
 	{
-		if(args.size() > 1 && args[0] == "hooks")
-		{
-			std::map<std::string, std::string> params = getPost();
-			std::string url = params["url"];
-			if(url.empty())
-				return "";
-			return "set hook " + args[1] + " " + url;
-		}
-		else if(args[2] == "messages")
+		if(args.size() > 2 && args[2] == "messages")
 		{
 			std::map<std::string, std::string> params = getPost();
 			std::string text = params["text"];
@@ -151,6 +143,14 @@ std::string ParseCmd(const std::string& method,
 				return "";
 
 			return "send " + args[1] + " " + text;
+		}
+		else if(args.size() > 1 && args[0] == "hooks")
+		{
+			std::map<std::string, std::string> params = getPost();
+			std::string url = params["url"];
+			if(url.empty())
+				return "";
+			return "set hook " + args[1] + " " + url;
 		}
 		else if(args.size() > 3 && args[2] == "hooks")
 		{
@@ -164,7 +164,7 @@ std::string ParseCmd(const std::string& method,
 	}
 	else if(method == std::string("GET"))
 	{
-		if(args[0] == std::string("channel") && args.size() > 2)
+		if(args.size() > 2 && args[0] == std::string("channel"))
 		{
 			if(args[2] == "users")
 				return "get userlist " + args[1];
@@ -211,8 +211,6 @@ int main(void)
 			args.erase(args.begin());
 			sync = false;
 		}
-		if(args.size() < 3)
-			continue;
 
 		if(args.size() > 1 && args[0] == "channel")
 			args[1] = "#" + args[1];
