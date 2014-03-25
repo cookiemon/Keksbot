@@ -27,6 +27,19 @@ public:
 	}
 };
 template<>
+class Converter<std::string>
+{
+public:
+	void Convert(const std::string& val, std::string& out)
+	{
+		out = val;
+	}
+	bool WasSuccessful()
+	{
+		return true;
+	}
+};
+template<>
 class Converter<bool>
 {
 private:
