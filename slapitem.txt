@@ -6,10 +6,11 @@
 200 yards of ${adjective} Cat 4 cable
 21,357 ${adjective} DVDs
 24 ${adjective} pancakes
+273 ${adjective} items
 2 pair of ${adjective} water skis
 2 plastic coat hangers and a roll of ${adjective} nickles
 314 ${adjective} envelops with prepaid postage from Credit Card companies
-32 ${adjective} eheaded chickens
+32 ${adjective} beheaded chickens
 33 ${adjective} CDs
 38 ${adjective} IDE cables
 38 ${adjective} pigs and their farmer Willifred
@@ -153,6 +154,7 @@ a bottle of ${adjective} Welch's Sparkling White Grape Juice Cocktail (non-alcoh
 a can of ${adjective} Pig Brains with Gravy
 a can of ${adjective} tomato sauce
 a cold
+a knallrotem Gummiboot
 ${adjective} air
 ${adjective} ants
 ${adjective} bamboo stilts
@@ -227,6 +229,7 @@ Ernest Hemingway
 flakes of ${adjective} skin
 four ${adjective} tennis racquets tied together to form a ${adjective} pyramid
 George, the bellboy from Manhattan
+Germany's Next Topmodel
 Gigli (Special Edition DVD)
 Hobart, Tasmania
 Howard Dean
