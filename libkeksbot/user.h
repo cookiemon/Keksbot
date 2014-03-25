@@ -7,6 +7,10 @@ struct User
 {
 	std::string nick;
 
+	User()
+	{
+	}
+
 	User(const std::string& nick)
 		: nick(nick)
 	{

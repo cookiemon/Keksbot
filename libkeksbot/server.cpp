@@ -306,6 +306,14 @@ void Server::EventMisc   (const std::string& evt, const std::string& origin, con
 				it->second.users.insert(newUsr);
 		}
 	}
+	else if((evt == "CHANNEL" || evt == "ACTION")
+		&& args[0][0] == '#' && args.size() > 1)
+	{
+		Channel& chan = channels[args[0]];
+		chan.last.usr = User(origin);
+		chan.last.msg = args[1];
+		chan.last.date = time(NULL);
+	}
 
 	if(manager != NULL)
 		manager->DistributeEvent(*this, evt, origin, args);
