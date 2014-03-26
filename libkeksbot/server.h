@@ -37,6 +37,7 @@ public:
 	~Server(void);
 
 	void Connect(void);
+	void Disconnect(void);
 	void AddSelectDescriptors(fd_set& inSet, fd_set& outSet, int& maxFd);
 	void SelectDescriptors(fd_set& inSet, fd_set& outSet);
 	void EventConnect(const std::string& evt, const std::string& origin, const ParamList& args);
