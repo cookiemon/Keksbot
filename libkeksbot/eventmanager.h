@@ -17,6 +17,7 @@ private:
 	std::vector<Server*> serverlist;
 	AliasedMap aliasedEvents;
 	std::vector<EventHandler*> miscEvents;
+	std::vector<EventHandler*> markedForDelete;
 
 	std::vector<SelectingInterface*> networklisteners;
 public:
@@ -36,6 +37,12 @@ public:
 	void DelNetworklistener(SelectingInterface* listener);
 
 	ServerInterface* GetServer(const std::string& name);
+
+	void AddEvent(EventHandler* evt);
+	void DelEvent(EventHandler* evt);
+
+private:
+	void ExecuteDeletions(void);
 };
 
 #endif

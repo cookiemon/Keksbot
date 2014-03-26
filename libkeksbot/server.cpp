@@ -282,7 +282,7 @@ void Server::EventNumeric(unsigned int       evt, const std::string& origin, con
 		manager->DistributeEvent(*this, evtString, origin, args);
 }
 
-void Server::EventMisc   (const std::string& evt, const std::string& origin, const ParamList& args)
+void Server::EventMisc (const std::string& evt, const std::string& origin, const ParamList& args)
 {
 	LogIrcEvent(evt, origin, args);
 

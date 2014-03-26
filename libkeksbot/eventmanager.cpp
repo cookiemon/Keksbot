@@ -90,6 +90,8 @@ void EventManager::DoSelect(void)
 	FD_ZERO(&inSet);
 	FD_ZERO(&outSet);
 
+	ExecuteDeletions();
+
 	for(size_t i = 0; i < networklisteners.size(); ++i)
 	{
 		try
@@ -147,7 +149,8 @@ void EventManager::DistributeEvent(Server& source,
 		if(event == "PRIVMSG" || event == "CHANNEL")
 		{
 			const std::string& message = *params.rbegin();
-			if(message[0] == source.GetPrefix())
+			const std::string prefix = source.GetPrefix();
+			if(message.compare(0, prefix.size(), prefix) == 0)
 			{
 				size_t aliasLen = message.find_first_of(" \r\t\n");
 				if(aliasLen != std::string::npos)
@@ -219,6 +222,51 @@ void EventManager::DelNetworklistener(SelectingInterface* listener)
 
 	std::swap(*it, *(networklisteners.end() - 1));
 	networklisteners.pop_back();
+}
+
+void EventManager::AddEvent(EventHandler* evt)
+{
+	if(evt->GetType() == TYPE_SIMPLE)
+	{
+		aliasedEvents.insert(AliasedMap::value_type(evt->GetAlias(), evt));
+	}
+	else
+	{
+		miscEvents.push_back(evt);
+	}
+}
+
+void EventManager::DelEvent(EventHandler* evt)
+{
+	markedForDelete.push_back(evt);
+}
+
+void EventManager::ExecuteDeletions(void)
+{
+	std::vector<EventHandler*>::const_iterator end = markedForDelete.end();
+	std::vector<EventHandler*>::reverse_iterator clr = miscEvents.rbegin();
+	for(std::vector<EventHandler*>::const_iterator it = markedForDelete.begin();
+		it != end;
+		++it)
+	{
+		if((*it)->GetType() == TYPE_SIMPLE)
+		{
+			aliasedEvents.erase((*it)->GetAlias());
+		}
+		else
+		{
+			std::vector<EventHandler*>::iterator elem;
+			elem = std::find(miscEvents.begin(), miscEvents.end(), *it);
+			if(elem != miscEvents.end())
+			{
+				std::swap(*elem, *clr);
+				++clr;
+			}
+		}
+		delete *it;
+	}
+	markedForDelete.clear();
+	miscEvents.erase(clr.base(), miscEvents.end());
 }
 
 ServerInterface* EventManager::GetServer(const std::string& name)
