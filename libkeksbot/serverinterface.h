@@ -19,7 +19,7 @@ public:
 	virtual std::string GetLocation() = 0;
 	virtual std::string GetUsername() = 0;
 	virtual std::string GetRealname() = 0;
-	virtual char GetPrefix() = 0;
+	virtual std::string GetPrefix() = 0;
 
 	virtual const Channel& GetChannel(const std::string& chan) = 0;
 };

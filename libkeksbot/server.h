@@ -26,7 +26,7 @@ private:
 	std::string nick;
 	std::string username;
 	std::string realname;
-	char prefix;
+	std::string prefix;
 	ChannelListType channels;
 	UserListType ignored;
 
@@ -56,7 +56,7 @@ public:
 	void SetNick(const std::string& newNick);
 	std::string GetUsername(void);
 	std::string GetRealname(void);
-	char GetPrefix(void);
+	std::string GetPrefix(void);
 	const UserListType& GetIgnored();
 
 	const Channel& GetChannel(const std::string& chan);

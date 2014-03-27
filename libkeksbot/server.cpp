@@ -126,7 +126,7 @@ Server::Server(const Configs& settings, EventManager* man)
 	settings.GetValueOrDefault("realname", realname, std::string("nobody"));
 	settings.GetValueOrDefault("password", passwd, std::string());
 	
-	settings.GetValueOrDefault("prefix", prefix, '-');
+	settings.GetValueOrDefault("prefix", prefix, std::string("-"));
 
 	std::string chanLine;
 	settings.GetValueOrDefault("channels", chanLine, std::string());
@@ -385,7 +385,7 @@ std::string Server::GetRealname(void)
 	return realname;
 }
 
-char Server::GetPrefix(void)
+std::string Server::GetPrefix(void)
 {
 	return prefix;
 }

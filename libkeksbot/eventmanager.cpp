@@ -150,13 +150,14 @@ void EventManager::DistributeEvent(Server& source,
 		{
 			const std::string& message = *params.rbegin();
 			const std::string prefix = source.GetPrefix();
-			if(message.compare(0, prefix.size(), prefix) == 0)
+			size_t prefixSize = prefix.size();
+			if(message.compare(0, prefixSize, prefix) == 0)
 			{
-				size_t aliasLen = message.find_first_of(" \r\t\n");
+				size_t aliasLen = message.find_first_of(" \r\t\n", prefixSize);
 				if(aliasLen != std::string::npos)
-					aliasLen -= 1;
+					aliasLen -= prefixSize;
 
-				std::string keyword = message.substr(1, aliasLen);
+				std::string keyword = message.substr(prefixSize, aliasLen);
 				std::map<std::string, EventHandler*>::iterator it;
 				it = aliasedEvents.find(keyword);
 				if(it != aliasedEvents.end()
@@ -165,7 +166,7 @@ void EventManager::DistributeEvent(Server& source,
 					ParamList strippedParams(params.begin(), params.end());
 					std::string realMsg;
 					if(aliasLen != std::string::npos)
-						aliasLen = message.find_first_not_of(" \r\t\n", aliasLen + 1);
+						aliasLen = message.find_first_not_of(" \r\t\n", aliasLen + prefixSize);
 					if(aliasLen != std::string::npos)
 						realMsg = message.substr(aliasLen);
 					strippedParams[strippedParams.size() - 1] = realMsg;
