@@ -12,9 +12,9 @@ int dehex(char hex)
 	if('0' <= hex && hex <= '9')
 		return hex - '0';
 	else if('a' <= hex && hex <= 'f')
-		return hex - 'a';
+		return 10 + hex - 'a';
 	else if('A' <= hex && hex <= 'F')
-		return hex - 'A';
+		return 10 + hex - 'A';
 	else
 		return -1;
 }
