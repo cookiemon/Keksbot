@@ -1,5 +1,6 @@
 #include "httprelay.h"
 #include "configs.h"
+#include "eventmanager.h"
 #include "logging.h"
 #include "serverinterface.h"
 #include <algorithm>
@@ -7,6 +8,8 @@
 
 HttpRelay::HttpRelay(const Configs& cfg)
 {
+	multiHandle = curl_multi_init();
+
 	cfg.GetValue("cburl", cbUrl);
 	std::string hooks;
 	cfg.GetValueOrDefault("hooks", hooks,
@@ -22,6 +25,11 @@ HttpRelay::HttpRelay(const Configs& cfg)
 		else
 			pos = nextPos + 1;
 	}
+}
+
+HttpRelay::~HttpRelay()
+{
+	curl_multi_cleanup(multiHandle);
 }
 
 static size_t NoMemoryCallback(void* cont, size_t size, size_t nmemb, void* usrp)
@@ -89,11 +97,13 @@ void HttpRelay::OnEvent(ServerInterface& srv,
 	curl_easy_setopt(handle, CURLOPT_POST, 1L);
 
 	std::string encodedParams = GetUrlParamList(handle, postParams);
-	curl_easy_setopt(handle, CURLOPT_POSTFIELDS, encodedParams.c_str());
 	curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE, encodedParams.size());
+	curl_easy_setopt(handle, CURLOPT_COPYPOSTFIELDS, encodedParams.c_str());
 
-	curl_easy_perform(handle);
-	curl_easy_cleanup(handle);
+	curl_multi_add_handle(multiHandle, handle);
+	//curl_easy_perform(handle);
+	int foo;
+	//curl_multi_perform(multiHandle, &foo);
 	Log(LOG_DEBUG, "Sent http request to %s. Post: %s",
 		cbUrl.c_str(), encodedParams.c_str());
 }
@@ -128,4 +138,28 @@ bool HttpRelay::DoesHandle(ServerInterface& srv,
 	if(!server.empty() && server != srv.GetName())
 		return false;
 	return handledEvents.find(event) != handledEvents.end();
+}
+
+void HttpRelay::AddSelectDescriptors(fd_set& inSet,
+	fd_set& outSet,
+	fd_set& excSet,
+	int& maxFD)
+{
+	int max = 0;
+	curl_multi_fdset(multiHandle, &inSet, &outSet, &excSet, &max);
+	maxFD = std::max(maxFD, max);
+}
+
+void HttpRelay::SelectDescriptors(fd_set& inSet, fd_set& outSet, fd_set& excSet)
+{
+	int running;
+	curl_multi_perform(multiHandle, &running);
+	struct CURLMsg* msg;
+	while((msg = curl_multi_info_read(multiHandle, &running)))
+	{
+		CURL* handle = msg->easy_handle;
+		Log(LOG_ERR, "Result of curl request: %ld", static_cast<long>(msg->data.result));
+		curl_multi_remove_handle(multiHandle, handle);
+		curl_easy_cleanup(handle);
+	}
 }
