@@ -1,5 +1,6 @@
 #include "eventinterface.h"
 #include "exceptions.h"
+#include "httprelay.h"
 #include "simpleevent.h"
 #include "statichandlers.h"
 #include "stattracker.h"
@@ -47,6 +48,8 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 			man->AddNetworklistener(hand);
 			newHandler = hand;
 		}
+		else if(handler == "httprelay")
+			newHandler = new HttpRelay(configs);
 		else
 			throw ConfigException("static handler type not known");
 	}
