@@ -38,8 +38,11 @@ public:
 
 	void Connect(void);
 	void Disconnect(void);
-	void AddSelectDescriptors(fd_set& inSet, fd_set& outSet, int& maxFd);
-	void SelectDescriptors(fd_set& inSet, fd_set& outSet);
+	void AddSelectDescriptors(fd_set& inSet,
+		fd_set& outSet,
+		fd_set& excSet,
+		int& maxFd);
+	void SelectDescriptors(fd_set& inSet, fd_set& outSet, fd_set& excSet);
 	void EventConnect(const std::string& evt, const std::string& origin, const ParamList& args);
 	void EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args);
 	void EventMisc   (const std::string& rvt, const std::string& origin, const ParamList& args);

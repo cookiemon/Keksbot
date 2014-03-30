@@ -26,8 +26,11 @@ public:
 	UdsServer(EventManager* man, const Configs& configs);
 	~UdsServer();
 
-	void AddSelectDescriptors(fd_set& inFD, fd_set& outFD, int& maxFD);
-	void SelectDescriptors(fd_set& inFD, fd_set& outFD);
+	void AddSelectDescriptors(fd_set& inFD,
+		fd_set& outFD,
+		fd_set& excFD,
+		int& maxFD);
+	void SelectDescriptors(fd_set& inFD, fd_set& outFD, fd_set& excFD);
 
 	EventType GetType();
 

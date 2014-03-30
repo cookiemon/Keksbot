@@ -209,7 +209,10 @@ void Server::Disconnect(void)
 	irc_disconnect(session);
 }
 
-void Server::AddSelectDescriptors(fd_set& inSet, fd_set& outSet, int& maxFd)
+void Server::AddSelectDescriptors(fd_set& inSet,
+	fd_set& outSet,
+	fd_set& excSet,
+	int& maxFd)
 {
 	if(!IsConnected())
 	{
@@ -228,7 +231,7 @@ void Server::AddSelectDescriptors(fd_set& inSet, fd_set& outSet, int& maxFd)
 		Disconnect();
 }
 
-void Server::SelectDescriptors(fd_set& inSet, fd_set& outSet)
+void Server::SelectDescriptors(fd_set& inSet, fd_set& outSet, fd_set& excSet)
 {
 	int error = irc_process_select_descriptors(session, &inSet, &outSet);
 	if(error != 0)

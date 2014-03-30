@@ -59,7 +59,10 @@ UdsServer::~UdsServer()
 	unlink(addr.sun_path);
 }
 
-void UdsServer::AddSelectDescriptors(fd_set& inFD, fd_set& outFD, int& maxFD)
+void UdsServer::AddSelectDescriptors(fd_set& inFD,
+	fd_set& outFD,
+	fd_set& excFD,
+	int& maxFD)
 {
 	FD_SET(srvSock, &inFD);
 	maxFD = std::max(srvSock, maxFD);
@@ -72,7 +75,7 @@ void UdsServer::AddSelectDescriptors(fd_set& inFD, fd_set& outFD, int& maxFD)
 	}
 }
 
-void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD)
+void UdsServer::SelectDescriptors(fd_set& inFD, fd_set& outFD, fd_set& excFD)
 {
 	int res = 0;
 	if(FD_ISSET(srvSock, &inFD))

@@ -49,7 +49,11 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 			newHandler = hand;
 		}
 		else if(handler == "httprelay")
-			newHandler = new HttpRelay(configs);
+		{
+			HttpRelay* hand = new HttpRelay(configs);
+			man->AddNetworklistener(hand);
+			newHandler = hand;
+		}
 		else
 			throw ConfigException("static handler type not known");
 	}

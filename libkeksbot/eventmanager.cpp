@@ -86,9 +86,11 @@ void EventManager::DoSelect(void)
 	tv.tv_usec = 250000;
 	fd_set inSet;
 	fd_set outSet;
+	fd_set excSet;
 	int maxFd = 0;
 	FD_ZERO(&inSet);
 	FD_ZERO(&outSet);
+	FD_ZERO(&excSet);
 
 	ExecuteDeletions();
 
@@ -96,7 +98,7 @@ void EventManager::DoSelect(void)
 	{
 		try
 		{
-			networklisteners[i]->AddSelectDescriptors(inSet, outSet, maxFd);
+			networklisteners[i]->AddSelectDescriptors(inSet, outSet, excSet, maxFd);
 		}
 		catch(NumericErrorException& e)
 		{
@@ -110,14 +112,14 @@ void EventManager::DoSelect(void)
 		}
 	}
 
-	if(select(maxFd+1, &inSet, &outSet, NULL, &tv) < 0)
+	if(select(maxFd+1, &inSet, &outSet, &excSet, &tv) < 0)
 		Log(LOG_ERR, "Select error: [%d] %s", errno, strerror(errno));
 
 	for(size_t i = 0; i < networklisteners.size(); ++i)
 	{
 		try
 		{
-			networklisteners[i]->SelectDescriptors(inSet, outSet);
+			networklisteners[i]->SelectDescriptors(inSet, outSet, excSet);
 		}
 		catch(NumericErrorException& e)
 		{
