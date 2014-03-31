@@ -21,6 +21,7 @@ private:
 
 	std::string name;
 	std::string srv;
+	bool ipv6;
 	unsigned short port;
 	std::string passwd;
 	std::string nick;

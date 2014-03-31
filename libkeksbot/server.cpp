@@ -117,6 +117,7 @@ Server::Server(const Configs& settings, EventManager* man)
 	assert(manager != NULL);
 
 	settings.GetValue("location", srv);
+	settings.GetValueOrDefault("ipv6", ipv6);
 
 	port = srv[0] == '#' ? 6697 : 6667;
 	settings.GetValueOrDefault("port", port, port);
@@ -198,8 +199,13 @@ void Server::Init(void)
 void Server::Connect(void)
 {
 	const char* password = passwd.empty() ? NULL : passwd.c_str();
-	int error = irc_connect(session, srv.c_str(), port, password,
-		nick.c_str(), username.c_str(), realname.c_str());
+	int error;
+	if(ipv6)
+		error = irc_connect6(session, srv.c_str(), port, password,
+			nick.c_str(), username.c_str(), realname.c_str());
+	else
+		error = irc_connect(session, srv.c_str(), port, password,
+			nick.c_str(), username.c_str(), realname.c_str());
 	if(error != 0)
 		throw IrcException(irc_errno(session));
 }
