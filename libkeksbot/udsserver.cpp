@@ -174,6 +174,7 @@ void UdsServer::ParseMessage(int fd, std::string msg)
 			size_t len = strftime(ftime, 25, "%FT%T%z", &timeStruct);
 			if(len == 0)
 				throw SystemException(errno);
+			ftime[25] = 0;
 			ftime[24] = ftime[23];
 			ftime[23] = ftime[22];
 			ftime[22] = ':';
