@@ -38,8 +38,6 @@ void Stats::OnEvent(ServerInterface& server,
 		period = StatRequester::PERIOD_YEAR;
 	else if(message.find("month") != std::string::npos)
 		period = StatRequester::PERIOD_MONTH;
-	else if(message.find("week") != std::string::npos)
-		period = StatRequester::PERIOD_WEEK;
 	else if(message.find("day") != std::string::npos)
 		period = StatRequester::PERIOD_DAY;
 

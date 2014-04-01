@@ -16,11 +16,12 @@ const char* GET_STATS_GROUP = "GROUP BY COALESCE( aliases.nick, stats.nick) ";
 const char* GET_STATS_ORDER_1 = "ORDER BY SUM(";
 const char* GET_STATS_ORDER_2 = ") DESC LIMIT ?4;";
 
-const char* GET_STATS_PERIOD[] = { "start of year",
+const char* GET_STATS_PERIOD[] = {  "hurrrrrrrrrrr",
+									"start of year",
 									"start of month",
-									"start of week",
 									"start of day" };
 const char* GET_STATS_COLUMNS[] = { "charcount",
+									"charcount",
 									"wordcount",
 									"linecount" };
 
@@ -108,12 +109,5 @@ std::string StatRequester::GetCountTypeColumn(CountType type)
 {
 	if(type >= COUNTTYPE_END)
 		throw IllegalArgumentException("Cannot convert counttype to string");
-	switch(type)
-	{
-	case COUNTTYPE_CHAR:
-	case COUNTTYPE_BEER:
-		return GET_STATS_COLUMNS[0];
-	default:
-		return GET_STATS_COLUMNS[type-1];
-	}
+	return GET_STATS_COLUMNS[type];
 }
