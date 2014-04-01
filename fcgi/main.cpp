@@ -218,7 +218,7 @@ int main(void)
 		std::string cmd = ParseCmd(method, args);
 		if(cmd.empty())
 		{
-			printf("Status: 404\r\n");
+			printf("Status: 404 Ressource not Found\n\n");
 			continue;
 		}
 
@@ -228,8 +228,8 @@ int main(void)
 			std::string reply = cl.Read();
 			if(!reply.empty())
 			{
-				printf("Content-type: text/plain\r\n\r\n");
-				printf("%s\r\n", reply.c_str());
+				printf("Content-type: text/plain\n\n");
+				printf("%s\n", reply.c_str());
 			}
 		}
 	}
