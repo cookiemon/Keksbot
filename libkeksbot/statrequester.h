@@ -40,7 +40,7 @@ public:
 		std::vector<std::pair<std::string, int64_t> >& out);
 
 private:
-	std::string CreateStatement(TimePeriod period, CountType type, int64_t limit);
+	std::string CreateStatement(CountType type, bool usePeriod, bool useLimit);
 	std::string GetPeriodString(TimePeriod period);
 	std::string GetCountTypeColumn(CountType type);
 };

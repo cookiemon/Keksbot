@@ -9,12 +9,14 @@ const char* GET_STATS_SELECT = "SELECT COALESCE(aliases.nick, stats.nick) ";
 const char* GET_STATS_COLUMN_1 = ", SUM(";
 const char* GET_STATS_COLUMN_2 = ") ";
 const char* GET_STATS_FROM = "FROM stats LEFT JOIN aliases "
-			" ON aliases.alias = stats.nick AND aliases.server = stats.server "
-			" WHERE stats.server = ?1 AND channel = ?2 ";
+			"ON aliases.alias = stats.nick AND aliases.server = stats.server "
+			"WHERE stats.server = ?1 AND channel = ?2 ";
 const char* GET_STATS_WHERE_TIME = "AND strftime('%s', 'now', ?3) < timestamp ";
 const char* GET_STATS_GROUP = "GROUP BY COALESCE( aliases.nick, stats.nick) ";
 const char* GET_STATS_ORDER_1 = "ORDER BY SUM(";
-const char* GET_STATS_ORDER_2 = ") DESC LIMIT ?4;";
+const char* GET_STATS_ORDER_2 = ") DESC ";
+const char* GET_STATS_LIMIT = "LIMIT ?4";
+const char* GET_STATS_END = ";";
 
 const char* GET_STATS_PERIOD[] = {  "hurrrrrrrrrrr",
 									"start of year",
@@ -34,9 +36,9 @@ StatRequester::~StatRequester()
 {
 }
 
-std::string StatRequester::CreateStatement(TimePeriod period,
-	CountType type,
-	int64_t limit)
+std::string StatRequester::CreateStatement(CountType type,
+	bool usePeriod,
+	bool useLimit)
 {
 	std::string columnname = GetCountTypeColumn(type);
 	std::string sql(GET_STATS_SELECT);
@@ -44,10 +46,15 @@ std::string StatRequester::CreateStatement(TimePeriod period,
 
 	sql += GET_STATS_FROM;
 
-	if(period != PERIOD_ALL)
+	if(usePeriod)
 		sql += GET_STATS_WHERE_TIME;
 	sql += GET_STATS_GROUP;
 	sql += GET_STATS_ORDER_1 + columnname + GET_STATS_ORDER_2;
+
+	if(useLimit)
+		sql += GET_STATS_LIMIT;
+	
+	sql += GET_STATS_END;
 	return sql;
 }
 
@@ -68,7 +75,9 @@ void StatRequester::RequestData(const std::string& server,
 	}
 
 	sqlite3_stmt* getStatsStmt = NULL;
-	std::string sqlStatement = CreateStatement(period, type, limit);
+	std::string sqlStatement = CreateStatement(type,
+												period != PERIOD_ALL,
+												limit >= 0);
 	res = sqlite3_prepare(db, sqlStatement.c_str(), -1, &getStatsStmt, NULL);
 	if(res != 0)
 		Log(LOG_ERR, "Could not prepare statement");
