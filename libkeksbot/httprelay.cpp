@@ -92,7 +92,7 @@ void HttpRelay::OnEvent(ServerInterface& srv,
 	size_t s = 0;
 	curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, &NoMemoryCallback);
 	curl_easy_setopt(handle, CURLOPT_WRITEDATA, &s);
-	curl_easy_setopt(handle, CURLOPT_USERAGENT, "keksbot/1.3");
+	curl_easy_setopt(handle, CURLOPT_USERAGENT, "keksbot/1.3-beta");
 	curl_easy_setopt(handle, CURLOPT_POSTREDIR, CURL_REDIR_POST_ALL);
 	curl_easy_setopt(handle, CURLOPT_POST, 1L);
 
@@ -101,9 +101,6 @@ void HttpRelay::OnEvent(ServerInterface& srv,
 	curl_easy_setopt(handle, CURLOPT_COPYPOSTFIELDS, encodedParams.c_str());
 
 	curl_multi_add_handle(multiHandle, handle);
-	//curl_easy_perform(handle);
-	int foo;
-	//curl_multi_perform(multiHandle, &foo);
 	Log(LOG_DEBUG, "Sent http request to %s. Post: %s",
 		cbUrl.c_str(), encodedParams.c_str());
 }
