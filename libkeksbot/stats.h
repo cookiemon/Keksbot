@@ -3,9 +3,10 @@
 
 #include "eventinterface.h"
 #include "configs.h"
-#include "statrequester.h"
 #include <stdint.h>
 #include <string>
+#include <utility>
+#include <vector>
 
 class Stats : public EventHandler
 {
@@ -27,10 +28,8 @@ public:
 
 private:
 	void SendStats(ServerInterface& server, const std::string& channel,
-					StatRequester::TimePeriod period, StatRequester::CountType type);
-	void LoadValues(const std::string& server, const std::string& channel,
-					StatRequester::TimePeriod period, StatRequester::CountType type,
-					std::vector<std::pair<std::string, int64_t> >& out);
+					bool isDigitaler,
+					const std::vector<std::pair<std::string, int64_t> >& vals);
 };
 
 #endif

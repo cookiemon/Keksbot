@@ -18,9 +18,20 @@ void Stats::OnEvent(ServerInterface& server,
 	const std::string& event, const std::string& origin, const ParamList& params)
 {
 	std::string message = "";
-	std::string channel = params.size() > 1 ? params[0] : origin;
 	if(params.size() > 0)
 		message = params[params.size() - 1];
+	const std::string& sourceChan = params.size() > 1 ? params[0] : origin;
+	std::string channel = sourceChan;
+
+	if(message[0] == '#')
+	{
+		size_t space = message.find_first_of(" \r\t\n");
+		channel = message.substr(0, space);
+		if(space != std::string::npos)
+			message = message.substr(message.find_first_not_of(space));
+		else
+			message = "";
+	}
 	
 	StatRequester::TimePeriod period = StatRequester::PERIOD_ALL;
 	if(message.find("year") != std::string::npos)
@@ -31,7 +42,7 @@ void Stats::OnEvent(ServerInterface& server,
 		period = StatRequester::PERIOD_WEEK;
 	else if(message.find("day") != std::string::npos)
 		period = StatRequester::PERIOD_DAY;
-	
+
 	StatRequester::CountType type = StatRequester::COUNTTYPE_CHAR;
 	if(message.find("word") != std::string::npos)
 		type = StatRequester::COUNTTYPE_WORD;
@@ -40,28 +51,31 @@ void Stats::OnEvent(ServerInterface& server,
 	else if(message.find("digitaler") != std::string::npos)
 		type = StatRequester::COUNTTYPE_BEER;
 
-	SendStats(server, channel, period, type);
+	StatRequester req(dbfile);
+	std::vector<std::pair<std::string, int64_t> > vals;
+	req.RequestData(server.GetName(), channel, period, type, 10, vals);
+
+	SendStats(server, sourceChan,
+		type == StatRequester::COUNTTYPE_BEER,
+		vals);
 }
 
 void Stats::SendStats(ServerInterface& server,
 	const std::string& channel,
-	StatRequester::TimePeriod period,
-	StatRequester::CountType type)
+	bool isDigitaler,
+	const std::vector<std::pair<std::string, int64_t> >& vals)
 {
-	std::vector<std::pair<std::string, int64_t> > curVals;
-	StatRequester req(dbfile);
-	req.RequestData(server.GetName(), channel, period, type, 10, curVals);
 	std::stringstream reply;
-	if(type != StatRequester::COUNTTYPE_BEER)
+	if(!isDigitaler)
 		reply << "Top 10 Spammers: ";
 	else
 		reply << "Digitaler in wallet: ";
-	if(curVals.size() != 0)
-		reply << curVals[0].first
-			<< "(" << curVals[0].second / (type == StatRequester::COUNTTYPE_BEER?100000:1) << ")";
-	for(size_t i = 1; i < curVals.size(); ++i)
-		reply << ", " << curVals[i].first
-			<< "(" << curVals[i].second / (type == StatRequester::COUNTTYPE_BEER?100000:1) << ")";
+	if(vals.size() != 0)
+		reply << vals[0].first
+			<< "(" << vals[0].second / (isDigitaler?100000:1) << ")";
+	for(size_t i = 1; i < vals.size(); ++i)
+		reply << ", " << vals[i].first
+			<< "(" << vals[i].second / (isDigitaler?100000:1) << ")";
 	server.SendMsg(channel, reply.str());
 }
 
