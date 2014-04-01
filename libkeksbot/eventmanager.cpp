@@ -3,6 +3,7 @@
 #include "logging.h"
 #include "server.h"
 #include "simpleevent.h"
+#include "stringhelpers.h"
 #include <algorithm>
 #include <errno.h>
 #include <string.h>
@@ -134,6 +135,49 @@ void EventManager::DoSelect(void)
 	}
 }
 
+void EventManager::DistributeSimpleEvent(Server& source,
+                                         const std::string& event,
+                                         const std::string& origin,
+                                         const ParamList& params)
+{
+	const std::string& message = *params.rbegin();
+	const std::string prefix = source.GetPrefix();
+	if(message.compare(0, prefix.size(), prefix) == 0)
+	{
+		size_t aliasEnd = message.find_first_of(" \r\t\n", prefix.size());
+		if(message.compare(0, prefix.size(), prefix) == 0)
+		{
+			std::string keyword = message.substr(prefix.size(), aliasEnd - prefix.size());
+			AliasedMap::iterator it = aliasedEvents.find(keyword);
+			if(it != aliasedEvents.end()
+				&& it->second->DoesHandle(source,event, origin, params))
+			{
+				ParamList strippedParams(params.begin(), params.end());
+				strippedParams[0] = strippedParams[0].substr(aliasEnd);
+				Trim(strippedParams[0]);
+
+				try
+				{
+					it->second->OnEvent(source, event, origin, strippedParams);
+				}
+				catch(const NumericErrorException& e)
+				{
+					Log(LOG_ERR, "Error on event %s: [%d] %s",
+						it->second->GetAlias().c_str(),
+						e.ErrorNumber(),
+						e.what());
+				}
+				catch(const std::exception& e)
+				{
+					Log(LOG_ERR, "Error on event %s: %s",
+						it->second->GetAlias().c_str(),
+						e.what());
+				}
+			}
+		}
+	}
+}
+
 void EventManager::DistributeEvent(Server& source,
                                    const std::string& event,
                                    const std::string& origin,
@@ -149,41 +193,30 @@ void EventManager::DistributeEvent(Server& source,
 		== source.GetIgnored().end())
 	{
 		if(event == "PRIVMSG" || event == "CHANNEL")
-		{
-			const std::string& message = *params.rbegin();
-			const std::string prefix = source.GetPrefix();
-			size_t prefixSize = prefix.size();
-			if(message.compare(0, prefixSize, prefix) == 0)
-			{
-				size_t aliasLen = message.find_first_of(" \r\t\n", prefixSize);
-				if(aliasLen != std::string::npos)
-					aliasLen -= prefixSize;
-
-				std::string keyword = message.substr(prefixSize, aliasLen);
-				std::map<std::string, EventHandler*>::iterator it;
-				it = aliasedEvents.find(keyword);
-				if(it != aliasedEvents.end()
-					&& it->second->DoesHandle(source, event, origin, params))
-				{
-					ParamList strippedParams(params.begin(), params.end());
-					std::string realMsg;
-					if(aliasLen != std::string::npos)
-						aliasLen = message.find_first_not_of(" \r\t\n", aliasLen + prefixSize);
-					if(aliasLen != std::string::npos)
-						realMsg = message.substr(aliasLen);
-					strippedParams[strippedParams.size() - 1] = realMsg;
-					it->second->OnEvent(source, event, origin, strippedParams);
-				}
-			}
-		}
+			DistributeSimpleEvent(source, event, origin, params);
 	}
 
 	for(std::vector<EventHandler*>::iterator it = miscEvents.begin();
 	    it != miscEvents.end();
 		++it)
 	{
-		if((*it)->DoesHandle(source, event, origin, params))
-			(*it)->OnEvent(source, event, origin, params);
+		try
+		{
+			if((*it)->DoesHandle(source, event, origin, params))
+				(*it)->OnEvent(source, event, origin, params);
+		}
+		catch(const NumericErrorException& e)
+		{
+			Log(LOG_ERR, "Error on event %s: [%d] %s",
+				(*it)->GetAlias().c_str(),
+				e.ErrorNumber(), e.what());
+		}
+		catch(const std::exception& e)
+		{
+			Log(LOG_ERR, "Error on event %s: %s",
+				(*it)->GetAlias().c_str(),
+				e.what());
+		}
 	}
 }
 

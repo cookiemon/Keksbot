@@ -28,12 +28,18 @@ const char* GET_STATS_COLUMNS[] = { "charcount",
 									"linecount" };
 
 StatRequester::StatRequester(const std::string& dbfile)
-	: dbfile(dbfile)
 {
+	int res = sqlite3_open(dbfile.c_str(), &db);
+	if(res != 0)
+	{
+		sqlite3_close(db);
+		throw SqliteException(res);
+	}
 }
 
 StatRequester::~StatRequester()
 {
+	sqlite3_close(db);
 }
 
 std::string StatRequester::CreateStatement(CountType type,
@@ -65,31 +71,20 @@ void StatRequester::RequestData(const std::string& server,
 	int64_t limit,
 	std::vector<std::pair<std::string, int64_t> >& out)
 {
-	sqlite3* db = NULL;
-	int res = sqlite3_open(dbfile.c_str(), &db);
-	if(res != 0)
-	{
-		Log(LOG_ERR, "Could not open sqlite db %s", dbfile.c_str());
-		sqlite3_close(db);
-		return;
-	}
-
 	sqlite3_stmt* getStatsStmt = NULL;
 	std::string sqlStatement = CreateStatement(type,
 												period != PERIOD_ALL,
 												limit >= 0);
-	res = sqlite3_prepare(db, sqlStatement.c_str(), -1, &getStatsStmt, NULL);
+	int res = sqlite3_prepare(db, sqlStatement.c_str(), -1, &getStatsStmt, NULL);
 	if(res != 0)
-		Log(LOG_ERR, "Could not prepare statement");
+		throw SqliteException(sqlite3_errcode(db));
 
 	res = sqlite3_bind_text(getStatsStmt, 1, server.c_str(), -1, SQLITE_TRANSIENT);
 	res |= sqlite3_bind_text(getStatsStmt, 2, channel.c_str(), -1, SQLITE_TRANSIENT);
 	res |= sqlite3_bind_text(getStatsStmt, 3, GetPeriodString(period).c_str(), -1, SQLITE_TRANSIENT);
 	res |= sqlite3_bind_int64(getStatsStmt, 4, limit);
 	if(res != 0)
-	{
-		Log(LOG_ERR, "Error while binding query parameter");
-	}
+		throw SqliteException(sqlite3_errcode(db));
 
 	while((res = sqlite3_step(getStatsStmt)) == SQLITE_ROW)
 	{
@@ -101,7 +96,7 @@ void StatRequester::RequestData(const std::string& server,
 		out.push_back(val);
 	}
 	if(res != SQLITE_DONE)
-		Log(LOG_ERR, "Error while executing sql query");
+		throw SqliteException(sqlite3_errcode(db));
 
 	sqlite3_finalize(getStatsStmt);
 	sqlite3_close(db);

@@ -155,7 +155,7 @@ void HttpRelay::SelectDescriptors(fd_set& inSet, fd_set& outSet, fd_set& excSet)
 	while((msg = curl_multi_info_read(multiHandle, &running)))
 	{
 		CURL* handle = msg->easy_handle;
-		Log(LOG_ERR, "Result of curl request: %ld", static_cast<long>(msg->data.result));
+		Log(LOG_DEBUG, "Result of curl request: %ld", static_cast<long>(msg->data.result));
 		curl_multi_remove_handle(multiHandle, handle);
 		curl_easy_cleanup(handle);
 	}

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdexcept>
 #include <libircclient/libircclient.h>
+#include <sqlite3.h>
 
 class RestartException : public std::exception
 {
@@ -61,6 +62,19 @@ public:
 	const char* what() const throw()
 	{
 		return strerror(ErrorNumber());
+	}
+};
+
+class SqliteException : public NumericErrorException
+{
+public:
+	SqliteException(int errNum) : NumericErrorException(errNum)
+	{
+	}
+
+	const char* what() const throw()
+	{
+		return sqlite3_errstr(ErrorNumber());
 	}
 };
 

@@ -6,10 +6,12 @@
 #include <string>
 #include <vector>
 
+struct sqlite3;
+
 class StatRequester
 {
 private:
-	std::string dbfile;
+	sqlite3* db;
 
 public:
 	enum TimePeriod

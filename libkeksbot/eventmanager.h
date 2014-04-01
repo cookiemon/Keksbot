@@ -26,9 +26,9 @@ public:
 	void DoSelect(void);
 
 	void DistributeEvent(Server& source,
-	                     const std::string& event,
-						 const std::string& origin,
-						 const ParamList& params);
+											const std::string& event,
+											const std::string& origin,
+											const ParamList& params);
 	
 	const std::vector<Server*>& GetServers();
 	std::vector<EventHandler*> GetEvents();
@@ -42,6 +42,11 @@ public:
 	void DelEvent(EventHandler* evt);
 
 private:
+	void DistributeSimpleEvent(Server& source,
+														const std::string& event,
+														const std::string& origin,
+														const ParamList& params);
+
 	void ExecuteDeletions(void);
 };
 
