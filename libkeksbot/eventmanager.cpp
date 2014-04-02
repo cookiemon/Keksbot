@@ -145,34 +145,33 @@ void EventManager::DistributeSimpleEvent(Server& source,
 	if(message.compare(0, prefix.size(), prefix) == 0)
 	{
 		size_t aliasEnd = message.find_first_of(" \r\t\n", prefix.size());
-		if(message.compare(0, prefix.size(), prefix) == 0)
+		aliasEnd = std::min(message.size(), aliasEnd);
+		std::string keyword = message.substr(prefix.size(), aliasEnd - prefix.size());
+		AliasedMap::iterator it = aliasedEvents.find(keyword);
+		if(it != aliasedEvents.end()
+			&& it->second->DoesHandle(source,event, origin, params))
 		{
-			std::string keyword = message.substr(prefix.size(), aliasEnd - prefix.size());
-			AliasedMap::iterator it = aliasedEvents.find(keyword);
-			if(it != aliasedEvents.end()
-				&& it->second->DoesHandle(source,event, origin, params))
-			{
-				ParamList strippedParams(params.begin(), params.end());
-				strippedParams[0] = strippedParams[0].substr(aliasEnd);
-				Trim(strippedParams[0]);
+			ParamList strippedParams(params.begin(), --params.end());
+			std::string realmsg = message.substr(aliasEnd);
+			Trim(realmsg);
+			strippedParams.push_back(realmsg);
 
-				try
-				{
-					it->second->OnEvent(source, event, origin, strippedParams);
-				}
-				catch(const NumericErrorException& e)
-				{
-					Log(LOG_ERR, "Error on event %s: [%d] %s",
-						it->second->GetAlias().c_str(),
-						e.ErrorNumber(),
-						e.what());
-				}
-				catch(const std::exception& e)
-				{
-					Log(LOG_ERR, "Error on event %s: %s",
-						it->second->GetAlias().c_str(),
-						e.what());
-				}
+			try
+			{
+				it->second->OnEvent(source, event, origin, strippedParams);
+			}
+			catch(const NumericErrorException& e)
+			{
+				Log(LOG_ERR, "Error on event %s: [%d] %s",
+					it->second->GetAlias().c_str(),
+					e.ErrorNumber(),
+					e.what());
+			}
+			catch(const std::exception& e)
+			{
+				Log(LOG_ERR, "Error on event %s: %s",
+					it->second->GetAlias().c_str(),
+					e.what());
 			}
 		}
 	}
