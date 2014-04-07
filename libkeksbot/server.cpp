@@ -320,6 +320,23 @@ void Server::EventMisc (const std::string& evt, const std::string& origin, const
 				it->second.users.insert(newUsr);
 		}
 	}
+	else if(evt == "QUIT")
+	{
+		User usr(origin);
+		for(ChannelListType::iterator it = channels.begin();
+			it != channels.end();
+			++it)
+		{
+			it->second.users.erase(usr);
+		}
+	}
+	else if(evt == "PART" && args.size() > 0)
+	{
+		User usr(origin);
+		ChannelListType::iterator it = channels.find(args[0]);
+		if(it != channels.end())
+			it->second.users.erase(usr);
+	}
 	else if((evt == "CHANNEL" || evt == "ACTION")
 		&& args[0][0] == '#' && args.size() > 1)
 	{
