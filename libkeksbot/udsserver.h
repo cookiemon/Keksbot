@@ -19,7 +19,6 @@ private:
 	int srvSock;
 	std::vector<int> clients;
 	struct sockaddr_un addr;
-	EventManager* man;
 	ServerInterface* srv;
 
 public:

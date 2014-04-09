@@ -31,11 +31,11 @@ struct Base64Decode
 		std::string retVal;
 		retVal.reserve(str.size() * 3 / 4);
 
-		char tmp = 0;
+		int tmp = 0;
 
 		for(size_t i = 0; i < str.size(); ++i)
 		{
-			char val = -1;
+			int val = -1;
 			const char curC = str[i];
 			if('A' <= curC && curC <= 'Z')
 				val = curC - 'A';

@@ -10,7 +10,6 @@
 #include <unistd.h>
 
 UdsServer::UdsServer(EventManager* man, const Configs& settings)
-	: man(man)
 {
 	if(man == NULL)
 		throw IllegalArgumentException("EventManager* may not be null (UdsServer::UdsServer)");
@@ -190,8 +189,8 @@ void UdsServer::ParseMessage(int fd, std::string msg)
 
 void UdsServer::SendReply(int fd, const std::string& reply)
 {
-	size_t num = write(fd, reply.c_str(), reply.size());
-	if(num < reply.size())
+	ssize_t num = write(fd, reply.c_str(), reply.size());
+	if(num < 0 || static_cast<size_t>(num) < reply.size())
 		throw SystemException(errno);
 }
 

@@ -28,7 +28,7 @@ void Stats::OnEvent(ServerInterface& server,
 		size_t space = message.find_first_of(" \r\t\n");
 		channel = message.substr(0, space);
 		if(space != std::string::npos)
-			message = message.substr(message.find_first_not_of(space));
+			message = message.substr(message.find_first_not_of(" \r\t\n", space));
 		else
 			message = "";
 	}

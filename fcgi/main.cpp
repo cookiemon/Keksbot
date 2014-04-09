@@ -73,7 +73,7 @@ bool urldecode(char* str, char** end)
 std::map<std::string, std::string> getPost()
 {
 	char* tmp = getenv("CONTENT_LENGTH");
-	size_t length = atoi(tmp);
+	size_t length = static_cast<size_t>(atoi(tmp));
 
 	std::vector<char> buf(length + 1, '\0');
 	fread(&buf[0], 1, length, stdin);

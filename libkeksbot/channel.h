@@ -7,7 +7,7 @@
 #include <time.h>
 #include "user.h"
 
-class Channel;
+struct Channel;
 
 typedef std::map<std::string, Channel> ChannelListType;
 typedef std::set<User, UserLessCompare> UserListType;

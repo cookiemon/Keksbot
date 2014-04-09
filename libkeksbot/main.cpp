@@ -19,7 +19,7 @@ extern "C"
 		int err;
 		err = gettimeofday(&tv, NULL);
 		if(err == 0)
-			srand(tv.tv_sec ^ tv.tv_usec);
+			srand(static_cast<unsigned int>(tv.tv_sec ^ tv.tv_usec));
 		try
 		{
 			EventManager evtMan("keksbot.cfg");

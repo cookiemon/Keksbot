@@ -40,7 +40,8 @@ public:
 		do
 		{
 			ssize_t sent = write(fd, msg.c_str() + num, msg.size() - num);
-			num += sent;
+			if(sent > -1)
+				num += static_cast<size_t>(sent);
 		} while(num < msg.size()
 				&& (errno == 0 || errno == EAGAIN || errno == EWOULDBLOCK));
 

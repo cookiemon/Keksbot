@@ -79,7 +79,7 @@ std::string SimpleEvent::GetRandomString(std::vector<std::string>& list)
 {
 	if(list.size() > 1)
 	{
-		int randNr = rand() % list.size();
+		size_t randNr = static_cast<size_t>(rand()) % list.size();
 		std::vector<std::string>::iterator it = list.begin();
 		std::advance(it, randNr);
 		std::string retVal = *it;
