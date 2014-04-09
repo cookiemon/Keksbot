@@ -46,10 +46,7 @@ public:
 	{
 	}
 
-	const char* what() const throw()
-	{
-		return irc_strerror(ErrorNumber());
-	}
+	const char* what() const throw();
 };
 
 class SystemException : public NumericErrorException
@@ -72,10 +69,7 @@ public:
 	{
 	}
 
-	const char* what() const throw()
-	{
-		return sqlite3_errstr(ErrorNumber());
-	}
+	const char* what() const throw();
 };
 
 class ConfigException : public std::runtime_error
