@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 		if(libHandle == NULL)
 		{
 			Log(LOG_ERR, "Could not load libkeksbot.so: %s", LastDynLibError());
-			exit(-1);
+			return -1;
 		}
 		Log(LOG_INFO, "libkeksbot.so successfully loaded.");
 
@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 		if(runProc == NULL)
 		{
 			Log(LOG_ERR, "Could not load libkeksbot.so/Run: %s", LastDynLibError());
-			exit(-1);
+			return -1;
 		}
 
 		Log(LOG_INFO, "Starting libkeksbot.so");
