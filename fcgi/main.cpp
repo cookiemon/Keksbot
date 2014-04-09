@@ -221,6 +221,7 @@ int main(void)
 			printf("Status: 404 Ressource not Found\n\n");
 			continue;
 		}
+		cmd += '\n';
 
 		cl.Send(cmd);
 		if(sync)
