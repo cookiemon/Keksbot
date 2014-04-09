@@ -228,6 +228,8 @@ int main(void)
 			std::string reply = cl.Read();
 			if(!reply.empty())
 			{
+				if(method == std::string("GET"))
+					printf("Access-Control-Allow-Origin: *\n");
 				printf("Content-type: text/plain\n\n");
 				printf("%s\n", reply.c_str());
 			}
