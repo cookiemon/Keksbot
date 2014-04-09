@@ -101,12 +101,6 @@ public:
 		Open(file);
 	}
 
-	Configs(const std::string& id, std::istream& input)
-		: parent(NULL)
-	{
-		Open(input);
-	}
-
 	const std::string& GetName() const
 	{
 		return name;
