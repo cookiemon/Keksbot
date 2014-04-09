@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "common.h"
 #include "exceptions.h"
 #include "logging.h"
 #include "eventmanager.h"
@@ -10,29 +11,9 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-void parseCmdLine(Server& srv, std::string line)
-{
-	if(line.compare(0, 7, "restart") == 0)
-	{
-		throw RestartException();
-	}
-	else if(line.compare(0, 4, "join") == 0)
-	{
-		srv.Join(line.substr(5));
-	}
-	else if(line.compare(0, 2, "me") == 0)
-	{
-		srv.SendAction("#tierwiese", line.substr(3));
-	}
-	else
-	{
-		srv.SendMsg("#tierwiese", line);
-	}
-}
-
 extern "C"
 {
-	int Run(void)
+	KEKSBOT_API int Run(void)
 	{
 		struct timeval tv;
 		int err;
@@ -62,6 +43,11 @@ extern "C"
 		catch(std::exception& e)
 		{
 			Log(LOG_ERR, "Caught unknown exception: %s", e.what());
+			return 0;
+		}
+		catch(...)
+		{
+			Log(LOG_ERR, "Oh shit, caught something totally unknown");
 			return 0;
 		}
 	}
