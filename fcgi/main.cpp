@@ -167,9 +167,12 @@ std::string ParseCmd(const std::string& method,
 		if(args.size() > 2 && args[0] == std::string("channel"))
 		{
 			if(args[2] == "users")
-				return "get userlist " + args[1];
-			else if(args[2] == "count")
-				return "get usercount " + args[1];
+			{
+				if(args.size() > 3 && args[3] == "count")
+					return "get usercount " + args[1];
+				else
+					return "get userlist " + args[1];
+			}
 			else if(args[2] == "topic")
 				return "get topic " + args[1];
 			else if(args[2] == "stats")
