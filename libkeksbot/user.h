@@ -11,9 +11,12 @@ struct User
 	{
 	}
 
-	User(const std::string& nick)
-		: nick(nick)
+	User(const std::string& usrNick)
+		: nick(usrNick)
 	{
+		if(!nick.empty() &&
+			(nick[0] == '@' || nick[0] == '+'))
+			nick = nick.substr(1);
 	}
 };
 
