@@ -144,18 +144,21 @@ void EventManager::DistributeSimpleEvent(Server& source,
 	const std::string prefix = source.GetPrefix();
 	if(message.compare(0, prefix.size(), prefix) == 0)
 	{
+		// Find alias
 		size_t aliasEnd = message.find_first_of(" \r\t\n", prefix.size());
 		aliasEnd = std::min(message.size(), aliasEnd);
 		std::string keyword = message.substr(prefix.size(), aliasEnd - prefix.size());
+
+		// Strip alias from parameters
+		ParamList strippedParams(params.begin(), --params.end());
+		std::string realMsg = message.substr(aliasEnd);
+		Trim(realMsg);
+		strippedParams.push_back(realMsg);
+
 		AliasedMap::iterator it = aliasedEvents.find(keyword);
 		if(it != aliasedEvents.end()
-			&& it->second->DoesHandle(source,event, origin, params))
+			&& it->second->DoesHandle(source,event, origin, strippedParams))
 		{
-			ParamList strippedParams(params.begin(), --params.end());
-			std::string realmsg = message.substr(aliasEnd);
-			Trim(realmsg);
-			strippedParams.push_back(realmsg);
-
 			try
 			{
 				it->second->OnEvent(source, event, origin, strippedParams);
