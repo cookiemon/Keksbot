@@ -36,7 +36,7 @@ public:
 	void AddNetworklistener(SelectingInterface* listener);
 	void DelNetworklistener(SelectingInterface* listener);
 
-	ServerInterface* GetServer(const std::string& name);
+	Server* GetServer(const std::string& name);
 
 	void AddEvent(EventHandler* evt);
 	void DelEvent(EventHandler* evt);

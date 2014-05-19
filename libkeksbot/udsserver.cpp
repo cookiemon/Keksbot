@@ -3,7 +3,7 @@
 #include "eventmanager.h"
 #include "exceptions.h"
 #include "logging.h"
-#include "serverinterface.h"
+#include "server.h"
 #include "stringhelpers.h"
 #include <algorithm>
 #include <errno.h>
@@ -199,7 +199,7 @@ EventType UdsServer::GetType()
 	return TYPE_MISC;
 }
 
-void UdsServer::OnEvent(ServerInterface& srv,
+void UdsServer::OnEvent(Server& srv,
 	const std::string& event,
 	const std::string& origin,
 	const std::vector<std::string>& params)

@@ -1,5 +1,5 @@
 #include "simpleevent.h"
-#include "serverinterface.h"
+#include "server.h"
 #include <fstream>
 #include <map>
 #include <stdlib.h>
@@ -12,7 +12,7 @@ SimpleEvent::SimpleEvent(const std::string& answer)
 {
 }
 
-void SimpleEvent::OnEvent(ServerInterface& srv,
+void SimpleEvent::OnEvent(Server& srv,
                           const std::string& event,
                           const std::string& origin,
                           const std::vector<std::string>& params)

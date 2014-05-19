@@ -1,7 +1,7 @@
 #include "stats.h"
 #include "exceptions.h"
 #include "logging.h"
-#include "serverinterface.h"
+#include "server.h"
 #include "statrequester.h"
 #include <sstream>
 
@@ -14,7 +14,7 @@ Stats::~Stats()
 {
 }
 
-void Stats::OnEvent(ServerInterface& server,
+void Stats::OnEvent(Server& server,
 	const std::string& event, const std::string& origin, const ParamList& params)
 {
 	std::string message = "";
@@ -58,7 +58,7 @@ void Stats::OnEvent(ServerInterface& server,
 		vals);
 }
 
-void Stats::SendStats(ServerInterface& server,
+void Stats::SendStats(Server& server,
 	const std::string& channel,
 	bool isDigitaler,
 	const std::vector<std::pair<std::string, int64_t> >& vals)

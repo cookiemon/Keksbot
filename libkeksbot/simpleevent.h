@@ -3,15 +3,13 @@
 
 #include "eventinterface.h"
 
-class ServerInterface;
-
 class SimpleEvent : public EventHandler
 {
 private:
 	const std::string answerString;
 public:
 	SimpleEvent(const std::string& answer);
-	void OnEvent(ServerInterface& srv,
+	void OnEvent(Server& srv,
 	             const std::string& event,
 	             const std::string& origin,
 	             const std::vector<std::string>& params);

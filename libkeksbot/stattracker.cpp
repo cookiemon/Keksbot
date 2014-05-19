@@ -2,6 +2,7 @@
 #include "configs.h"
 #include "exceptions.h"
 #include "logging.h"
+#include "server.h"
 #include <stdlib.h>
 
 const char* CREATE_STAT_TABLE_SQL = "CREATE TABLE IF NOT EXISTS stats"
@@ -85,7 +86,7 @@ StatTracker::~StatTracker()
 	sqlite3_close(db);
 }
 
-void StatTracker::OnEvent(ServerInterface& srv,
+void StatTracker::OnEvent(Server& srv,
 	const std::string& event,
 	const std::string& origin,
 	const ParamList& params)
@@ -165,7 +166,7 @@ int StatTracker::BindVariables(sqlite3_stmt* stmt,
 	return res;
 }
 
-bool StatTracker::DoesHandle(ServerInterface& server,
+bool StatTracker::DoesHandle(Server& server,
 	const std::string& event,
 	const std::string& origin,
 	const ParamList& params)

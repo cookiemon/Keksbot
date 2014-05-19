@@ -5,9 +5,6 @@
 #include <string>
 #include <vector>
 
-class ServerInterface;
-
-
 enum EventType
 {
 	TYPE_SIMPLE = 0,
@@ -15,6 +12,7 @@ enum EventType
 	TYPE_END
 };
 
+class Server;
 typedef std::vector<std::string> ParamList;
 
 class EventHandler
@@ -29,11 +27,11 @@ public:
 	{
 	}
 	virtual ~EventHandler() { }
-	virtual void OnEvent(ServerInterface& srv,
+	virtual void OnEvent(Server& srv,
 	                     const std::string& event,
         	             const std::string& origin,
 	                     const std::vector<std::string>& params) = 0;
-	virtual bool DoesHandle(ServerInterface& srv,
+	virtual bool DoesHandle(Server& srv,
 	                        const std::string& event,
 	                        const std::string& origin,
 	                        const std::vector<std::string>& params);

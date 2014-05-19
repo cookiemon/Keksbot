@@ -1,12 +1,12 @@
 #include "classifiedhandler.h"
 
-#include "serverinterface.h"
+#include "server.h"
 #include <ctype.h>
 #include <string>
 #include <algorithm>
 #include <iostream>
 
-void ClassifiedHandler::OnEvent(ServerInterface& srv,
+void ClassifiedHandler::OnEvent(Server& srv,
 			const std::string& event,
 			const std::string& origin,
 			const std::vector<std::string>& params)

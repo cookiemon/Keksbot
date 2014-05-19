@@ -72,7 +72,7 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 	return newHandler;
 }
 
-bool EventHandler::DoesHandle(ServerInterface& srv,
+bool EventHandler::DoesHandle(Server& srv,
                 const std::string& event,
                 const std::string& origin,
                 const ParamList& args)

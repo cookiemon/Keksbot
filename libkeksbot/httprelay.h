@@ -22,11 +22,11 @@ private:
 public:
 	HttpRelay(const Configs& cfg);
 	~HttpRelay();
-	void OnEvent(ServerInterface& srv,
+	void OnEvent(Server& srv,
 		const std::string& event,
 		const std::string& origin,
 		const std::vector<std::string>& params);
-	bool DoesHandle(ServerInterface& srv,
+	bool DoesHandle(Server& srv,
 		const std::string& event,
 		const std::string& origin,
 		const std::vector<std::string>& params);

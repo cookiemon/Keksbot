@@ -307,7 +307,7 @@ void EventManager::ExecuteDeletions(void)
 	miscEvents.erase(clr.base(), miscEvents.end());
 }
 
-ServerInterface* EventManager::GetServer(const std::string& name)
+Server* EventManager::GetServer(const std::string& name)
 {
 	for(std::vector<Server*>::iterator it = serverlist.begin();
 		it != serverlist.end();

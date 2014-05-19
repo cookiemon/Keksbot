@@ -2,9 +2,7 @@
 #define SERVER_H
 
 #include "channel.h"
-#include "configs.h"
 #include "selectinginterface.h"
-#include "serverinterface.h"
 #include <string>
 #include <vector>
 #include <libircclient/libircclient.h>
@@ -12,8 +10,9 @@
 typedef std::vector<std::string> ParamList;
 
 class EventManager;
+class Configs;
 
-class Server : public ServerInterface, public SelectingInterface
+class Server : public SelectingInterface
 {
 private:
 	irc_callbacks_t callbacks;
@@ -35,7 +34,7 @@ private:
 public:
 	Server(const Configs& settings, EventManager* man);
 
-	~Server(void);
+	virtual ~Server(void);
 
 	void Connect(void);
 	void Disconnect(void);

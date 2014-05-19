@@ -2,7 +2,7 @@
 #include "configs.h"
 #include "eventmanager.h"
 #include "logging.h"
-#include "serverinterface.h"
+#include "server.h"
 #include <algorithm>
 #include <curl/curl.h>
 
@@ -39,7 +39,7 @@ static size_t NoMemoryCallback(void* cont, size_t size, size_t nmemb, void* usrp
 	return *readBytes;
 }
 
-void HttpRelay::OnEvent(ServerInterface& srv,
+void HttpRelay::OnEvent(Server& srv,
 	const std::string& event,
 	const std::string& origin,
 	const std::vector<std::string>& params)
@@ -127,7 +127,7 @@ std::string HttpRelay::GetUrlParamList(CURL* handle,
 	return retVal;
 }
 
-bool HttpRelay::DoesHandle(ServerInterface& srv,
+bool HttpRelay::DoesHandle(Server& srv,
 	const std::string& event,
 	const std::string& origin,
 	const std::vector<std::string>& params)

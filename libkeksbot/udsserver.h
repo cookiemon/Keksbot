@@ -10,7 +10,7 @@
 #include <sys/types.h>
 #include <linux/un.h>
 
-class ServerInterface;
+class Server;
 class EventManager;
 
 class UdsServer : public EventHandler, public SelectingInterface
@@ -19,7 +19,7 @@ private:
 	int srvSock;
 	std::vector<int> clients;
 	struct sockaddr_un addr;
-	ServerInterface* srv;
+	Server* srv;
 
 public:
 	UdsServer(EventManager* man, const Configs& configs);
@@ -33,7 +33,7 @@ public:
 
 	EventType GetType();
 
-	void OnEvent(ServerInterface& srv,
+	void OnEvent(Server& srv,
 				const std::string& event,
 				const std::string& origin,
 				const std::vector<std::string>& params);

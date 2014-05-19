@@ -16,7 +16,7 @@ public:
 	Stats(const Configs& settings);
 	~Stats();
 
-	void OnEvent(ServerInterface& server,
+	void OnEvent(Server& server,
 		const std::string& event,
 		const std::string& origin,
 		const ParamList& params);
@@ -27,7 +27,7 @@ public:
 	}
 
 private:
-	void SendStats(ServerInterface& server, const std::string& channel,
+	void SendStats(Server& server, const std::string& channel,
 					bool isDigitaler,
 					const std::vector<std::pair<std::string, int64_t> >& vals);
 };

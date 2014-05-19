@@ -3,9 +3,10 @@
 
 #include "configs.h"
 #include "eventinterface.h"
-#include "serverinterface.h"
 #include <string>
 #include <sqlite3.h>
+
+class Server;
 
 class StatTracker : public EventHandler
 {
@@ -17,11 +18,11 @@ private:
 public:
 	StatTracker(const Configs& params);
 	~StatTracker();
-	void OnEvent(ServerInterface& srv,
+	void OnEvent(Server& srv,
 		const std::string& event,
 		const std::string& origin,
 		const ParamList& params);
-	bool DoesHandle(ServerInterface& srv,
+	bool DoesHandle(Server& srv,
 		const std::string& event,
 		const std::string& origin,
 		const ParamList& params);
