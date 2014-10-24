@@ -25,6 +25,7 @@
 42 Oreo Cookies, 2 Watermelons, 4 machine guns, and twisty ties
 5 ${adjective} poker decks
 5 pounds of ${adjective} asphault
+6.62606957E-34
 738 ${adjective} buttons
 73 ${adjective} cranberries
 7 ${adjective} egg whites and a cup of flour
@@ -87,6 +88,7 @@ a ${adjective} leg lamp
 a ${adjective} Lego head, one of those cool ones with the sunglasses and stubble
 a ${adjective} light bulb
 a ${adjective} Linksys 16-Port Workgroup Switch
+a ${adjective} Markov-Kettenpanzer
 a ${adjective} mechanical pencil (0.5mm lead)
 a ${adjective} Mickey Mouse Clock
 a ${adjective} model of a Fiat Punto
@@ -105,7 +107,7 @@ a ${adjective} piano
 a ${adjective} picknick table
 a ${adjective} pimple
 a ${adjective} ping pong table
-a ${adjective} pink beaver
+a ${adjective} beaver
 a ${adjective} plastic fly
 a ${adjective} plastic hanger, tube kind, not the ones that come with items from a store
 a ${adjective} plutonium rod
@@ -222,6 +224,8 @@ a Kuscheltier-Schlonz
 a large smelly trout
 a lit cigar
 a machine for pigs
+all 55 Microsoft Office 97 Professional installation floppy disks
+all 25 OS/2 Warp v3 installation floppy disks
 America's Next Top Model
 an ${adjective} ABIT motherboard
 an ${adjective} ant
