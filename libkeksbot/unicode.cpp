@@ -74,11 +74,12 @@ void Unicode::OnEvent(Server& srv,
 	while(std::getline(cpfile, cpline))
 	{
 		if(cpline.compare(0, codepoint.size(), codepoint) == 0)
-		{
-			PrintCodePoint(cpline, srv, params[0]);
-			return;
-		}
+			break;
 	}
+	if(cpline.compare(0, codepoint.size(), codepoint) == 0)
+		PrintCodePoint(cpline, srv, params[0]);
+	else
+		srv.SendMsg(params[0], "U+" + codepoint + " does not exist");
 }
 
 uint32_t ToUInt32(std::string codepoint)
