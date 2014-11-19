@@ -7,6 +7,7 @@
 #include "stats.h"
 #include "classifiedhandler.h"
 #include "udsserver.h"
+#include "unicode.h"
 #include <assert.h>
 
 EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
@@ -54,6 +55,8 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 			man->AddNetworklistener(hand);
 			newHandler = hand;
 		}
+		else if(handler == "unicode")
+			newHandler = new Unicode(configs);
 		else
 			throw ConfigException("static handler type not known");
 	}
