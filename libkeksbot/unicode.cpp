@@ -64,7 +64,7 @@ void Unicode::OnEvent(Server& srv,
 	}
 	if(codepoint.size() == 0)
 	{
-		srv.SendMsg(origin, params[1] + " is not a valid code point or utf-8 character");
+		srv.SendMsg(params[0], params[1] + " is not a valid code point or utf-8 character");
 		return;
 	}
 
@@ -75,7 +75,7 @@ void Unicode::OnEvent(Server& srv,
 	{
 		if(cpline.compare(0, codepoint.size(), codepoint) == 0)
 		{
-			PrintCodePoint(cpline, srv, origin);
+			PrintCodePoint(cpline, srv, params[0]);
 			return;
 		}
 	}
