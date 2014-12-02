@@ -9,7 +9,7 @@
 #include <stdlib.h>
 typedef void* DynLibHandle;
 
-DynLibHandle OpenDynLib(const char* libName)
+static DynLibHandle OpenDynLib(const char* libName)
 {
 	void* dlHandle = dlopen(libName, RTLD_NOLOAD | RTLD_LAZY | RTLD_LOCAL);
 	if(dlHandle != NULL)
@@ -20,17 +20,17 @@ DynLibHandle OpenDynLib(const char* libName)
 	return dlopen(libName, RTLD_LAZY | RTLD_LOCAL);
 }
 
-int CloseDynLib(DynLibHandle lib)
+static int CloseDynLib(DynLibHandle lib)
 {
 	return dlclose(lib);
 }
 
-void* GetDynLibProc(DynLibHandle lib, const char* procName)
+static void* GetDynLibProc(DynLibHandle lib, const char* procName)
 {
 	return dlsym(lib, procName);
 }
 
-char* LastDynLibError(void)
+static char* LastDynLibError(void)
 {
 	return dlerror();
 }
