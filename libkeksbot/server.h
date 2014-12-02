@@ -33,8 +33,7 @@ private:
 	EventManager* manager;
 public:
 	Server(const Configs& settings, EventManager* man);
-
-	virtual ~Server(void);
+	~Server(void);
 
 	void Connect(void);
 	void Disconnect(void);
