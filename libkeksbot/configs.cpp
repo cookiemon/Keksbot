@@ -1,4 +1,3 @@
-#include "logging.h"
 #include "configs.h"
 #include "stringhelpers.h"
 #include <algorithm>

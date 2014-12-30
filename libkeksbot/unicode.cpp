@@ -1,9 +1,6 @@
 #include "unicode.h"
 #include "configs.h"
-#include "eventmanager.h"
-#include "logging.h"
 #include "server.h"
-#include "stringhelpers.h"
 #include <algorithm>
 #include <fstream>
 #include <iomanip>
@@ -143,12 +140,4 @@ void Unicode::PrintCodePoint(const std::string& cpline,
 	srv.SendMsg(origin, "Name: " + cpline.substr(start+1, (end - start)));
 	srv.SendMsg(origin, "UTF-8: " + ToUtf8Text(cp));
 }
-
-/*bool Unicode::DoesHandle(Server& srv,
-	const std::string& event,
-	const std::string& origin,
-	const std::vector<std::string>& params)
-{
-	return handledEvents.find(event) != handledEvents.end();
-}*/
 

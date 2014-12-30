@@ -9,24 +9,23 @@
 
 struct CaesarTransform
 {
-	char operator()(char c)
+	char operator()(char c) const
 	{
-		int ch = (unsigned char)c;
-		if(!isalpha(ch))
+		if(!isalpha(c))
 			return c;
 
-		bool islc = islower(ch);
-		
-		ch += 13;
-		if((islc && ch > 'z') || (!islc && ch > 'Z'))
-			ch -= 26;
-		return (char)ch;
+		bool islc = islower(c);
+		if((islc && c > 'm') || (!islc && c > 'M'))
+			c -= 13;
+		else
+			c += 13;
+		return c;
 	}
 };
 
 struct Base64Decode
 {
-	std::string operator()(const std::string& str)
+	std::string operator()(const std::string& str) const
 	{
 		std::string retVal;
 		retVal.reserve(str.size() * 3 / 4);
@@ -66,7 +65,7 @@ struct Base64Decode
 				decoded &= 0xFF;
 				if(!isprint(decoded))
 					return "";
-				retVal.push_back((char)decoded);
+				retVal.push_back(static_cast<char>(decoded));
 				tmp = val;
 				break;
 			}

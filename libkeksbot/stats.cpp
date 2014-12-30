@@ -1,6 +1,5 @@
 #include "stats.h"
 #include "exceptions.h"
-#include "logging.h"
 #include "server.h"
 #include "statrequester.h"
 #include <sstream>

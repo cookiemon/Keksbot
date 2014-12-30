@@ -1,6 +1,5 @@
 #include "statrequester.h"
 #include "exceptions.h"
-#include "logging.h"
 #include <sqlite3.h>
 #include <sstream>
 

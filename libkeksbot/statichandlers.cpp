@@ -17,10 +17,10 @@ void HelpHandler::OnEvent(Server& srv,
 		Log(LOG_ERR, "Help handler has no associated manager");
 		return;
 	}
-	std::string searchString = args[args.size() - 1];
+	std::string searchString = *args.rbegin();
 	std::vector<EventHandler*> events = manager->GetEvents();
 	std::vector<EventHandler*>::iterator it = events.begin();
-	while(it != events.end() && (*it)->GetAlias() !=searchString)
+	while(it != events.end() && (*it)->GetAlias() != searchString)
 		++it;
 
 	std::string reply;
