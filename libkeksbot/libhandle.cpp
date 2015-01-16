@@ -1,3 +1,3 @@
 #include "libhandle.h"
 
-LibCurlHandle::HandleCounter* LibCurlHandle::cnt = NULL;
+LibCurlHandle::cnttype LibCurlHandle::cnt = 0;
