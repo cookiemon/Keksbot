@@ -3,11 +3,7 @@
 
 #include "configs.h"
 #include "eventinterface.h"
-#include "libhandle.h"
 #include "selectinginterface.h"
-#include <curl/curl.h>
-#include <map>
-#include <set>
 #include <string>
 #include <vector>
 
@@ -22,10 +18,6 @@ public:
 		const std::string& event,
 		const std::string& origin,
 		const std::vector<std::string>& params);
-/*	bool DoesHandle(Server& srv,
-		const std::string& event,
-		const std::string& origin,
-		const std::vector<std::string>& params);*/
 
 	EventType GetType() { return TYPE_SIMPLE; }
 
