@@ -1,6 +1,7 @@
 #include "eventinterface.h"
 #include "exceptions.h"
 #include "httprelay.h"
+#include "mensa.h"
 #include "simpleevent.h"
 #include "statichandlers.h"
 #include "stattracker.h"
@@ -52,6 +53,12 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 		else if(handler == "httprelay")
 		{
 			HttpRelay* hand = new HttpRelay(configs);
+			man->AddNetworklistener(hand);
+			newHandler = hand;
+		}
+		else if(handler == "mensa")
+		{
+			Mensa* hand = new Mensa(configs);
 			man->AddNetworklistener(hand);
 			newHandler = hand;
 		}

@@ -2,7 +2,7 @@ BOTWRAPPERSOURCEFILES=botwrapper/main.c
 BOTWRAPPERTARGET=keksbot
 BOTWRAPPEROBJECTS=$(BOTWRAPPERSOURCEFILES:.c=.o)
 
-LIBKEKSBOTSOURCEFILES=libkeksbot/main.cpp libkeksbot/server.cpp libkeksbot/configs.cpp libkeksbot/eventmanager.cpp libkeksbot/simpleevent.cpp libkeksbot/eventinterface.cpp libkeksbot/statichandlers.cpp libkeksbot/stattracker.cpp libkeksbot/stats.cpp libkeksbot/classifiedhandler.cpp libkeksbot/udsserver.cpp libkeksbot/httprelay.cpp libkeksbot/libhandle.cpp libkeksbot/statrequester.cpp libkeksbot/exceptions.cpp libkeksbot/unicode.cpp
+LIBKEKSBOTSOURCEFILES=libkeksbot/main.cpp libkeksbot/server.cpp libkeksbot/configs.cpp libkeksbot/eventmanager.cpp libkeksbot/simpleevent.cpp libkeksbot/eventinterface.cpp libkeksbot/statichandlers.cpp libkeksbot/stattracker.cpp libkeksbot/stats.cpp libkeksbot/classifiedhandler.cpp libkeksbot/udsserver.cpp libkeksbot/httprelay.cpp libkeksbot/libhandle.cpp libkeksbot/statrequester.cpp libkeksbot/exceptions.cpp libkeksbot/unicode.cpp libkeksbot/mensa.cpp
 LIBKEKSBOTTARGET=libkeksbot.so
 LIBKEKSBOTOBJECTS=$(LIBKEKSBOTSOURCEFILES:.cpp=.o)
 
@@ -11,7 +11,7 @@ KEKSCGITARGET=keksbot-cgi
 KEKSCGIOBJECTS=$(KEKSCGISOURCEFILES:.cpp=.o)
 
 CC=g++
-CFLAGS=-c -Wall -fPIC -g -std=c++98
+CFLAGS=-c -I./external -Wall -fPIC -g -std=c++98
 LDFLAGS=-ldl -lsqlite3
 LDLIBFLAGS=-lircclient -lcurl -shared
 LDCGIFLAGS=-lfcgi
