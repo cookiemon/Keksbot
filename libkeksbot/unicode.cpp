@@ -90,20 +90,16 @@ uint32_t ToUInt32(std::string codepoint)
 
 std::string ToUtf8(uint32_t cp)
 {
+	if(cp > 0x1FFFFF)
+		return std::string();
 	if(cp < 128)
 		return std::string(1, static_cast<char>(cp));
-	size_t bytes = 0;
-	uint32_t tmp = cp;
-	unsigned char mask = 0;
-	while(tmp != 0)
-	{
-		mask |= (0x80 >> bytes);
-		bytes += 1;
-		tmp >>= 6;
-	}
+
+	uint8_t bytes = cp > 0x07FF ? cp > 0xFFFF ? 4 : 3 : 2;
+	unsigned char mask = ((1 << bytes) - 1) << (8 - bytes);
 	std::string str(bytes, '\0');
 	str[0] = mask | (cp >> ((bytes - 1) * 6));
-	for(size_t i = 1; i < bytes; ++i)
+	for(uint8_t i = 1; i < bytes; ++i)
 	{
 		str[i] = 0x80 | ((cp >> ((bytes - 1 - i) * 6)) & 0x3F);
 	}
@@ -117,10 +113,7 @@ std::string ToUtf8Text(uint32_t cp)
 	for(std::string::iterator it = utf8.begin();
 		it != utf8.end();
 		++it)
-	{
-		cp <<= 8;
-		cp |= static_cast<unsigned char>(*it);
-	}
+		cp = (cp<<8) | static_cast<unsigned char>(*it);
 	std::stringstream conv;
 	conv << "0x" << std::uppercase
 		<< std::right << std::setfill('0') << std::setw(utf8.size() * 2)
