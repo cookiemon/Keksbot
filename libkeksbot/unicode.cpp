@@ -105,7 +105,7 @@ std::string ToUtf8(uint32_t cp)
 	str[0] = mask | (cp >> ((bytes - 1) * 6));
 	for(size_t i = 1; i < bytes; ++i)
 	{
-		str[i] = 0xC0 | ((cp >> ((bytes - 1 - i) * 6)) & 0x3F);
+		str[i] = 0x80 | ((cp >> ((bytes - 1 - i) * 6)) & 0x3F);
 	}
 	return str;
 }
