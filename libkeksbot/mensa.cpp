@@ -287,8 +287,8 @@ void Mensa::SendLine(Server& srv, const std::string& origin, const std::string& 
 			{
 				rapidjson::Value& dish = (*it)["dish"];
 				if(dish.IsString() && dish.GetString()[0] != '\0')
-					strstr << " " << dish.GetString() << " (" << price.GetDouble() << ")" ;
-				strstr << "; ";
+					strstr << " " << dish.GetString();
+				strstr << " (" << price.GetDouble() << "); ";
 			}
 		}
 	}
