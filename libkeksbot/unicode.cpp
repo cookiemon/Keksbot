@@ -132,10 +132,10 @@ void Unicode::PrintCodePoint(const std::string& cpline,
 	Server& srv,
 	const std::string origin)
 {
-	std::string part;
 	size_t start = cpline.find('\t', 0);
 	size_t end = cpline.find('\n', start);
 	uint32_t cp = ToUInt32(cpline.substr(0, start));
+	srv.SendMsg(origin, "Character: " + ToUtf8(cp));
 	srv.SendMsg(origin, "Code Point: U+" + cpline.substr(0, start));
 	srv.SendMsg(origin, "Name: " + cpline.substr(start+1, (end - start)));
 	srv.SendMsg(origin, "UTF-8: " + ToUtf8Text(cp));
