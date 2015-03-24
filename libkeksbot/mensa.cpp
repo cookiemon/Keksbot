@@ -41,16 +41,29 @@ void Mensa::OnEvent(Server& srv,
 	const std::string& origin,
 	const std::vector<std::string>& params)
 {
+	if(params.size() == 0)
+		throw std::logic_error("OnEvent should only be called for SENDMSG");
+	int offset = 0;
+	if(params.size() > 1 && !params[1].empty())
+	{
+		std::stringstream sstr(params[1]);
+		sstr >> offset;
+		if(sstr.fail())
+		{
+			srv.SendMsg(params[0], "Error: " + params[1] + " is not a number");
+			return;
+		}
+	}
 	time_t now = time(NULL);
 	// No error handling, I don't care about overflow in time_t
 	if(difftime(now, lastupdate) > (3600. * 24.))
 	{
-		originBuf.push_back(std::pair<Server*, std::string>(&srv, origin));
+		originBuf.insert(QueuedResponse(&srv, params[0], offset));
 		if(!updating)
-			UpdateMenu(srv, origin, params);
+			QueryMenuUpdate();
 	}
 	else
-		SendMenu(srv, origin, params);
+		SendMenu(srv, params[0], offset);
 }
 
 void Mensa::AddSelectDescriptors(fd_set& inSet,
@@ -129,13 +142,17 @@ void Mensa::SelectDescriptors(fd_set& inSet, fd_set& outSet, fd_set& excSet)
 
 		if(err)
 		{
-			for(size_t i = 0; i < originBuf.size(); ++i)
-				originBuf[i].first->SendMsg(originBuf[i].second, "Error while receiving json");
+			for(std::set<QueuedResponse>::iterator it = originBuf.begin();
+				it != originBuf.end();
+				++it)
+				it->srv->SendMsg(it->channel, "Error while receiving json");
 		}
 		else
 		{
-			for(size_t i = 0; i < originBuf.size(); ++i)
-				SendMenu(*originBuf[i].first, originBuf[i].second, std::vector<std::string>());
+			for(std::set<QueuedResponse>::iterator it = originBuf.begin();
+				it != originBuf.end();
+				++it)
+				SendMenu(*it->srv, it->channel, it->offset);
 		}
 		originBuf.clear();
 		time_t now = time(NULL);
@@ -168,7 +185,7 @@ void Mensa::RegisterCurlHandle(const std::string& url, std::string& buffer)
 	Log(LOG_DEBUG, "Requested url %s", url.c_str());
 }
 
-void Mensa::UpdateMenu(Server& srv, const std::string& channel, const std::vector<std::string>& params)
+void Mensa::QueryMenuUpdate()
 {
 	updating = true;
 
@@ -184,28 +201,16 @@ size_t Mensa::PushData(char* data, size_t size, size_t nmemb, void* userdata)
 	return nmemb;
 }
 
-void Mensa::SendMenu(Server& srv, const std::string& channel, const std::vector<std::string>& params)
+void Mensa::SendMenu(Server& srv, const std::string& channel, int offset)
 {
 	time_t now = time(NULL);
 	struct tm localnow;
 	localtime_r(&now, &localnow);
 	RoundToDay(&localnow);
-	if(params.size() >= 2 && !params[1].empty())
-	{
-		std::stringstream sstr(params[1]);
-		int offset;
-		sstr >> offset;
-		if(sstr.fail())
-		{
-			srv.SendMsg(channel, "Error: " + params[1] + " is not a number");
-			return;
-		}
+	if(!offset)
 		localnow.tm_mday += offset;
-	}
 	else if(localnow.tm_wday % 6 == 0)
-	{
 		localnow.tm_mday += localnow.tm_wday?2:1;
-	}
 
 	now = mktime(&localnow);
 	localtime_r(&now, &localnow);

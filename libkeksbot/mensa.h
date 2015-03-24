@@ -7,11 +7,22 @@
 #include "selectinginterface.h"
 #include <curl/curl.h>
 #include <rapidjson/document.h>
+#include <set>
 #include <utility>
 
 class Mensa : public EventHandler, public SelectingInterface
 {
 private:
+	struct QueuedResponse
+	{
+		Server* srv;
+		std::string channel;
+		int offset;
+		QueuedResponse(Server* newSrv, const std::string newChan, int newOff)
+			: srv(newSrv), channel(newChan), offset(newOff) { /* nothing */ }
+		bool operator<(const QueuedResponse& other) const
+		{ return srv < other.srv || channel < other.channel || offset < other.offset; }
+	};
 	std::string menuurl;
 	std::string metaurl;
 	std::string login;
@@ -27,7 +38,7 @@ private:
 
 	std::string menubuf;
 	std::string metabuf;
-	std::vector<std::pair<Server*, std::string> > originBuf;
+	std::set<QueuedResponse> originBuf;
 	bool updating;
 
 public:
@@ -49,8 +60,8 @@ public:
 private:
 	bool UpdateMeta(rapidjson::Value& val);
 	bool UpdateMenu(rapidjson::Value& val);
-	void UpdateMenu(Server& srv, const std::string& channel, const std::vector<std::string>& params);
-	void SendMenu(Server& srv, const std::string& channel, const std::vector<std::string>& params);
+	void QueryMenuUpdate();
+	void SendMenu(Server& srv, const std::string& channel, int offset);
 	static size_t PushData(char* data, size_t size, size_t nmemb, void* userdata);
 	void RegisterCurlHandle(const std::string& url, std::string& buffer);
 	void SendLine(Server& srv, const std::string& origin, const std::string& line, rapidjson::Value& value);
