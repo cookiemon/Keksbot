@@ -207,7 +207,7 @@ void Mensa::SendMenu(Server& srv, const std::string& channel, int offset)
 	struct tm localnow;
 	localtime_r(&now, &localnow);
 	RoundToDay(&localnow);
-	if(!offset)
+	if(offset)
 		localnow.tm_mday += offset;
 	else if(localnow.tm_wday % 6 == 0)
 		localnow.tm_mday += localnow.tm_wday?2:1;
