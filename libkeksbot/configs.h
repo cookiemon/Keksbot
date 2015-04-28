@@ -15,6 +15,7 @@ class Converter
 private:
 	bool success;
 public:
+	Converter() : success(true) { /* nothing */ }
 	void Convert(const std::string& val, T& out)
 	{
 		std::istringstream sstr(val);
