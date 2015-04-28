@@ -254,7 +254,7 @@ void Server::EventConnect(const std::string& evt, const std::string& origin, con
 void Server::EventNumeric(unsigned int       evt, const std::string& origin, const ParamList& args)
 {
 	char evtString[20];
-	snprintf(evtString, sizeof(evtString), "%d", evt);
+	snprintf(evtString, sizeof(evtString), "%u", evt);
 
 	switch(evt)
 	{
