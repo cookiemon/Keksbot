@@ -123,7 +123,7 @@ std::string ToUtf8Text(uint32_t cp)
 
 void Unicode::PrintCodePoint(const std::string& cpline,
 	Server& srv,
-	const std::string origin)
+	const std::string& origin)
 {
 	size_t start = cpline.find('\t', 0);
 	size_t end = cpline.find('\n', start);

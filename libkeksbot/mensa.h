@@ -18,7 +18,7 @@ private:
 		Server* srv;
 		std::string channel;
 		int offset;
-		QueuedResponse(Server* newSrv, const std::string newChan, int newOff)
+		QueuedResponse(Server* newSrv, const std::string& newChan, int newOff)
 			: srv(newSrv), channel(newChan), offset(newOff) { /* nothing */ }
 		bool operator<(const QueuedResponse& other) const
 		{ return srv < other.srv || channel < other.channel || offset < other.offset; }

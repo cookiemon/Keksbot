@@ -128,7 +128,7 @@ std::vector<std::string> getUrl()
 }
 
 std::string ParseCmd(const std::string& method,
-	const std::vector<std::string> args)
+	const std::vector<std::string>& args)
 {
 	if(args.empty())
 		return "";

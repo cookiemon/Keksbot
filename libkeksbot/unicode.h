@@ -22,7 +22,7 @@ public:
 	EventType GetType() { return TYPE_SIMPLE; }
 
 private:
-	void PrintCodePoint(const std::string& cpline, Server& srv, const std::string origin);
+	void PrintCodePoint(const std::string& cpline, Server& srv, const std::string& origin);
 };
 
 #endif
