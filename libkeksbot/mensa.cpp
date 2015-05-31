@@ -276,7 +276,8 @@ void Mensa::SendLine(Server& srv, const std::string& origin, const std::string& 
 			if(!it->HasMember("price_1"))
 				continue;
 			rapidjson::Value& price = (*it)["price_1"];
-			if(!price.IsNumber() || price.GetDouble() < 1.)
+			// threshold
+			if(!price.IsNumber() || price.GetDouble() < 1.3)
 				continue;
 
 			rapidjson::Value& meal = (*it)["meal"];
