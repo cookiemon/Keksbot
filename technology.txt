@@ -18,3 +18,4 @@ service
 singleton
 solution
 storage
+wrapper

@@ -21,7 +21,7 @@ hardware
 high-performance
 hosting
 hypervisor
-immersion
+immersiive
 injection-aware
 intuitive
 metadata
@@ -39,6 +39,7 @@ session
 shader
 web-2.0
 web-3.0
+web-4.0
 wrapper-based
 synergetic
 hyper-performant
