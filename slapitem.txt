@@ -41,6 +41,7 @@ a ${adjective} 38" tire
 a ${adjective} 4U rackmount server
 a ${adjective} 52 inch plasma monitor
 a ${adjective} bag of dogfood
+a ${adjective} balloon
 a ${adjective} barrel roll
 a ${adjective} bathtub
 a ${adjective} beanstalk
@@ -84,6 +85,7 @@ a ${adjective} keyboard
 a ${adjective} kitchen sink
 a ${adjective} kitchen towel
 a ${adjective} kitchen utensil
+a ${adjective} leaf
 a ${adjective} leg lamp
 a ${adjective} Lego head, one of those cool ones with the sunglasses and stubble
 a ${adjective} light bulb
@@ -99,8 +101,10 @@ a ${adjective} newspaper from 1947
 a ${adjective} nosehair plucker
 a ${adjective} pair of headphones
 a ${adjective} paper bag filled with Cheetos
+a ${adjective} paper fan
 a ${adjective} partial solar eclipse
 a ${adjective} Patriot Missile
+a ${adjective} peacock feather
 a ${adjective} Pepsi cap
 a ${adjective} PEZ dispenser filled with Tic-Tacs
 a ${adjective} piano
@@ -116,6 +120,7 @@ a ${adjective} POS graphics card
 a ${adjective} refrigerator
 a ${adjective} ROKR cellphone
 a ${adjective} roll of pennies
+a ${adjective} rubber duck
 a ${adjective} salad
 a ${adjective} Salad Shooter(tm)
 a ${adjective} sea slug
@@ -139,6 +144,8 @@ a ${adjective} Sonic Boom
 a ${adjective} spatula
 a ${adjective} spider's egg sack
 a ${adjective} spider's web
+a ${adjective} sombrero
+a ${adjective} sponge that looks like ${slapitem}
 a ${adjective} stapler
 a ${adjective} stick
 a ${adjective} Swingline 790 stapler
@@ -173,6 +180,7 @@ a bottle of ${adjective} Welch's Sparkling White Grape Juice Cocktail (non-alcoh
 a can of ${adjective} Pig Brains with Gravy
 a can of ${adjective} tomato sauce
 a cold
+a huge pink fluffy hammer that squeaks on impact
 ${adjective} air
 ${adjective} ants
 ${adjective} bamboo stilts
@@ -277,6 +285,8 @@ Keanu Reeves
 Kitbot
 lots and lots of ${adjective} penguins
 Michael Knight
+Microsoft
+MINIX 3
 miscellaneous body fluids
 mizspeld werds
 Montel
@@ -292,6 +302,7 @@ OBJECTION
 official KIT merchandise
 "One Fish Two Fish Red Fish Blue Fish"
 one of those squishy rubbery things that spring keyboard keys back up
+Plan 9
 Pythagoras' theorem
 RITZ bits
 Rosie O'Donnell
@@ -301,6 +312,8 @@ Sherlock Holmes
 Sigmund Freud
 some 6 year old's two front teeth
 some ${adjective} halfop
+some ${adjective} flip-flops
+some misspelled macaroonies
 Sony's ${adjective} DRM Software
 Sparkling Cider
 Swiss Miss powdered Hot Chocolate with little marshmallows
@@ -308,6 +321,7 @@ Terminus-Bot
 that weird song Elvis performed
 the ${adjective} 1932 World's Fair
 the ${adjective} 2006 US Federal Tax Code
+the ${adjective} documentation of the Intel x86/64 processor architecture
 the ${adjective} interwebs
 the ${adjective} leftovers of yesterday
 the ${adjective} letter "L"
@@ -316,9 +330,11 @@ the ${adjective} literary works of Aldous Huxley
 the ${adjective} meatbag.
 the ${adjective} passenger mirror of a 1972 Mercedes-Benz 280SEL
 the ${adjective} remains of Humpty Dumpty after all the King's Men couldn't put him back together
+the ${adjective} source code of Microsoft Windows for Workgroups 3.11(tm)
 the ${adjective} summer sky
 The Answer to the Great Question, of Life, the Universe and Everything
 The Artist Formerly known as The Artist Formerly known as Prince
+the one and only cookie monster before it went veggie monster
 the State of Maryland
 the Stirnlappenbasilisk
 three ${adjective} muffins and two slices of ${adjective} toast
@@ -327,4 +343,5 @@ three grains of ${adjective} sand
 tremendous effort
 two ${adjective} pitchforks
 various pop songs
+version 1.0 of GNU Hurd
 Walter F. Tichy
