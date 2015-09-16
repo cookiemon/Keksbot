@@ -74,6 +74,7 @@ a ${adjective} functional programming language
 a ${adjective} Furby
 a ${adjective} fur coat
 a ${adjective} gerbil dressed as Domo-kun
+a ${adjective} GNU/Linux operating system
 a ${adjective} glass of water
 a ${adjective} glass window
 a ${adjective} golf club
@@ -90,6 +91,7 @@ a ${adjective} leg lamp
 a ${adjective} Lego head, one of those cool ones with the sunglasses and stubble
 a ${adjective} light bulb
 a ${adjective} Linksys 16-Port Workgroup Switch
+a ${adjective} Linux operating system
 a ${adjective} Markov-Kettenpanzer
 a ${adjective} mechanical pencil (0.5mm lead)
 a ${adjective} Mickey Mouse Clock
@@ -99,6 +101,7 @@ a ${adjective} NERF bow and arrow
 a ${adjective} New Kids on the Block tape
 a ${adjective} newspaper from 1947
 a ${adjective} nosehair plucker
+a ${adjective} nothing
 a ${adjective} pair of headphones
 a ${adjective} paper bag filled with Cheetos
 a ${adjective} paper fan
@@ -213,6 +216,7 @@ ${adjective} oyster crackers
 ${adjective} peach fuzz
 ${adjective} peanut butter
 ${adjective} peanut butter and syrup
+${adjective} PEANUT BUTTER JELLY TIME
 ${adjective} perscription medicine
 ${adjective} pigs feet
 ${adjective} plains, trains, and automobiles
@@ -268,6 +272,7 @@ e^(i*pi)
 Emperor Palpatine
 Ernest Hemingway
 flakes of ${adjective} skin
+fluff, the delicious american marshmallow spread
 four ${adjective} tennis racquets tied together to form a ${adjective} pyramid
 Garrus Vakarian
 George Takei
@@ -296,7 +301,6 @@ Nebraska
 Nemo
 Nicholas Cage
 nine ${adjective} hockey pucks
-nothing in particular
 Nunavut
 OBJECTION
 official KIT merchandise
@@ -304,6 +308,7 @@ official KIT merchandise
 one of those squishy rubbery things that spring keyboard keys back up
 Plan 9
 Pythagoras' theorem
+Richard Matthew Stallman
 RITZ bits
 Rosie O'Donnell
 Scientology
@@ -321,6 +326,7 @@ Terminus-Bot
 that weird song Elvis performed
 the ${adjective} 1932 World's Fair
 the ${adjective} 2006 US Federal Tax Code
+the ${adjective} dietlibc, gatling web server, libowfat and tinyldap
 the ${adjective} documentation of the Intel x86/64 processor architecture
 the ${adjective} interwebs
 the ${adjective} leftovers of yesterday
