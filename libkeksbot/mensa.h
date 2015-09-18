@@ -27,7 +27,7 @@ private:
 	std::string metaurl;
 	std::string login;
 	std::string canteen;
-	std::vector<std::string> lines;
+	std::set<std::string> lines;
 	std::map<std::string, std::string> lineMap;
 	CURLM* multiHandle;
 	LibCurlHandle libcurlhandle;
@@ -64,7 +64,10 @@ private:
 	void SendMenu(Server& srv, const std::string& channel, int offset);
 	static size_t PushData(char* data, size_t size, size_t nmemb, void* userdata);
 	void RegisterCurlHandle(const std::string& url, std::string& buffer);
-	void SendLine(Server& srv, const std::string& origin, const std::string& line, rapidjson::Value& value);
+	void SendLineClosed(Server& srv, const std::string& origin, const std::string& line,
+		const rapidjson::Value& value);
+	void SendLine(Server& srv, const std::string& origin, const std::string& line,
+		const rapidjson::Value& value);
 };
 
 #endif

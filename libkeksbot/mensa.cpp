@@ -14,6 +14,16 @@ void RoundToDay(struct tm* time)
 	time->tm_hour = 0;
 }
 
+static const char* const weekday[] = {"So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"};
+void WriteTime(std::ostream& out, time_t time)
+{
+	struct tm localnow;
+	localtime_r(&time, &localnow);
+	out << weekday[localnow.tm_wday] << ". "
+		<< localnow.tm_mday << "." << (localnow.tm_mon + 1)
+		<< "." << (localnow.tm_year % 100);
+}
+
 Mensa::Mensa(const Configs& cfg)
 	: multiHandle(curl_multi_init()),
 	lastupdate(0),
@@ -28,7 +38,7 @@ Mensa::Mensa(const Configs& cfg)
 	std::istringstream sstr(rawlines);
 	std::string newline;
 	while(std::getline(sstr, newline, ','))
-		lines.push_back(newline);
+		lines.insert(newline);
 }
 
 Mensa::~Mensa()
@@ -81,27 +91,26 @@ bool Mensa::UpdateMeta(rapidjson::Value& val)
 	if(!val.IsObject() || val.IsNull())
 		return true;
 
-	rapidjson::Value& canteenjson = val[canteen.c_str()];
-	if(!canteenjson.IsObject() || canteenjson.IsNull())
+	rapidjson::Value::ConstMemberIterator canteenjs = val.FindMember(canteen.c_str());
+	if(canteenjs == val.MemberEnd()
+		|| !canteenjs->value.IsObject()
+		|| canteenjs->value.IsNull())
 		return true;
 	
-	rapidjson::Value& linesjson = canteenjson["lines"];
-	if(!linesjson.IsObject() || linesjson.IsNull())
+	rapidjson::Value::ConstMemberIterator linesjs=canteenjs->value.FindMember("lines");
+	if(linesjs == canteenjs->value.MemberEnd()
+		|| !linesjs->value.IsObject()
+		|| linesjs->value.IsNull())
 		return true;
 
-	for(size_t i = 0; i < lines.size(); ++i)
+	for(rapidjson::Value::ConstMemberIterator i = linesjs->value.MemberBegin();
+		i != linesjs->value.MemberEnd(); ++i)
 	{
-		rapidjson::Value& linestr = linesjson[lines[i].c_str()];
-		if(linestr.IsString())
-		{
-			lineMap[lines[i]] = linestr.GetString();
-			Log(LOG_DEBUG, "Updated line name for %s(%s)",
-				lines[i].c_str(), linestr.GetString());
-		}
-		else
-		{
-			Log(LOG_DEBUG, "Canteen line %s not found in metadata", lines[i].c_str());
-		}
+		if(!i->value.IsString() || !i->name.IsString())
+			continue;
+		lineMap[i->name.GetString()] = i->value.GetString();
+		Log(LOG_DEBUG, "Updated line name for %s(%s)",
+			i->name.GetString(), i->value.GetString());
 	}
 	return false;
 }
@@ -213,7 +222,6 @@ void Mensa::SendMenu(Server& srv, const std::string& channel, int offset)
 		localnow.tm_mday += localnow.tm_wday?2:1;
 
 	now = mktime(&localnow);
-	localtime_r(&now, &localnow);
 	std::stringstream sstr;
 	sstr << now;
 	std::string strnow(sstr.str());
@@ -221,7 +229,8 @@ void Mensa::SendMenu(Server& srv, const std::string& channel, int offset)
 	if(!menu.HasMember(strnow.c_str()))
 	{
 		std::stringstream errmsg;
-		errmsg << "Keine Daten vorhanden für " << localnow.tm_mday << "." << (localnow.tm_mon + 1) << "." << (localnow.tm_year % 100);
+		errmsg << "Keine Daten vorhanden für ";
+		WriteTime(errmsg, now);
 		srv.SendMsg(channel, errmsg.str());
 		return;
 	}
@@ -231,69 +240,112 @@ void Mensa::SendMenu(Server& srv, const std::string& channel, int offset)
 		return;
 
 	std::stringstream menumsg;
-	menumsg << "Mensaeinheitsbrei am " << localnow.tm_mday << "." << (localnow.tm_mon + 1) << "." << (localnow.tm_year % 100);
+	menumsg << "Mensaeinheitsbrei am ";
+	WriteTime(menumsg, now);
 	srv.SendMsg(channel, menumsg.str());
-	for(size_t i = 0; i < lines.size(); ++i)
+
+	for (rapidjson::Value::ConstMemberIterator itr = menunow.MemberBegin();
+	    itr != menunow.MemberEnd(); ++itr)
 	{
-		if(menunow.IsObject() && menunow.HasMember(lines[i].c_str()))
-			SendLine(srv, channel, lines[i], menunow[lines[i].c_str()]);
+		if(!itr->name.IsString())
+			continue;
+
+		std::string name = itr->name.GetString();
+		if(lines.count(name) != 0)
+			SendLine(srv, channel, name, itr->value);
+		else
+			SendLineClosed(srv, channel, name, itr->value);
 	}
 }
 
-void Mensa::SendLine(Server& srv, const std::string& origin, const std::string& line, rapidjson::Value& value)
+void Mensa::SendLineClosed(Server& srv, const std::string& origin,
+	const std::string& line, const rapidjson::Value& value)
 {
-	if(!value.IsArray())
+	if(!value.IsArray() || value.Size() != 1)
 		return;
+
+	const rapidjson::Value& data = value[0];
+	if(!data.IsObject() || data.IsNull())
+		return;
+
+	rapidjson::Value::ConstMemberIterator itr = data.FindMember("closing_end");
+	if(itr == data.MemberEnd() || !itr->value.IsInt64())
+		return;
+
+	std::stringstream sstr;
 	std::string linename = lineMap[line];
 	if(linename.empty())
 		linename = line;
+	sstr << linename << ": Geschlossen bis ";
+	WriteTime(sstr, itr->value.GetInt64());
+
+	itr = data.FindMember("closing_text");
+	if(itr != data.MemberEnd() && itr->value.IsString())
+		sstr << " (" << itr->value.GetString() << ")";
+
+	srv.SendMsg(origin, sstr.str());
+}
+
+void Mensa::SendLine(Server& srv, const std::string& origin,
+	const std::string& line, const rapidjson::Value& value)
+{
+	if(!value.IsArray())
+		return;
+	if(!value.Size() > 0)
+		return;
+
+	std::string linename = lineMap[line];
+	if(linename.empty())
+		linename = line;
+
+	/* Check first array element for special values */
+	const rapidjson::Value& firstElem = value[0];
+	if(firstElem.IsObject() && !firstElem.IsNull())
+	{
+		if(firstElem.HasMember("closing_end"))
+		{
+			SendLineClosed(srv, origin, line, value);
+			return;
+		}
+		rapidjson::Value::ConstMemberIterator itr = firstElem.FindMember("nodata");
+		if(itr != firstElem.MemberEnd()
+			&& itr->value.IsBool() && itr->value.GetBool())
+		{
+			srv.SendMsg(origin, linename + ": Keine Daten vorhanden");
+			return;
+		}
+	}
 
 	std::stringstream strstr;
 	strstr.setf(std::ios_base::fixed);
 	strstr.precision(2);
 	strstr << linename << ": ";
-	for(rapidjson::Value::ValueIterator it = value.Begin();
+	for(rapidjson::Value::ConstValueIterator it = value.Begin();
 		it != value.End();
 		++it)
 	{
-		if(!it->IsObject())
+		if(!it->IsObject() || it->IsNull())
 			continue;
-		if(!it->HasMember("meal"))
-		{
-			strstr << "Geschlossen";
-			if(it->HasMember("closing_text"))
-			{
-				rapidjson::Value& closingtext = (*it)["closing_text"];
-				if(closingtext.IsString())
-				{
-					strstr << " (" << closingtext.GetString() << ")";
-				}
-			}
-			strstr << ", ";
-		}
-		else
-		{
-			if(!it->HasMember("price_1"))
-				continue;
-			rapidjson::Value& price = (*it)["price_1"];
-			// threshold
-			if(!price.IsNumber() || price.GetDouble() < 1.3)
-				continue;
 
-			rapidjson::Value& meal = (*it)["meal"];
-			if(!meal.IsString())
-				return;
-			strstr << meal.GetString();
-			if(it->HasMember("dish"))
-			{
-				rapidjson::Value& dish = (*it)["dish"];
-				if(dish.IsString() && dish.GetString()[0] != '\0')
-					strstr << " " << dish.GetString();
-				strstr << " (" << price.GetDouble() << "); ";
-			}
-		}
+		rapidjson::Value::ConstMemberIterator meal = it->FindMember("meal");
+		rapidjson::Value::ConstMemberIterator price_1 = it->FindMember("price_1");
+		if(meal == it->MemberEnd() || !meal->value.IsString()
+			|| price_1 == it->MemberEnd() || !price_1->value.IsNumber())
+			continue;
+
+		double price = price_1->value.GetDouble();
+		// threshold
+		if(price < 1.3)
+			continue;
+
+		strstr << meal->value.GetString();
+		rapidjson::Value::ConstMemberIterator dish = it->FindMember("dish");
+		if(dish != it->MemberEnd()
+			&& dish->value.IsString() && dish->value.GetStringLength() != 0)
+			strstr << " " << dish->value.GetString();
+
+		strstr << " (" << price << "), ";
 	}
 	std::string str = strstr.str();
-	str = str.substr(0, str.size() - 2);
-	srv.SendMsg(origin, str);
+	srv.SendMsg(origin, str.substr(0, str.size()-2));
 }
