@@ -1,5 +1,6 @@
 *.o
 *.swp
+*.db
 libkeksbot.so
 keksbot
 keksbot-cgi
