@@ -232,7 +232,9 @@ void Server::AddSelectDescriptors(fd_set& inSet,
 				GetName().c_str(), e.ErrorNumber(), e.what());
 		}
 	}
-	int error = irc_add_select_descriptors(session, &inSet, &outSet, &maxFd);
+	int max = 0;
+	int error = irc_add_select_descriptors(session, &inSet, &outSet, &max);
+	maxFd = std::max(maxFd, max);
 	if(error != 0)
 		Disconnect();
 }
