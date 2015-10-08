@@ -288,15 +288,12 @@ void Server::EventNumeric(unsigned int       evt, const std::string& origin, con
 			break;
 	}
 
-	LogIrcEvent(evtString, origin, args);
 	if(manager != NULL)
 		manager->DistributeEvent(*this, evtString, origin, args);
 }
 
 void Server::EventMisc (const std::string& evt, const std::string& origin, const ParamList& args)
 {
-	LogIrcEvent(evt, origin, args);
-
 	if(evt == "JOIN" && args.size() > 0)
 	{
 		channels[args[0]].users.insert(User(origin));
@@ -431,17 +428,3 @@ const Channel& Server::GetChannel(const std::string& chan)
 	return it->second;
 }
 
-void Server::LogIrcEvent(const std::string& evt, const std::string& origin, const ParamList& args)
-{
-	std::string logmsg("Received irc event: ");
-	logmsg += evt;
-	logmsg += " origin: ";
-	logmsg += origin;
-	logmsg += " args: ";
-	for(ParamList::const_iterator it = args.begin(); it != args.end(); ++it)
-	{
-		logmsg += (*it);
-		logmsg += " | ";
-	}
-	Log(LOG_DEBUG, "[%s] %s", GetName().c_str(), logmsg.c_str());
-}

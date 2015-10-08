@@ -65,7 +65,6 @@ public:
 
 private:
 	void Init(void);
-	void LogIrcEvent(const std::string& evt, const std::string& origin, const ParamList& params);
 };
 
 #endif
