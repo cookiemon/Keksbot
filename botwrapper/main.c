@@ -27,7 +27,6 @@ int main(int argc, char** argv)
 			Log(LOG_ERR, "Could not load libkeksbot.so: %s", LastDynLibError());
 			return -1;
 		}
-		Log(LOG_INFO, "libkeksbot.so successfully loaded.");
 
 		RunProcType runProc = (RunProcType) GetDynLibProc(libHandle, "Run");
 		if(runProc == NULL)
@@ -36,7 +35,6 @@ int main(int argc, char** argv)
 			return -1;
 		}
 
-		Log(LOG_INFO, "Starting libkeksbot.so");
 		run = runProc();
 		CloseDynLib(libHandle);
 	}
