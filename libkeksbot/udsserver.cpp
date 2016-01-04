@@ -18,21 +18,22 @@ UdsServer::UdsServer(EventManager* man, const Configs& settings)
 	settings.GetValue("server", boundServer);
 	srv = man->GetServer(boundServer);
 
-	std::string address;
-	settings.GetValue("location", address);
-	if(address.size() > UNIX_PATH_MAX - 1)
-		throw ConfigException("Location for UdsServer too long");
-
 	srvSock = socket(AF_UNIX, SOCK_STREAM | SOCK_NONBLOCK, 0);
 	if(srvSock == -1)
 		throw SystemException(errno);
-
 	addr.sun_family = AF_UNIX;
-	strncpy(addr.sun_path, address.c_str(), UNIX_PATH_MAX);
-	addr.sun_path[UNIX_PATH_MAX - 1] = '\0';
+
+	std::string address;
+	settings.GetValue("location", address);
+	strncpy(addr.sun_path, address.c_str(), sizeof(addr.sun_path));
+	// strncpy nulls all remaining bytes, so if last byte is not 0
+	// string was too long
+	if(addr.sun_path[sizeof(addr.sun_path) - 1] != '\0')
+		throw ConfigException("Location for UdsServer too long");
+
 	int res = bind(srvSock,
 		reinterpret_cast<struct sockaddr*>(&addr),
-		sizeof(sockaddr_un));
+		SUN_LEN(&addr));
 	if(res == -1)
 	{
 		int err = errno;

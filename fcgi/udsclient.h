@@ -9,7 +9,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <linux/un.h>
+#include <sys/un.h>
 
 class UdsClient
 {
@@ -21,7 +21,9 @@ public:
 	{
 		addr.sun_family = AF_UNIX;
 		strncpy(addr.sun_path, sockFile.c_str(), sizeof(addr.sun_path));
-		
+		if(addr.sun_path[sizeof(addr.sun_path)-1] != '\0')
+			throw std::runtime_error("Path for unix domain socket too long");
+
 		fd = socket(AF_UNIX, SOCK_STREAM, 0);
 		if(fd == -1)
 			throw SystemException(errno);
@@ -46,7 +48,7 @@ public:
 				&& (errno == 0 || errno == EAGAIN || errno == EWOULDBLOCK));
 
 		if(num < msg.size())
-			throw std::runtime_error("Could not send data!");
+			throw SystemException(errno);
 	}
 
 	std::string Read(void)
