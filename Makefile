@@ -10,29 +10,42 @@ KEKSCGISOURCEFILES=fcgi/main.cpp
 KEKSCGITARGET=keksbot-cgi
 KEKSCGIOBJECTS=$(KEKSCGISOURCEFILES:.cpp=.o)
 
-CC=g++
-CFLAGS=-c -I./external -Wall -fPIC -g -std=c++98
+CXX=c++
+CC=cc
+CXXFLAGS=-c -I./external -Wall -fPIC -g -std=c++98
+CFLAGS=-c
 LDFLAGS=-ldl -lsqlite3
 LDLIBFLAGS=-lircclient -lcurl -shared
 LDCGIFLAGS=-lfcgi
+
 all: $(LIBKEKSBOTSOURCEFILES) $(LIBKEKSBOTTARGET) $(BOTWRAPPERSOURCEFILES) $(BOTWRAPPERTARGET) $(KEKSCGISOURCEFILES) $(KEKSCGITARGET)
 
 rebuild: clean all
 
+install: all
+	install -m 0755 -d $(DESTDIR)/keksbot
+	install -m 0755 $(BOTWRAPPERTARGET) $(DESTDIR)/keksbot
+	install -m 0755 $(KEKSCGITARGET) $(DESTDIR)/keksbot
+	install -m 0644 $(LIBKEKSBOTTARGET) $(DESTDIR)/keksbot
+	install -m 0644 *.txt $(DESTDIR)/keksbot
+
 $(BOTWRAPPERTARGET): $(BOTWRAPPEROBJECTS)
-	$(CC) $(LDFLAGS) -o $@ $(BOTWRAPPEROBJECTS)
+	$(CXX) $(LDFLAGS) -o $@ $(BOTWRAPPEROBJECTS)
 
 $(LIBKEKSBOTTARGET): $(LIBKEKSBOTOBJECTS)
-	$(CC) $(LDLIBFLAGS) -o $@ $(LIBKEKSBOTOBJECTS)
+	$(CXX) $(LDLIBFLAGS) -o $@ $(LIBKEKSBOTOBJECTS)
 
 $(KEKSCGITARGET): $(KEKSCGIOBJECTS)
-	$(CC) $(LDCGIFLAGS) -o $@ $(KEKSCGIOBJECTS)
+	$(CXX) $(LDCGIFLAGS) -o $@ $(KEKSCGIOBJECTS)
 
 .cpp.o:
-	$(CC) $(CFLAGS) -o $@ $<
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
 .c.o:
 	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
 	rm -rf $(LIBKEKSBOTTARGET) $(BOTWRAPPERTARGET) $(KEKSCGITARGET) botwrapper/*.o libkeksbot/*.o fcgi/*.o
+
+.PHONY: install all rebuild clean
+
