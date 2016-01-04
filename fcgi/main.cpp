@@ -197,46 +197,58 @@ std::string ParseCmd(const std::string& method,
 	return "";
 }
 
-int main(void)
+int main(int argc, const char* argv[])
 {
+	if(argc != 2)
+	{
+		fprintf(stderr, "Usage: %s \"filename\"\n", argv[0]);
+		return 1;
+	}
 	while(FCGI_Accept() >= 0)
 	{
-		UdsClient cl = UdsClient("/home/genion/Keksbot/keksbot.sock");
-		const char* method = getenv("REQUEST_METHOD");
-		if(method == NULL)
-			method = "GET";
-
-		std::vector<std::string> args = getUrl();
-
-		bool sync = true;
-		if(args[0] == "async")
+		try
 		{
-			args.erase(args.begin());
-			sync = false;
-		}
+			UdsClient cl = UdsClient(argv[1]);
+			const char* method = getenv("REQUEST_METHOD");
+			if(method == NULL)
+				method = "GET";
 
-		if(args.size() > 1 && args[0] == "channel")
-			args[1] = "#" + args[1];
+			std::vector<std::string> args = getUrl();
 
-		std::string cmd = ParseCmd(method, args);
-		if(cmd.empty())
-		{
-			printf("Status: 404 Ressource not Found\n\n");
-			continue;
-		}
-		cmd += '\n';
-
-		cl.Send(cmd);
-		if(sync)
-		{
-			std::string reply = cl.Read();
-			if(!reply.empty())
+			bool sync = true;
+			if(args[0] == "async")
 			{
-				if(method == std::string("GET"))
-					printf("Access-Control-Allow-Origin: *\n");
-				printf("Content-type: text/plain\n\n");
-				printf("%s\n", reply.c_str());
+				args.erase(args.begin());
+				sync = false;
 			}
+
+			if(args.size() > 1 && args[0] == "channel")
+				args[1] = "#" + args[1];
+
+			std::string cmd = ParseCmd(method, args);
+			if(cmd.empty())
+			{
+				printf("Status: 404 Ressource not Found\n\n");
+				continue;
+			}
+			cmd += '\n';
+
+			cl.Send(cmd);
+			if(sync)
+			{
+				std::string reply = cl.Read();
+				if(!reply.empty())
+				{
+					if(method == std::string("GET"))
+						printf("Access-Control-Allow-Origin: *\n");
+					printf("Content-type: text/plain\n\n");
+					printf("%s\n", reply.c_str());
+				}
+			}
+		}
+		catch(SystemException& ex)
+		{
+			printf("Status: 500 Internal Server Error");
 		}
 	}
 
