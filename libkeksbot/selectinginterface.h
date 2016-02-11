@@ -6,6 +6,7 @@
 class SelectingInterface
 {
 public:
+	virtual ~SelectingInterface(void) {};
 	virtual void AddSelectDescriptors(fd_set& inSet,
 		fd_set& outSet,
 		fd_set& excSet,

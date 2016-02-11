@@ -291,7 +291,7 @@ void Mensa::SendLine(Server& srv, const std::string& origin,
 {
 	if(!value.IsArray())
 		return;
-	if(!value.Size() > 0)
+	if(value.Size() == 0)
 		return;
 
 	std::string linename = lineMap[line];
