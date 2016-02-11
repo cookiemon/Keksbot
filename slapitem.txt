@@ -239,17 +239,17 @@ a machine for pigs
 all 55 Microsoft Office 97 Professional installation floppy disks
 all 25 OS/2 Warp v3 installation floppy disks
 America's Next Top Model
-an ${adjective} ABIT motherboard
-an ${adjective} ant
-an ${adjective} anteater
-an ${adjective} Apple ][
-an ${adjective} can of wasp spray
-an ${adjective} EIDE cable
-an ${adjective} ice skate
-an ${adjective} LCD screen
-an ${adjective} Oak 2x4
-an ${adjective} orthonormal basis
-an ${adjective} oven mit
+a ${adjective} ABIT motherboard
+a ${adjective} ant
+a ${adjective} anteater
+a ${adjective} Apple ][
+a ${adjective} can of wasp spray
+a ${adjective} EIDE cable
+a ${adjective} ice skate
+a ${adjective} LCD screen
+a ${adjective} Oak 2x4
+a ${adjective} orthonormal basis
+a ${adjective} oven mit
 an invalid unicode codepoint
 a NullPointerException
 a pair of ${adjective} scissors

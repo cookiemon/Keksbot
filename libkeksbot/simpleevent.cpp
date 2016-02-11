@@ -35,34 +35,88 @@ void SimpleEvent::OnEvent(Server& srv,
 		size_t nextVariable = 0;
 		while((nextVariable = answer.find("${", nextVariable)) != std::string::npos)
 		{
-			nextVariable += 2;
-			size_t variableEnd = answer.find('}', nextVariable);
+			size_t variableName_start = nextVariable + 2;
+			size_t variableEnd = answer.find('}', variableName_start);
 			if(variableEnd != std::string::npos)
 			{
-				std::string variableName = answer.substr(nextVariable,
-				                                        variableEnd - nextVariable);
+				std::string variableName = answer.substr(variableName_start,
+				                                         variableEnd - variableName_start);
 				AnswerMap::iterator it = choices.find(variableName);
 				if(it == choices.end())
 				{
 					StringList loadedAnswers;
 					LoadAnswers(variableName, loadedAnswers);
 					std::pair<AnswerMap::iterator, bool> inserted
-					                        = choices.insert(AnswerMap::value_type(variableName,
-					                                         loadedAnswers));
+						= choices.insert(AnswerMap::value_type(variableName,
+						                 loadedAnswers));
 					it = inserted.first;
 				}
-				answer.replace(nextVariable - 2,
-				               variableEnd - nextVariable + 3,
-							   GetRandomString(it->second)); 
+
+				std::string rngString = GetRandomString(it->second);
+				if(a_to_an(answer, nextVariable, variableEnd+1, rngString))
+				{
+					nextVariable++;
+					variableEnd++;
+				}
+
+				answer.replace(nextVariable, variableEnd - nextVariable + 1, rngString);
+
 				foundReplacement = true;
+				nextVariable += 2;
 			}
 		}
 	} while(foundReplacement);
-	
+
 	if(answer.substr(0, 4) == "/me ")
 		srv.SendAction(params[0], answer.substr(4));
 	else
 		srv.SendMsg(params[0], answer);
+}
+
+/*!
+ * Replace indefinite article 'A'/'a' in \p answer with 'an' if \p str starts with one of 'aeiou'.
+ * \return true if 'a' has been replaced
+ */
+bool SimpleEvent::a_to_an(std::string& answer, const size_t start, const size_t end, const std::string& str) const
+{
+	// if article is "a" but replacement starts with "aeiou" change "A/a ${key}" to "An/an ${key}"
+	static const std::string aeiou = "aeiou";
+	bool indef = false;
+
+	if(aeiou.find(str[0]) != std::string::npos && is_vowel_sound_exceptions(str))
+	{
+		if(start > 3)
+		{
+			// only possibility is "x a ${key}" or "x A ${key}" where x is any char
+			std::string indefArticle = answer.substr(start - 3, 3);
+			if(indefArticle == " a " || indefArticle == " A ")
+			{
+				indef = true;
+			}
+		}
+		else if(start == 2 && answer[0] == 'A' && answer[1] == ' ')
+		{
+			// edge-case "A ${key}"
+			indef = true;
+		}
+
+		if(indef)
+		{
+			answer.insert(start - 1, 1, 'n');
+		}
+		return indef;
+	}
+
+	return indef;
+}
+
+/*!
+ * Return false for a subset of words \p str that start with any of 'aeiou' but have a consonant-sounding first syllable.
+ */
+bool SimpleEvent::is_vowel_sound_exceptions(const std::string& str) const
+{
+	if(str[0]=='u' && str[1]=='s') return false;
+	return true;
 }
 
 void SimpleEvent::LoadAnswers(const std::string& name, std::vector<std::string>& out)
