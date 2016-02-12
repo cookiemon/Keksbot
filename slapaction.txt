@@ -8,6 +8,18 @@
 /me gives ${MSG} a clout round the head with ${slapitem}
 /me gives ${MSG} a clout round the head with ${slapitem}
 /me gives ${MSG} a clout round the head with ${slapitem}
+/me gives ${MSG} a clout round the head with ${slapitem}
+/me gives ${MSG} a clout round the head with ${slapitem}
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
+/me slaps ${MSG} with ${slapitem}. A ${adjective} deed.
 /me slaps ${MSG} with ${slapitem}
 /me slaps ${MSG} with ${slapitem}
 /me slaps ${MSG} with ${slapitem}

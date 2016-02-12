@@ -340,6 +340,7 @@ the ${adjective} source code of Microsoft Windows for Workgroups 3.11(tm)
 the ${adjective} summer sky
 The Answer to the Great Question, of Life, the Universe and Everything
 The Artist Formerly known as The Artist Formerly known as Prince
+the first letter of the alphabet, namely a the ${adjective}
 the one and only cookie monster before it went veggie monster
 the State of Maryland
 the Stirnlappenbasilisk
