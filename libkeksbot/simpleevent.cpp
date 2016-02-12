@@ -53,10 +53,10 @@ void SimpleEvent::OnEvent(Server& srv,
 				}
 
 				std::string rngString = GetRandomString(it->second);
-				if(a_to_an(answer, nextVariable, variableEnd+1, rngString))
+				if(AToAn(answer, nextVariable, variableEnd+1, rngString))
 				{
-					nextVariable++;
-					variableEnd++;
+					nextVariable += 1;
+					variableEnd += 1;
 				}
 
 				answer.replace(nextVariable, variableEnd - nextVariable + 1, rngString);
@@ -77,13 +77,12 @@ void SimpleEvent::OnEvent(Server& srv,
  * Replace indefinite article 'A'/'a' in \p answer with 'an' if \p str starts with one of 'aeiou'.
  * \return true if 'a' has been replaced
  */
-bool SimpleEvent::a_to_an(std::string& answer, const size_t start, const size_t end, const std::string& str) const
+bool SimpleEvent::AToAn(std::string& answer, const size_t start, const size_t end, const std::string& str) const
 {
 	// if article is "a" but replacement starts with "aeiou" change "A/a ${key}" to "An/an ${key}"
-	static const std::string aeiou = "aeiou";
 	bool indef = false;
 
-	if(aeiou.find(str[0]) != std::string::npos && is_vowel_sound_exceptions(str))
+	if(StartsWithVowelSound(str))
 	{
 		if(start > 3)
 		{
@@ -104,19 +103,19 @@ bool SimpleEvent::a_to_an(std::string& answer, const size_t start, const size_t 
 		{
 			answer.insert(start - 1, 1, 'n');
 		}
-		return indef;
 	}
 
 	return indef;
 }
 
 /*!
- * Return false for a subset of words \p str that start with any of 'aeiou' but have a consonant-sounding first syllable.
+ * Returns if \p str starts with a vowel sound. I.e. starts with any of 'aeiou' but has not a consonant-sounding first syllable
  */
-bool SimpleEvent::is_vowel_sound_exceptions(const std::string& str) const
+bool SimpleEvent::StartsWithVowelSound(const std::string& str) const
 {
-	if(str[0]=='u' && str[1]=='s') return false;
-	return true;
+	static const std::string vowels = "aeio"; // u is not always a vowel
+	if(str[0] == 'u' && str[1] != 's') return true;
+	return vowels.find(str[0]) != std::string::npos;
 }
 
 void SimpleEvent::LoadAnswers(const std::string& name, std::vector<std::string>& out)
