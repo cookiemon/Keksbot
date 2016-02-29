@@ -7,7 +7,7 @@ Wuh, I think so, ${USER}, but isn't Regis Philbin already married?
 Wuh, I think so, ${USER}, but burlap chafes me so.
 Sure, ${USER}, but how are we going to find chaps our size?
 Uh, I think so, ${USER}, but we'll never get a monkey to use dental floss.
-Are you pondering cheesesticks?
+Are you pondering cheese sticks?
 Uh, I think so ${USER}, but this time, you wear the tutu.
 I think so, ${USER}, but culottes have a tendency to ride up so.
 I think so, ${USER}, but if we covered the world in salad dressing wouldn't the asparagus feel left out?
@@ -108,15 +108,15 @@ Wuhh... I think so, ${USER}! But let's use safflower oil this time! It's ever so
 Wuh... I think so, ${USER}. But Cream of Gorilla Soup—well, we'd have to sell it in awfully big cans, wouldn't we?
 I think so, ${USER}. But if he left chocolate bullets instead of silver, they'd get all runny and gooey!
 Yes, ${USER}, I think so, but do nuts go with pudding?
-I think so, ${USER}, but a codpiece made from a real fish would get smelly after a while, wouldn’t it?
+I think so, ${USER}, but a codpiece made from a real fish would get smelly after a while, wouldn't it?
 I think... so, ${USER}... **gag** ...but I didn't know Annette used peanut butter in that way.
 I think so, ${USER}, but do those roost in this neighborhood?
-I think so, ${USER}, but is the world ready for angora bellbottoms? I mean I can see wearing them inside out, but that would--
+I think so, ${USER}, but is the world ready for angora bell-bottoms? I mean I can see wearing them inside out, but that would--
 I think so, Commander ${USER} from Outer Space! But do we have time to grease the rockets?
 I think so, Doctor. But are these really the legs of a show girl?
 Whuh... I think so, ${USER}. But this time I get to play the dishwasher repairman!
 I think so, ${USER}ius. But what if a sudden wind were to blow up my toga?
-I think so, ${USER}. But Trojans won’t arrive on the scene for another 300 years.
+I think so, ${USER}. But Trojans won't arrive on the scene for another 300 years.
 I think so, ${USER}... but where would a yak put PVC tubing?
 Whuh... I think so, ${USER}, but... but if Charlton Heston doesn't eat Soylent Green, what will he eat?
 Why, yes, ${USER}! Yes, I am! But where would you get a chicken, 20 yards of spandex and smelling salts at this hour?
@@ -128,12 +128,12 @@ Whuu... I think so, ${USER}Pan! But if running shoes had little feet, wouldn't t
 I think so, ${USER}. But what if the Earl of Essex doesn't like burlap pantaloons?
 I think so, ${USER}, but should we use dishwashing liquid or cooking oil?
 I think so, ${USER}! We'll dress up like biker dudes and infiltrate the "Hades Ladies." Then we'll convince them to hold a meeting inside the corn palace. Narf! The resulting carbon-monoxide buildup will allow you to complete your energy-making device and shortly after, you will rule the world!
-${NICK}: *(holding one of the pointy pieces from Sorry! and the bottle of Slick 'n Slide)* I think so, Br... ${USER}: *[shuts ${NICK}'s mouth]* No, on second thought, don’t tell me... I don't think they allow that in a book with the Comics Code.
+${NICK}: *(holding one of the pointy pieces from Sorry! and the bottle of Slick 'n Slide)* I think so, Br... ${USER}: *[shuts ${NICK}'s mouth]* No, on second thought, don't tell me... I don't think they allow that in a book with the Comics Code.
 I think so, ${USER}, but would Danish flies work just as well?
 We think so, ${USER}! But dressing like twins is so tacky.
 I think so, ${USER}, but practicing docking procedures with a goat at zero G's—it's never been done!
 I think so, ${USER}! But shouldn't we let the silk worms finish the boxer shorts before we put them on?
-I think so, ${USER}! You draw the bath and I'll fetch the alka-seltzers and candles!
+I think so, ${USER}! You draw the bath and I'll fetch the Alka-Seltzers and candles!
 I think so, ${USER}. But the real trick will be getting Demi Moore out of the creamed corn!
 Wuhhh... I think so, ${USER}, but if a ham can operate a radio, why can't a pig set a VCR?
 I think so, ${USER}, you'd think [Lyndon Johnson would] have left room for baby-kissing, wouldn't you?
@@ -151,14 +151,14 @@ Oh, I think so, ${USER}! But doing a clog dance in actual clogs will give me awf
 I think so, ${USER}, but nose rings are kinda passé by now.
 I think so, ${USER}, but where are we going to get a trained octopus at this time of night?
 I think so, ${USER}! But no more eels in jelly for me, thanks—I like my gelatin after lunch.
-I think so, ${USER}, but I didn’t know 90210 was a real zip code! Will Tori be there?
+I think so, ${USER}, but I didn't know 90210 was a real zip code! Will Tori be there?
 Narf! I think so, ${USER}, but what if the Telechubbies don't fight fair?
 I think so, ${USER}. But even if we found a tuxedo to fit a blowfish, who would marry it?
 Um, no, Cranky Mouseykin, not even in the story you made up.
 I think so, but where is a fish?
 ${USER}: "You pondering what I'm pondering?" I asked ${NICK} on the sly. "Well, I think so, ${USER}," he muttered. "But my feet taste better buttered." Then I grimaced and I shuddered at his typical reply.
 I think so, ${USER}. But if Pinocchio were carved out of bacon it wouldn't be the same story, would it?
-Um, I think so, ${USER}, but wasn't Dicky Ducky released on his own recognaissance?
+Um, I think so, ${USER}, but wasn't Dicky Ducky released on his own recognizance?
 I think so, ${USER}, but Pepper Ann makes me sneeze.
 I think so, ${USER}. But suppose we do the hokey pokey and turn ourselves around, is that what it's really all about?
 *(sung)* I think so, ${USER}, but just how will we get the weasel to hold still?

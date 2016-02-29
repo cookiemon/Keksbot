@@ -125,7 +125,7 @@ a ${adjective} ROKR cellphone
 a ${adjective} roll of pennies
 a ${adjective} rubber duck
 a ${adjective} salad
-a ${adjective} Salad Shooter(tm)
+a ${adjective} Salad Shooter™
 a ${adjective} sea slug
 a ${adjective} shampoo bottle
 a ${adjective} Sharpie, Ultra Fine Point
@@ -135,7 +135,7 @@ a ${adjective} shoebox
 a ${adjective} shot glass
 a ${adjective} shotgun
 a ${adjective} shot put ball
-a ${adjective} shrimp, a ${adjective} starfish, and a ${adjective} pigmy
+a ${adjective} shrimp, a ${adjective} starfish, and a ${adjective} pygmy
 a ${adjective} size 13 bowling shoe
 a ${adjective} slice of pizza
 a ${adjective} slinky
@@ -249,7 +249,7 @@ a ${adjective} ice skate
 a ${adjective} LCD screen
 a ${adjective} Oak 2x4
 a ${adjective} orthonormal basis
-a ${adjective} oven mit
+a ${adjective} oven mitt
 an invalid Unicode codepoint
 a NullPointerException
 a pair of ${adjective} scissors
