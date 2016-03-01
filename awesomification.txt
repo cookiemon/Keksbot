@@ -5,7 +5,7 @@ ${technology}-management
 ${technology}-oriented
 NoSQL
 agile
-applied distributed realtime-java
+applied distributed realtime-Java
 big-data
 bleeding-edge
 cloud-based

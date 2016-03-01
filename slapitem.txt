@@ -2,8 +2,8 @@
 1.21 GIGAWATTS
 12 pounds of ${adjective} bacon
 13 pounds of ${adjective} dust
-15 golf ball ${adjective} tees
-18 cans of ${adjective} Alpo
+15 ${adjective} golf ball tees
+18 ${adjective} cans of Alpo
 200 yards of ${adjective} barbed wire
 200 yards of ${adjective} Cat 4 cable
 21,357 ${adjective} DVDs
@@ -12,7 +12,7 @@
 27 ${adjective} kettles
 2 pair of ${adjective} water skis
 2 plastic coat hangers and a roll of ${adjective} nickles
-314 ${adjective} envelops with prepaid postage from Credit Card companies
+314 ${adjective} envelopes with prepaid postage from credit card companies
 32 ${adjective} beheaded chickens
 33 ${adjective} CDs
 38 ${adjective} IDE cables
@@ -20,11 +20,11 @@
 3 ${adjective} boiled eggs
 3 ${adjective} coupons and 2 ${adjective} AAA batteries
 3 ${adjective} rose bushes
-3 dozen no bake cookies
+3 dozen no-bake cookies
 42 ${adjective} Pringles cans
 42 Oreo Cookies, 2 Watermelons, 4 machine guns, and twisty ties
 5 ${adjective} poker decks
-5 pounds of ${adjective} asphault
+5 pounds of ${adjective} asphalt
 6.62606957E-34
 738 ${adjective} buttons
 73 ${adjective} cranberries
@@ -32,7 +32,7 @@
 7 ${adjective} potted plants
 8 ${adjective} dill pickles
 99 bottles of beer on the wall
-99 red ballons
+99 red balloons
 a 17 car pile up on the freeway
 a 1kOhm resistor.
 a ${adjective} 1968 Corvette
@@ -40,7 +40,7 @@ a ${adjective} $2 bill
 a ${adjective} 38" tire
 a ${adjective} 4U rackmount server
 a ${adjective} 52 inch plasma monitor
-a ${adjective} bag of dogfood
+a ${adjective} bag of dog food
 a ${adjective} balloon
 a ${adjective} barrel roll
 a ${adjective} bathtub
@@ -48,15 +48,15 @@ a ${adjective} beanstalk
 a ${adjective} bell tower
 a ${adjective} belt
 a ${adjective} boulder
-a ${adjective} box of 248 crayons that are half used
+a ${adjective} half-used box of 248 crayons
 a ${adjective} box of Kleenexes
-a ${adjective} bycicle helmet
+a ${adjective} bicycle helmet
 a ${adjective} campfire
-a ${adjective} Capria Sun pouch
-a ${adjective} capsule of halcion
+a ${adjective} Capri-Sun pouch
+a ${adjective} capsule of Halcion
 a ${adjective} ceiling fan blade
 a ${adjective} chess set
-a ${adjective} Chinese Crested Hairless dog
+a ${adjective} Chinese Crested Hairless
 a ${adjective} clown shoe
 a ${adjective} coconut monkey
 a ${adjective} copy of WeeChat
@@ -67,9 +67,9 @@ a ${adjective} cyanide capsule
 a ${adjective} dot matrix printer
 a ${adjective} fax machine
 a ${adjective} first aid kit
-a ${adjective} Five Star binder
+a ${adjective} Five Star Binder
 a ${adjective} fortune cookie
-a ${adjective} fourier transformed function
+a ${adjective} Fourier transformed function
 a ${adjective} functional programming language
 a ${adjective} Furby
 a ${adjective} fur coat
@@ -100,7 +100,7 @@ a ${adjective} mouse
 a ${adjective} NERF bow and arrow
 a ${adjective} New Kids on the Block tape
 a ${adjective} newspaper from 1947
-a ${adjective} nosehair plucker
+a ${adjective} nose hair plucker
 a ${adjective} nothing
 a ${adjective} pair of headphones
 a ${adjective} paper bag filled with Cheetos
@@ -111,7 +111,7 @@ a ${adjective} peacock feather
 a ${adjective} Pepsi cap
 a ${adjective} PEZ dispenser filled with Tic-Tacs
 a ${adjective} piano
-a ${adjective} picknick table
+a ${adjective} picnic table
 a ${adjective} pimple
 a ${adjective} ping pong table
 a ${adjective} beaver
@@ -125,7 +125,7 @@ a ${adjective} ROKR cellphone
 a ${adjective} roll of pennies
 a ${adjective} rubber duck
 a ${adjective} salad
-a ${adjective} Salad Shooter(tm)
+a ${adjective} Salad Shooter™
 a ${adjective} sea slug
 a ${adjective} shampoo bottle
 a ${adjective} Sharpie, Ultra Fine Point
@@ -135,10 +135,10 @@ a ${adjective} shoebox
 a ${adjective} shot glass
 a ${adjective} shotgun
 a ${adjective} shot put ball
-a ${adjective} shrimp, a ${adjective} starfish, and a ${adjective} pigmy
+a ${adjective} shrimp, a ${adjective} starfish, and a ${adjective} pygmy
 a ${adjective} size 13 bowling shoe
 a ${adjective} slice of pizza
-a ${adjective} slinkey
+a ${adjective} slinky
 a ${adjective} smoke alarm
 a ${adjective} smoke detector
 a ${adjective} smoothbore depleted uranium sniper shell
@@ -162,15 +162,15 @@ a ${adjective} toilet seat
 a ${adjective} toilet seat cover
 a ${adjective} toothpick
 a ${adjective} .torrent of Darkwing Duck
-a ${adjective} .torrent of hq hardcore pr0n
-a ${adjective} trap door spider
+a ${adjective} .torrent of HQ hardcore pr0n
+a ${adjective} trapdoor spider
 a ${adjective} trout
 a ${adjective} trumpet
 a ${adjective} trumpet mouthpiece
 a ${adjective} tube of m&m's minis
-a ${adjective} tv show
+a ${adjective} TV show
 a ${adjective} Universal Power Supply backup battery
-a ${adjective} unix program
+a ${adjective} Unix program
 a ${adjective} USB cable
 a ${adjective} watch
 a ${adjective} watch that has been dipped in gasoline
@@ -206,7 +206,7 @@ ${adjective} dust
 ${adjective} earwax
 ${adjective} electrolytes
 ${adjective} emoticons
-${adjective} french vanilla icecream
+${adjective} French vanilla ice cream
 ${adjective} kosher salt
 ${adjective} lice
 ${adjective} lint
@@ -217,7 +217,7 @@ ${adjective} peach fuzz
 ${adjective} peanut butter
 ${adjective} peanut butter and syrup
 ${adjective} PEANUT BUTTER JELLY TIME
-${adjective} perscription medicine
+${adjective} prescription medicine
 ${adjective} pigs feet
 ${adjective} plains, trains, and automobiles
 ${adjective} porn
@@ -249,8 +249,8 @@ a ${adjective} ice skate
 a ${adjective} LCD screen
 a ${adjective} Oak 2x4
 a ${adjective} orthonormal basis
-a ${adjective} oven mit
-an invalid unicode codepoint
+a ${adjective} oven mitt
+an invalid Unicode codepoint
 a NullPointerException
 a pair of ${adjective} scissors
 a pile of ${adjective} AOL CDs
@@ -272,7 +272,7 @@ e^(i*pi)
 Emperor Palpatine
 Ernest Hemingway
 flakes of ${adjective} skin
-fluff, the delicious american marshmallow spread
+Fluff, the delicious American marshmallow spread
 four ${adjective} tennis racquets tied together to form a ${adjective} pyramid
 Garrus Vakarian
 George Takei
@@ -312,7 +312,7 @@ Richard Matthew Stallman
 RITZ bits
 Rosie O'Donnell
 Scientology
-several tons of ${adjective} soylent green.
+several tons of ${adjective} Soylent Green.
 Sherlock Holmes
 Sigmund Freud
 some 6 year old's two front teeth
@@ -336,7 +336,7 @@ the ${adjective} literary works of Aldous Huxley
 the ${adjective} meatbag.
 the ${adjective} passenger mirror of a 1972 Mercedes-Benz 280SEL
 the ${adjective} remains of Humpty Dumpty after all the King's Men couldn't put him back together
-the ${adjective} source code of Microsoft Windows for Workgroups 3.11(tm)
+the ${adjective} source code of Microsoft Windows for Workgroups 3.11™
 the ${adjective} summer sky
 The Answer to the Great Question, of Life, the Universe and Everything
 The Artist Formerly known as The Artist Formerly known as Prince
