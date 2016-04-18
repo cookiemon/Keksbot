@@ -25,7 +25,9 @@ void Unicode::OnEvent(Server& srv,
 	std::string codepoint;
 	if(unicode.compare(0, 2, "U+") == 0 || unicode.compare(0, 2, "u+") == 0)
 	{
-		codepoint = std::string(6 - unicode.size(), '0') + unicode.substr(2);
+		codepoint = unicode.substr(2);
+		if(codepoint.size() < 4)
+			codepoint = std::string(4 - codepoint.size(), '0') + codepoint;
 	}
 	else
 	{
