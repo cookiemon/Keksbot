@@ -363,14 +363,15 @@ void Server::Join(const std::string& chan, const std::string& pw)
 
 void Server::SendMsg(const std::string& chan, const std::string& msg)
 {
-	int error = irc_cmd_msg(session, chan.c_str(), msg.c_str());
-	if(error != 0)
-		throw IrcException(irc_errno(session));
-}
-
-void Server::SendAction(const std::string& chan, const std::string& msg)
-{
-	int error = irc_cmd_me(session, chan.c_str(), msg.c_str());
+	int error = 0;
+	if(msg.substr(0, 4) == "/me ")
+	{
+		error = irc_cmd_me(session, chan.c_str(), msg.c_str() + 4);
+	}
+	else
+	{
+		error = irc_cmd_msg(session, chan.c_str(), msg.c_str());
+	}
 	if(error != 0)
 		throw IrcException(irc_errno(session));
 }

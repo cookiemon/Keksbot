@@ -67,10 +67,7 @@ void SimpleEvent::OnEvent(Server& srv,
 		}
 	} while(foundReplacement);
 
-	if(answer.substr(0, 4) == "/me ")
-		srv.SendAction(params[0], answer.substr(4));
-	else
-		srv.SendMsg(params[0], answer);
+	srv.SendMsg(params[0], answer);
 }
 
 /*!

@@ -49,7 +49,6 @@ public:
 	bool IsConnected(void);
 	void Join(const std::string& chan, const std::string& pw = "");
 	void SendMsg(const std::string& chan, const std::string& msg);
-	void SendAction(const std::string& chan, const std::string& msg);
 
 	std::string GetName(void);
 	std::string GetLocation(void);
