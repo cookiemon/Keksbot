@@ -13,6 +13,15 @@
 
 extern "C"
 {
+	void take_over_world(void)
+	{
+		exit(1);
+	}
+	void kill_all_humans(void)
+	{
+		exit(1);
+	}
+
 	KEKSBOT_API int Run(void)
 	{
 		struct timeval tv;
