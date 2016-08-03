@@ -361,7 +361,7 @@ void Server::Join(const std::string& chan, const std::string& pw)
 		throw IrcException(irc_errno(session));
 }
 
-void Server::SendMsg(const std::string& chan, const std::string& msg)
+void Server::SendSingleLineMsg(const std::string& chan, const std::string& msg)
 {
 	int error = 0;
 	if(msg.substr(0, 4) == "/me ")
@@ -374,6 +374,20 @@ void Server::SendMsg(const std::string& chan, const std::string& msg)
 	}
 	if(error != 0)
 		throw IrcException(irc_errno(session));
+}
+
+void Server::SendMsg(const std::string& chan, const std::string& msg)
+{
+	size_t idx = 0;
+	size_t end = 0;
+	do
+	{
+		end = msg.find("\\n", idx);
+		std::string substr = msg.substr(idx, end - idx);
+		SendSingleLineMsg(chan, substr);
+		if(end != std::string::npos)
+			end += 2;
+	} while((idx = end) != std::string::npos);
 }
 
 std::string Server::GetName(void)

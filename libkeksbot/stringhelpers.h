@@ -46,6 +46,15 @@ inline std::string CutFirstWord(std::string& toCut)
 	return wrd;
 }
 
+inline void ReplaceSubstring(std::string& str, const std::string& find, const std::string& rep)
+{
+	size_t idx = 0;
+	while((idx = str.find(find, idx)) != std::string::npos)
+	{
+		str.replace(idx, find.size(), rep);
+	}
+}
+
 inline std::string EscapeString(std::string str,
 	const std::string& chars,
 	const std::string& escapeChar)
