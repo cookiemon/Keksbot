@@ -30,8 +30,8 @@ const char* INSERT_STATS_SQL = "INSERT INTO stats "
 const char* UPDATE_STATS_SQL = "UPDATE stats "
 							"SET "
 							"charcount = charcount + ?4, "
-							"wordcount = charcount + ?5, "
-							"linecount = charcount + ?6 "
+							"wordcount = wordcount + ?5, "
+							"linecount = linecount + ?6 "
 							"WHERE "
 							"nick = ?1 AND server = ?2 AND channel = ?3 AND timestamp = ?7;";
 
