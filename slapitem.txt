@@ -179,6 +179,7 @@ a ${adjective} wrench
 a ${adjective} yacht
 a ${adjective} ZIP disk
 a book by Leon Trotsky
+abot
 a bottle of ${adjective} Welch's Sparkling White Grape Juice Cocktail (non-alcoholic)
 a can of ${adjective} Pig Brains with Gravy
 a can of ${adjective} tomato sauce
@@ -258,6 +259,7 @@ Arnold Schwarzenegger
 Ashton Kutcher
 a spider plant
 a stack of ${adjective} MS-DOS 6.0 installation disks
+broti
 Capitalism
 Cardcaptor Sakura
 Carl Sagan
