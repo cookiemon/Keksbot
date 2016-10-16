@@ -49,7 +49,7 @@ void Stats::OnEvent(Server& server,
 		type = StatRequester::COUNTTYPE_BEER;
 
 	StatRequester req(dbfile);
-	std::vector<std::pair<std::string, int64_t> > vals;
+	std::vector<std::pair<Nick, int64_t> > vals;
 	req.RequestData(server.GetName(), channel, period, type, 10, vals);
 
 	SendStats(server, sourceChan,
@@ -60,7 +60,7 @@ void Stats::OnEvent(Server& server,
 void Stats::SendStats(Server& server,
 	const std::string& channel,
 	bool isDigitaler,
-	const std::vector<std::pair<std::string, int64_t> >& vals)
+	const std::vector<std::pair<Nick, int64_t> >& vals)
 {
 	std::stringstream reply;
 	if(!isDigitaler)

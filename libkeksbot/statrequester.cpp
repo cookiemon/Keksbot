@@ -67,12 +67,12 @@ void StatRequester::RequestData(const std::string& server,
 	TimePeriod period,
 	CountType type,
 	int64_t limit,
-	std::vector<std::pair<std::string, int64_t> >& out)
+	std::vector<std::pair<Nick, int64_t> >& out)
 {
 	sqlite3_stmt* getStatsStmt = NULL;
 	std::string sqlStatement = CreateStatement(type,
-												period != PERIOD_ALL,
-												limit >= 0);
+		period != PERIOD_ALL,
+		limit >= 0);
 	int res = sqlite3_prepare(db, sqlStatement.c_str(), -1, &getStatsStmt, NULL);
 	if(res != 0)
 		throw SqliteException(sqlite3_errcode(db));
@@ -86,12 +86,10 @@ void StatRequester::RequestData(const std::string& server,
 
 	while((res = sqlite3_step(getStatsStmt)) == SQLITE_ROW)
 	{
-		std::pair<std::string, int64_t> val;
-		
-		val.first = reinterpret_cast<const char*>(sqlite3_column_text(getStatsStmt, 0));
-		val.second = sqlite3_column_int64(getStatsStmt, 1);
+		Nick nick = Nick(reinterpret_cast<const char*>(sqlite3_column_text(getStatsStmt, 0)));
+		int64_t statValue = sqlite3_column_int64(getStatsStmt, 1);
 
-		out.push_back(val);
+		out.push_back(std::make_pair(nick, statValue));
 	}
 	if(res != SQLITE_DONE)
 		throw SqliteException(sqlite3_errcode(db));

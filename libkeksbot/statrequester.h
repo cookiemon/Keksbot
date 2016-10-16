@@ -1,6 +1,7 @@
 #ifndef STATREQUESTER_H
 #define STATREQUESTER_H
 
+#include "nick.h"
 #include <map>
 #include <stdint.h>
 #include <string>
@@ -39,7 +40,7 @@ public:
 		const TimePeriod time,
 		const CountType type,
 		const int64_t limit,
-		std::vector<std::pair<std::string, int64_t> >& out);
+		std::vector<std::pair<Nick, int64_t> >& out);
 
 private:
 	std::string CreateStatement(CountType type, bool usePeriod, bool useLimit);

@@ -1,8 +1,9 @@
 #ifndef STATS_H
 #define STATS_H
 
-#include "eventinterface.h"
 #include "configs.h"
+#include "eventinterface.h"
+#include "nick.h"
 #include <stdint.h>
 #include <string>
 #include <utility>
@@ -29,7 +30,7 @@ public:
 private:
 	void SendStats(Server& server, const std::string& channel,
 					bool isDigitaler,
-					const std::vector<std::pair<std::string, int64_t> >& vals);
+					const std::vector<std::pair<Nick, int64_t> >& vals);
 };
 
 #endif
