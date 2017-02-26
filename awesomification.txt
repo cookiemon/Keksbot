@@ -12,6 +12,7 @@ cloud-based
 collaboration
 core
 cross-platform
+cyber
 e-learning
 full-stack
 fuzzy
