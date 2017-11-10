@@ -11,8 +11,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <vector>
-#include <libircclient/libircclient.h>
-#include <libircclient/libirc_rfcnumeric.h>
+#include <libircclient.h>
+#include <libirc_rfcnumeric.h>
 
 typedef std::map<irc_session_t*, Server*> ServerSessionMapType;
 typedef std::pair<ServerSessionMapType::iterator, bool> InsertedIt;

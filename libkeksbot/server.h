@@ -5,7 +5,7 @@
 #include "selectinginterface.h"
 #include <string>
 #include <vector>
-#include <libircclient/libircclient.h>
+#include <libircclient.h>
 
 typedef std::vector<std::string> ParamList;
 

@@ -1,5 +1,5 @@
 #include "exceptions.h"
-#include <libircclient/libircclient.h>
+#include <libircclient.h>
 #include <sqlite3.h>
 
 const char* IrcException::what() const throw()

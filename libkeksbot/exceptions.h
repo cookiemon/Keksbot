@@ -3,7 +3,7 @@
 
 #include <string.h>
 #include <stdexcept>
-#include <libircclient/libircclient.h>
+#include <libircclient.h>
 #include <sqlite3.h>
 
 class RestartException : public std::exception
