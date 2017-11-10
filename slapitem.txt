@@ -54,6 +54,7 @@ a ${adjective} bicycle helmet
 a ${adjective} campfire
 a ${adjective} Capri-Sun pouch
 a ${adjective} capsule of Halcion
+a ${adjective} case-insensitive string comparison
 a ${adjective} ceiling fan blade
 a ${adjective} chess set
 a ${adjective} Chinese Crested Hairless
