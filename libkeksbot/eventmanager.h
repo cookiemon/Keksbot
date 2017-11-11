@@ -48,6 +48,7 @@ private:
 														const ParamList& params);
 
 	void ExecuteDeletions(void);
+	std::string MakeCaseInsensitiveKeyword(const std::string& keyword);
 };
 
 #endif

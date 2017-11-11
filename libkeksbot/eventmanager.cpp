@@ -5,6 +5,7 @@
 #include "simpleevent.h"
 #include "stringhelpers.h"
 #include <algorithm>
+#include <cctype>
 #include <errno.h>
 #include <string.h>
 
@@ -45,11 +46,13 @@ EventManager::EventManager(const std::string& cfgfile)
 			try
 			{
 				EventHandler* newHandler = CreateEventHandler(it->second, this);
+				std::string keyword;
+
 				switch(newHandler->GetType())
 				{
 				case TYPE_SIMPLE:
-					aliasedEvents.insert(AliasedMap::value_type(newHandler->GetAlias(),
-					                                            newHandler));
+					keyword = MakeCaseInsensitiveKeyword(newHandler->GetAlias());
+					aliasedEvents.insert(AliasedMap::value_type(keyword, newHandler));
 					break;
 				case TYPE_MISC:
 					miscEvents.push_back(newHandler);
@@ -148,6 +151,7 @@ void EventManager::DistributeSimpleEvent(Server& source,
 		size_t aliasEnd = message.find_first_of(" \r\t\n", prefix.size());
 		aliasEnd = std::min(message.size(), aliasEnd);
 		std::string keyword = message.substr(prefix.size(), aliasEnd - prefix.size());
+		keyword = MakeCaseInsensitiveKeyword(keyword);
 
 		// Strip alias from parameters
 		ParamList strippedParams(params.begin(), --params.end());
@@ -266,7 +270,8 @@ void EventManager::AddEvent(EventHandler* evt)
 {
 	if(evt->GetType() == TYPE_SIMPLE)
 	{
-		aliasedEvents.insert(AliasedMap::value_type(evt->GetAlias(), evt));
+		std::string keyword = MakeCaseInsensitiveKeyword(evt->GetAlias());
+		aliasedEvents.insert(AliasedMap::value_type(keyword, evt));
 	}
 	else
 	{
@@ -317,4 +322,15 @@ Server* EventManager::GetServer(const std::string& name)
 			return *it;
 	}
 	throw IllegalArgumentException("Server " + name + " not found");
+}
+
+std::string EventManager::MakeCaseInsensitiveKeyword(const std::string& keyword)
+{
+	std::string lowerKeyword(keyword.length(), ' ');
+
+	// cast is required because std::tolower is overloaded
+	std::transform(keyword.begin(), keyword.end(), lowerKeyword.begin(),
+		static_cast<int(*)(int)>(std::tolower));
+
+	return lowerKeyword;
 }
