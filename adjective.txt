@@ -41,6 +41,7 @@ heavy
 hot
 icy
 ill
+impactful
 infamous
 innocent
 invisible
