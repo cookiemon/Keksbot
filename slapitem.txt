@@ -260,6 +260,7 @@ Arnold Schwarzenegger
 Ashton Kutcher
 a spider plant
 a stack of ${adjective} MS-DOS 6.0 installation disks
+Alexa
 broti
 Capitalism
 Cardcaptor Sakura
@@ -318,6 +319,7 @@ Scientology
 several tons of ${adjective} Soylent Green.
 Sherlock Holmes
 Sigmund Freud
+Siri
 some 6 year old's two front teeth
 some ${adjective} halfop
 some ${adjective} flip-flops
