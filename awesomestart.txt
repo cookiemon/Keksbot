@@ -3,6 +3,7 @@ ${awesomestart} ${awesomestart} ${awesomestart}
 applied
 compliant
 descriptor
+hyperledger
 injection
 ISO-certified
 just-in-time
