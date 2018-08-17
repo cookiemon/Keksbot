@@ -12,7 +12,7 @@ KEKSCGIOBJECTS=$(KEKSCGISOURCEFILES:.cpp=.o)
 
 CXX=c++
 CC=cc
-CXXFLAGS=-c -I./external -Wall -fPIC -g -std=c++98
+CXXFLAGS=-c -I./external -Wall -fPIC -g -std=c++17
 CFLAGS=-c
 LDFLAGS=-ldl -lsqlite3
 LDLIBFLAGS=-lircclient -lcurl -shared

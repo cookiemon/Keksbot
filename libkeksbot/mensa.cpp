@@ -4,7 +4,9 @@
 #include "server.h"
 #include <curl/curl.h>
 #include <rapidjson/document.h>
-#include <time.h>
+#include <chrono>
+
+using namespace std::literals::chrono_literals;
 
 void RoundToDay(struct tm* time)
 {
@@ -26,7 +28,6 @@ void WriteTime(std::ostream& out, time_t time)
 
 Mensa::Mensa(const Configs& cfg)
 	: multiHandle(curl_multi_init()),
-	lastupdate(0),
 	updating(false)
 {
 	cfg.GetValue("menuurl", menuurl);
@@ -64,9 +65,9 @@ void Mensa::OnEvent(Server& srv,
 			return;
 		}
 	}
-	time_t now = time(NULL);
+	auto now = std::chrono::steady_clock::now();
 	// No error handling, I don't care about overflow in time_t
-	if(difftime(now, lastupdate) > (3600. * 24.))
+	if(now - lastupdate >= 1min)
 	{
 		originBuf.insert(QueuedResponse(&srv, params[0], offset));
 		if(!updating)
@@ -164,12 +165,7 @@ void Mensa::SelectDescriptors(fd_set& inSet, fd_set& outSet, fd_set& excSet)
 				SendMenu(*it->srv, it->channel, it->offset);
 		}
 		originBuf.clear();
-		time_t now = time(NULL);
-		struct tm tm;
-		localtime_r(&now, &tm);
-		RoundToDay(&tm);
-		now = mktime(&tm);
-		lastupdate = now;
+		lastupdate = std::chrono::steady_clock::now();
 		updating = false;
 	}
 }

@@ -9,6 +9,7 @@
 #include <rapidjson/document.h>
 #include <set>
 #include <utility>
+#include <chrono>
 
 class Mensa : public EventHandler, public SelectingInterface
 {
@@ -34,7 +35,7 @@ private:
 
 	rapidjson::Document doc;
 	rapidjson::Value menu;
-	time_t lastupdate;
+	std::chrono::steady_clock::time_point lastupdate;
 
 	std::string menubuf;
 	std::string metabuf;
