@@ -26,6 +26,7 @@ query = "SELECT timestamp, COALESCE(aliases.nick, stats.nick) as nick, charcount
 with sqlite3.connect(dbfile) as c:
     big_table = pd.read_sql_query(query, c, params=("freenode", "#kitinfo"))
 big_table['date'] = pd.to_datetime(big_table['timestamp'], unit='s')
+table_afterkit = big_table.loc[big_table['timestamp'] > 1, :]
 
 sums = big_table.groupby('nick').agg(np.sum).sort_values('charcount', ascending=False)
 most_active = list(sums.index[:max_active])
@@ -37,6 +38,13 @@ monthly = table.groupby(['nick', pd.Grouper(freq='M', key='date')]).sum()
 aggregate_all = table.groupby('nick').sum()
 aggregate_all['color'] = pd.Series(['C' + str(most_active.index(i)) for i in aggregate_all.index], index=aggregate_all.index)
 aggregate_all = aggregate_all.sort_values('color')
+
+activity_hour = table_afterkit.groupby(table_afterkit['date'].dt.hour).sum()
+activity_day = table_afterkit.groupby(table_afterkit['date'].dt.day).sum()
+activity_weekday = table_afterkit.groupby(table_afterkit['date'].dt.dayofweek).sum()
+activity_month = table_afterkit.groupby(table_afterkit['date'].dt.month).sum()
+totalchars = activity_hour['charcount'].sum()
+
 # There was a serious feature before september 2016,
 # so use data after that for aggregation purposes
 table_late = table[table['date'].dt.year >= 2017]
@@ -136,4 +144,29 @@ plt.title('how much of this pie chart is a pie chart')
 plt.pie([1.0, 0.0])
 plt.legend(labels=['pie chart', 'not pie chart'])
 export('piechart.svg', legend=False)
+
+plt.figure()
+plt.title('channel activity by hour')
+mybar(activity_hour.index, activity_hour['charcount'] / totalchars, color=barcolors)
+plt.xticks(rotation=90)
+export('activity_byhour.svg', legend=False)
+
+plt.figure()
+plt.title('channel activity by day of month')
+mybar(activity_day.index, activity_day['charcount'] / totalchars, color=barcolors)
+plt.xticks(rotation=90)
+export('activity_byday.svg', legend=False)
+
+plt.figure()
+plt.title('channel activity by weekday')
+mybar(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'], activity_weekday['charcount'] / totalchars, color=barcolors)
+plt.xticks(rotation=90)
+export('activity_byweekday.svg', legend=False)
+
+plt.figure()
+plt.title('channel activity by month')
+monthnames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+mybar(monthnames, activity_month['charcount'] / totalchars, color=barcolors)
+plt.xticks(rotation=90)
+export('activity_bymonth.svg', legend=False)
 
