@@ -7,6 +7,7 @@
 #include "stattracker.h"
 #include "stats.h"
 #include "classifiedhandler.h"
+#include "quizzer.h"
 #include "udsserver.h"
 #include "unicode.h"
 #include <assert.h>
@@ -64,6 +65,8 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 		}
 		else if(handler == "unicode")
 			newHandler = new Unicode(configs);
+		else if(handler == "quizzer")
+			newHandler = new Quizzer(configs);
 		else
 			throw ConfigException("static handler type not known");
 	}

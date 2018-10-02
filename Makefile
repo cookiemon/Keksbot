@@ -2,7 +2,7 @@ BOTWRAPPERSOURCEFILES=botwrapper/main.c
 BOTWRAPPERTARGET=keksbot
 BOTWRAPPEROBJECTS=$(BOTWRAPPERSOURCEFILES:.c=.o)
 
-LIBKEKSBOTSOURCEFILES=libkeksbot/main.cpp libkeksbot/server.cpp libkeksbot/configs.cpp libkeksbot/eventmanager.cpp libkeksbot/simpleevent.cpp libkeksbot/eventinterface.cpp libkeksbot/statichandlers.cpp libkeksbot/stattracker.cpp libkeksbot/stats.cpp libkeksbot/classifiedhandler.cpp libkeksbot/udsserver.cpp libkeksbot/httprelay.cpp libkeksbot/libhandle.cpp libkeksbot/statrequester.cpp libkeksbot/exceptions.cpp libkeksbot/unicode.cpp libkeksbot/mensa.cpp
+LIBKEKSBOTSOURCEFILES=libkeksbot/main.cpp libkeksbot/server.cpp libkeksbot/configs.cpp libkeksbot/eventmanager.cpp libkeksbot/simpleevent.cpp libkeksbot/eventinterface.cpp libkeksbot/statichandlers.cpp libkeksbot/stattracker.cpp libkeksbot/stats.cpp libkeksbot/classifiedhandler.cpp libkeksbot/udsserver.cpp libkeksbot/httprelay.cpp libkeksbot/libhandle.cpp libkeksbot/statrequester.cpp libkeksbot/exceptions.cpp libkeksbot/unicode.cpp libkeksbot/mensa.cpp libkeksbot/quizzer.cpp
 LIBKEKSBOTTARGET=libkeksbot.so
 LIBKEKSBOTOBJECTS=$(LIBKEKSBOTSOURCEFILES:.cpp=.o)
 
