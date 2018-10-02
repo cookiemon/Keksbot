@@ -29,7 +29,7 @@ EventManager::EventManager(const std::string& cfgfile)
 		}
 		catch(ConfigException& e)
 		{
-			Log(LOG_ERR, "Config section server/%s malformed", it->first.c_str());
+			Log(LOG_ERR, "Config section server/%s malformed: %s", it->first.c_str(), e.what());
 		}
 	}
 
@@ -65,7 +65,7 @@ EventManager::EventManager(const std::string& cfgfile)
 			}
 			catch(ConfigException& e)
 			{
-				Log(LOG_ERR, "Config section handler/%s malformed", it->first.c_str());
+				Log(LOG_ERR, "Config section handler/%s malformed: %s", it->first.c_str(), e.what());
 			}
 		}
 	}
