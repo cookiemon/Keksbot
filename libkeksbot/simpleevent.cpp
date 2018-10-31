@@ -35,35 +35,40 @@ void SimpleEvent::OnEvent(Server& srv,
 		size_t nextVariable = 0;
 		while((nextVariable = answer.find("${", nextVariable)) != std::string::npos)
 		{
-			size_t variableName_start = nextVariable + 2;
-			size_t variableEnd = answer.find('}', variableName_start);
-			if(variableEnd != std::string::npos)
+			nextVariable += 2;
+			size_t variableBegin = nextVariable;
+			size_t variableEnd = answer.find('}', variableBegin);
+			nextVariable = variableEnd;
+
+			if(variableEnd == std::string::npos)
+				continue;
+
+			std::string variableName = answer.substr(variableBegin,
+			                                         variableEnd - variableBegin);
+			if(variableName.find('/') != std::string::npos)
+				continue;
+
+			AnswerMap::iterator it = choices.find(variableName);
+			if(it == choices.end())
 			{
-				std::string variableName = answer.substr(variableName_start,
-				                                         variableEnd - variableName_start);
-				AnswerMap::iterator it = choices.find(variableName);
-				if(it == choices.end())
-				{
-					StringList loadedAnswers;
-					LoadAnswers(variableName, loadedAnswers);
-					std::pair<AnswerMap::iterator, bool> inserted
-						= choices.insert(AnswerMap::value_type(variableName,
-						                 loadedAnswers));
-					it = inserted.first;
-				}
-
-				std::string rngString = GetRandomString(it->second);
-				if(AToAn(answer, nextVariable, variableEnd+1, rngString))
-				{
-					nextVariable += 1;
-					variableEnd += 1;
-				}
-
-				answer.replace(nextVariable, variableEnd - nextVariable + 1, rngString);
-
-				foundReplacement = true;
-				nextVariable += 2;
+				StringList loadedAnswers;
+				LoadAnswers(variableName, loadedAnswers);
+				std::pair<AnswerMap::iterator, bool> inserted
+					= choices.insert(AnswerMap::value_type(variableName,
+					                 loadedAnswers));
+				it = inserted.first;
 			}
+
+			std::string rngString = GetRandomString(it->second);
+			if(AToAn(answer, nextVariable, variableEnd+1, rngString))
+			{
+				nextVariable += 1;
+				variableEnd += 1;
+			}
+
+			answer.replace(variableBegin - 2, 3 + variableEnd - variableBegin, rngString);
+
+			foundReplacement = true;
 		}
 	} while(foundReplacement);
 
