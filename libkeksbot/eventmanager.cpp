@@ -195,12 +195,13 @@ void EventManager::DistributeEvent(Server& source,
 	else if(event == "ACTION" && params.size() > 1)
 		if(!params[0].empty() && params[0][0] != '#')
 			params[0] = origin;
-	if(std::find(source.GetIgnored().begin(), source.GetIgnored().end(), User(origin))
-		== source.GetIgnored().end())
-	{
-		if(event == "PRIVMSG" || event == "CHANNEL")
-			DistributeSimpleEvent(source, event, origin, params);
-	}
+
+	if(std::find(std::begin(source.GetIgnored()), std::end(source.GetIgnored()), User(origin))
+		!= std::end(source.GetIgnored()))
+		return;
+
+	if(event == "PRIVMSG" || event == "CHANNEL")
+		DistributeSimpleEvent(source, event, origin, params);
 
 	for(std::vector<EventHandler*>::iterator it = miscEvents.begin();
 	    it != miscEvents.end();
