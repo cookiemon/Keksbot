@@ -202,6 +202,7 @@ ${adjective} crayons
 ${adjective} CSI Season 1 DVD Set
 ${adjective} curly fries
 ${adjective} dental floss
+${adjective} Diablo Immortal
 ${adjective} dice
 ${adjective} dihydrogen monoxide
 ${adjective} dust
