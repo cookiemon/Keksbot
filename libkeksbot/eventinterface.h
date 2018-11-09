@@ -62,6 +62,8 @@ public:
 	{
 		description = newDesc;
 	}
+
+	std::string RandomReplace(std::string str, std::multimap<std::string, std::string> choices) const;
 };
 
 class EventManager;

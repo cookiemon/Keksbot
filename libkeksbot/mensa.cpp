@@ -34,6 +34,7 @@ Mensa::Mensa(const Configs& cfg)
 	cfg.GetValue("metaurl", metaurl);
 	cfg.GetValue("login", login);
 	cfg.GetValue("canteen", canteen);
+	cfg.GetValue("ad", ad);
 	std::string rawlines;
 	cfg.GetValue("lines", rawlines);
 	std::istringstream sstr(rawlines);
@@ -69,12 +70,12 @@ void Mensa::OnEvent(Server& srv,
 	// No error handling, I don't care about overflow in time_t
 	if(now - lastupdate >= 1min)
 	{
-		originBuf.insert(QueuedResponse(&srv, params[0], offset));
+		originBuf.insert(QueuedResponse(&srv, origin, params[0], offset));
 		if(!updating)
 			QueryMenuUpdate();
 	}
 	else
-		SendMenu(srv, params[0], offset);
+		SendMenu(srv, origin, params[0], offset);
 }
 
 void Mensa::AddSelectDescriptors(fd_set& inSet,
@@ -162,7 +163,7 @@ void Mensa::SelectDescriptors(fd_set& inSet, fd_set& outSet, fd_set& excSet)
 			for(std::set<QueuedResponse>::iterator it = originBuf.begin();
 				it != originBuf.end();
 				++it)
-				SendMenu(*it->srv, it->channel, it->offset);
+				SendMenu(*it->srv, it->origin, it->channel, it->offset);
 		}
 		originBuf.clear();
 		lastupdate = std::chrono::steady_clock::now();
@@ -206,7 +207,7 @@ size_t Mensa::PushData(char* data, size_t size, size_t nmemb, void* userdata)
 	return nmemb;
 }
 
-void Mensa::SendMenu(Server& srv, const std::string& channel, int offset)
+void Mensa::SendMenu(Server& srv, const std::string& origin, const std::string& channel, int offset)
 {
 	time_t now = time(NULL);
 	struct tm localnow;
@@ -251,6 +252,15 @@ void Mensa::SendMenu(Server& srv, const std::string& channel, int offset)
 			SendLine(srv, channel, name, itr->value);
 		else
 			SendLineClosed(srv, channel, name, itr->value);
+	}
+	if (!ad.empty())
+	{
+		auto additionalVariables = std::multimap<std::string, std::string>{
+			{"USER", origin},
+			{"CHAN", channel},
+			{"NICK", srv.GetNick()},
+		};
+		srv.SendMsg(channel, RandomReplace(ad, additionalVariables));
 	}
 }
 

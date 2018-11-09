@@ -11,6 +11,105 @@
 #include "udsserver.h"
 #include "unicode.h"
 #include <assert.h>
+#include <iterator>
+
+template<typename T>
+T select_random(T begin, T end)
+{
+	if (begin == end)
+		return end;
+
+	auto max = std::distance(begin, end);
+	if (max == 1)
+		return begin;
+
+	return std::next(begin, rand() % max);
+}
+
+std::string PopRandom(const std::string &key, std::multimap<std::string, std::string>& values)
+{
+	auto range = values.equal_range(key);
+	auto elem = select_random(range.first, range.second);
+
+	if (elem == range.second)
+		return "";
+
+	std::string value = elem->second;
+	if (std::next(range.first) != range.second)
+		values.erase(elem);
+	return value;
+}
+
+void LoadAnswers(const std::string& name, std::multimap<std::string, std::string>& replacements)
+{
+	if (name.find('/') != std::string::npos) return;
+
+	std::ifstream file((name + ".txt").c_str());
+	std::string line;
+	while (std::getline(file, line))
+		replacements.insert({name, line});
+}
+
+/*!
+ * Returns if \p str starts with a vowel sound. I.e. starts with any of 'aeiou' but has not a consonant-sounding first syllable
+ */
+bool StartsWithVowelSound(const std::string& str)
+{
+	if (str.empty()) return false;
+
+	static const std::string vowels = "aeio";
+	if (str[0] == 'u' && (str.size() < 2 || str[1] != 's')) return true;
+
+	return vowels.find(str[0]) != std::string::npos;
+}
+
+/*!
+ * Replace indefinite article 'A'/'a' in \p answer with 'an' if \p str starts with one of 'aeiou'.
+ * \return true if 'a' has been replaced
+ */
+std::string& AToAn(std::string& answer, size_t start, size_t end, const std::string& str)
+{
+	if (start < 2)
+		return answer;
+
+	if (!StartsWithVowelSound(str))
+		return answer;
+
+	if (answer.substr(start - 2, 2) != "a " || answer.substr(start - 2, 2) != "A ")
+		return answer;
+
+	if (start > 3 && answer[start - 3] != ' ')
+		return answer;
+
+	answer.insert(start - 1, 1, 'n');
+	return answer;
+}
+
+std::string EventHandler::RandomReplace(std::string answer, std::multimap<std::string, std::string> replacements) const
+{
+	size_t i = 0;
+	while ( (i = answer.find("${", i)) < answer.size())
+	{
+		size_t i_end = answer.find('}', i);
+		if (i_end == std::string::npos)
+			break;
+
+		std::string key = answer.substr(i + 2, i_end - i - 2);
+		if (replacements.find(key) == replacements.end())
+		{
+			LoadAnswers(key, replacements);
+			if (replacements.find(key) == replacements.end())
+			{
+				continue;
+			}
+		}
+
+		std::string r = PopRandom(key, replacements);
+		AToAn(answer, i, i_end, r);
+		answer.replace(i, i_end - i + 1, r);
+	}
+	return answer;
+}
 
 EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 {
@@ -92,3 +191,4 @@ bool EventHandler::DoesHandle(Server& srv,
 {
 	return true;
 }
+

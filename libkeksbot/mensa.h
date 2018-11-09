@@ -17,13 +17,15 @@ private:
 	struct QueuedResponse
 	{
 		Server* srv;
+		std::string origin;
 		std::string channel;
 		int offset;
-		QueuedResponse(Server* newSrv, const std::string& newChan, int newOff)
-			: srv(newSrv), channel(newChan), offset(newOff) { /* nothing */ }
+		QueuedResponse(Server* newSrv, const std::string &origin, const std::string& newChan, int newOff)
+			: srv(newSrv), origin(origin), channel(newChan), offset(newOff) { /* nothing */ }
 		bool operator<(const QueuedResponse& other) const
 		{ return srv < other.srv || channel < other.channel || offset < other.offset; }
 	};
+	std::string ad;
 	std::string menuurl;
 	std::string metaurl;
 	std::string login;
@@ -62,7 +64,7 @@ private:
 	bool UpdateMeta(rapidjson::Value& val);
 	bool UpdateMenu(rapidjson::Value& val);
 	void QueryMenuUpdate();
-	void SendMenu(Server& srv, const std::string& channel, int offset);
+	void SendMenu(Server& srv, const std::string& origin, const std::string& channel, int offset);
 	static size_t PushData(char* data, size_t size, size_t nmemb, void* userdata);
 	void RegisterCurlHandle(const std::string& url, std::string& buffer);
 	void SendLineClosed(Server& srv, const std::string& origin, const std::string& line,

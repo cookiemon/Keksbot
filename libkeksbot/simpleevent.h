@@ -2,6 +2,9 @@
 #define SIMPLEEVENT_H
 
 #include "eventinterface.h"
+#include <map>
+#include <string>
+#include <vector>
 
 class SimpleEvent : public EventHandler
 {
@@ -18,12 +21,6 @@ public:
 	{
 		return TYPE_SIMPLE;
 	}
-
-private:
-	void LoadAnswers(const std::string& name, std::vector<std::string>& out);
-	std::string GetRandomString(std::vector<std::string>& list);
-	bool AToAn(std::string& answer, const size_t start, const size_t end, const std::string& str) const;
-	bool StartsWithVowelSound(const std::string& str) const;
 };
 
 #endif
