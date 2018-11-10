@@ -1,11 +1,14 @@
 #include "unicode.h"
 #include "configs.h"
 #include "server.h"
+#include "logging.h"
 #include <algorithm>
 #include <fstream>
 #include <iomanip>
 #include <locale>
 #include <stdint.h>
+#include <cassert>
+#include <cstddef>
 
 Unicode::Unicode(const Configs& cfg)
 {
@@ -14,6 +17,25 @@ Unicode::Unicode(const Configs& cfg)
 
 Unicode::~Unicode()
 {
+}
+
+char ToHexChar(char i)
+{
+	assert(0 <= i && i < 16);
+	if( i < 10 )
+		return '0' + i;
+	return 'A' + i - 10;
+}
+
+std::string ToHex(const std::string& bytes)
+{
+	std::string hex;
+	for(unsigned char i : bytes)
+	{
+		hex += ToHexChar(i >> 4);
+		hex += ToHexChar(i & 0x0F);
+	}
+	return hex;
 }
 
 void Unicode::OnEvent(Server& srv,
@@ -25,41 +47,55 @@ void Unicode::OnEvent(Server& srv,
 	std::string codepoint;
 	if(unicode.compare(0, 2, "U+") == 0 || unicode.compare(0, 2, "u+") == 0)
 	{
+		Log(LOG_INFO, "Parsing unicode representation %s", unicode.c_str());
 		codepoint = unicode.substr(2);
 		if(codepoint.size() < 4)
 			codepoint = std::string(4 - codepoint.size(), '0') + codepoint;
 	}
 	else
 	{
+		Log(LOG_INFO, "Parsing unicode from utf-8 bytes %s", ToHex(unicode).c_str());
 		uint32_t cp;
-		size_t numBytes = 1;
+		size_t numBytes = 0;
 		unsigned char mask = 0x7F;
-		if(unicode[0] & 0x80)
-			while((unicode[0] << numBytes) & 0x80)
-			{
-				numBytes += 1;
-				mask >>= 1;
-			}
 
-		if(unicode.size() == numBytes)
+		// count 1 bits at front
+		while((unicode[0] << numBytes) & 0x80)
 		{
-			cp = unicode[0] & mask;
-			bool failed = false;
-			for(size_t i = 1; i < numBytes; ++i)
-			{
-				if((unicode[i] & 0xC0) != 0x80)
-					failed = true;
-				cp <<= 6;
-				cp |= unicode[i] & 0x3F;
-			}
-			if(!failed)
-			{
-				std::stringstream conv;
-				conv << std::uppercase << std::hex
-					<< std::setfill('0') << std::right << std::setw(4) << cp;
-				conv >> codepoint;
-			}
+			numBytes += 1;
+			mask >>= 1;
 		}
+
+		// 1 bit at front is continuation and 0 actually the 1-byte sequence
+		if(numBytes == 1)
+		{
+			srv.SendMsg(params[0], "Invalid character sequence: starting with continuation byte. Sequence: " + ToHex(unicode));
+			return;
+		}
+		if(numBytes == 0)
+			numBytes = 1;
+		if(unicode.size() < numBytes)
+		{
+			srv.SendMsg(params[0], "Invalid character sequence: sequence too short. Sequence: " + ToHex(unicode));
+			return;
+		}
+
+		cp = unicode[0] & mask;
+		for(size_t i = 1; i < numBytes; ++i)
+		{
+			if((unicode[i] & 0xC0) != 0x80)
+			{
+				srv.SendMsg(params[0], "Invalid character sequence: byte " + std::to_string(i) + " is no continuation byte. Sequence: " + ToHex(unicode));
+				return;
+			}
+			cp <<= 6;
+			cp |= unicode[i] & 0x3F;
+		}
+		std::stringstream conv;
+		conv << std::uppercase << std::hex
+			<< std::setfill('0') << std::right << std::setw(4) << cp;
+		conv >> codepoint;
+
 	}
 	if(codepoint.size() == 0)
 	{
