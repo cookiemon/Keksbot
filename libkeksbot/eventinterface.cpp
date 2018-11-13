@@ -100,6 +100,7 @@ std::string EventHandler::RandomReplace(std::string answer, std::multimap<std::s
 			LoadAnswers(key, replacements);
 			if (replacements.find(key) == replacements.end())
 			{
+				i += 2;
 				continue;
 			}
 		}
