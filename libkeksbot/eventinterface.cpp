@@ -13,6 +13,10 @@
 #include <assert.h>
 #include <iterator>
 
+#include <random>
+
+static std::random_device rng;
+
 template<typename T>
 T select_random(T begin, T end)
 {
@@ -20,10 +24,8 @@ T select_random(T begin, T end)
 		return end;
 
 	auto max = std::distance(begin, end);
-	if (max == 1)
-		return begin;
-
-	return std::next(begin, rand() % max);
+	auto dist = std::uniform_int_distribution<decltype(max)>(0, max-1);
+	return std::next(begin, dist(rng));
 }
 
 std::string PopRandom(const std::string &key, std::multimap<std::string, std::string>& values)
