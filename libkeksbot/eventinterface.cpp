@@ -1,6 +1,8 @@
 #include "eventinterface.h"
+#include "date.h"
 #include "exceptions.h"
 #include "httprelay.h"
+#include "logging.h"
 #include "mensa.h"
 #include "simpleevent.h"
 #include "statichandlers.h"
@@ -135,6 +137,7 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 	{
 		std::string handler;
 		configs.GetValue("handler", handler);
+		Log(LOG_INFO, "Initializing %s", handler.c_str());
 		if(handler == "restart")
 			newHandler = new RestartHandler();
 		else if(handler == "exit")
@@ -169,6 +172,11 @@ EventHandler* CreateEventHandler(const Configs& configs, EventManager* man)
 			newHandler = new Unicode(configs);
 		else if(handler == "quizzer")
 			newHandler = new Quizzer(configs);
+		else if(handler == "date") {
+			newHandler = new Date(configs);
+			std::cout << "DATE!!!! \\p/\n";
+			std::cout.flush();
+		}
 		else
 			throw ConfigException("static handler type not known");
 	}
