@@ -9,7 +9,7 @@ const char* GET_STATS_COLUMN_2 = ") ";
 const char* GET_STATS_FROM = "FROM stats LEFT JOIN aliases "
 			"ON aliases.alias = stats.nick AND aliases.server = stats.server "
 			"WHERE stats.server = ?1 AND channel = ?2 ";
-const char* GET_STATS_WHERE_TIME = "AND strftime('%s', 'now', ?3) < timestamp ";
+const char* GET_STATS_WHERE_TIME = "AND strftime('%s', 'now', 'localtime', ?3, 'utc') < timestamp ";
 const char* GET_STATS_GROUP = "GROUP BY COALESCE( aliases.nick, stats.nick) ";
 const char* GET_STATS_ORDER_1 = "ORDER BY SUM(";
 const char* GET_STATS_ORDER_2 = ") DESC ";
