@@ -1,0 +1,1 @@
+/me pokes ${MSG} with ${slapitem}

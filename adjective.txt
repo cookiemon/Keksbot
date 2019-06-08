@@ -53,10 +53,12 @@ melted
 moldy
 natural
 obese
+official
 old
 outdated
 painful
 pickled
+pink
 pointless
 procrastinating
 random
@@ -90,5 +92,5 @@ wacky
 yellow
 yummy
 zippy
-${adjective} ${adjective}
-${adjective} ${adjective} ${adjective}
+${adjective}, ${adjective}
+${adjective}, ${adjective}, ${adjective}
