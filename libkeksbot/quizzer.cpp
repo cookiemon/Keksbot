@@ -35,8 +35,8 @@ void Quizzer::OnEvent(Server& srv,
 	const auto &message = params.back();
 
 	std::smatch match;
-	int matches = std::regex_match(message, match, questionRegex);
-	if(match.size() < 1) return;
+	bool matches = std::regex_match(message, match, questionRegex);
+	if(matches) return;
 
 	auto rng = std::uniform_int_distribution<>(0, 3);
 	auto gen = std::mt19937{std::random_device()()};
