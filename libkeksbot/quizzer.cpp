@@ -34,8 +34,7 @@ void Quizzer::OnEvent(Server& srv,
 		return;
 	const auto &message = params.back();
 
-	std::smatch match;
-	bool matches = std::regex_match(message, match, questionRegex);
+	bool matches = std::regex_match(message, questionRegex);
 	if(matches) return;
 
 	auto rng = std::uniform_int_distribution<>(0, 3);
