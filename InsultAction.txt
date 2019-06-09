@@ -1,0 +1,1 @@
+${MSG}, thou ${InsultFrst} ${InsultScnd} ${InsultThrd}
